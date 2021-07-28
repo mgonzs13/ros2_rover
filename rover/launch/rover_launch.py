@@ -38,7 +38,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(teleop_twist_joy_shared_dir, "launch", "teleop-launch.py")),
         launch_arguments={"config_filepath": os.path.join(
-            teleop_twist_joy_shared_dir, "config", "ps3.py")}.items()
+            rover_shared_dir, "config", "ps3.py")}.items()
     )
 
     rover_motor_controller_action_cmd = IncludeLaunchDescription(
