@@ -9,7 +9,7 @@ from launch_ros.actions import PushRosNamespace
 
 def generate_launch_description():
     rover_shared_dir = get_package_share_directory(
-        "teleop_twist_joy")
+        "rover")
     teleop_twist_joy_shared_dir = get_package_share_directory(
         "teleop_twist_joy")
     rover_motor_controller_shared_dir = get_package_share_directory(
