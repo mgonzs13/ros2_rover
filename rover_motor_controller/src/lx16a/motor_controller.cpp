@@ -10,7 +10,19 @@ using namespace lx16a;
 
 MotorController::MotorController(std::string serial_port,
                                  unsigned int baudrate) {
+
   this->lx16a = std::make_unique<LX16A>(LX16A(serial_port, baudrate));
+
+  this->lx16a->set_motor_mode(MOTOR_LEFT_FRONT, 0);
+  this->lx16a->set_motor_mode(MOTOR_LEFT_MIDDLE, 0);
+  this->lx16a->set_motor_mode(MOTOR_LEFT_BACK, 0);
+  this->lx16a->set_motor_mode(MOTOR_RIGHT_FRONT, 0);
+  this->lx16a->set_motor_mode(MOTOR_RIGHT_MIDDLE, 0);
+  this->lx16a->set_motor_mode(MOTOR_RIGHT_BACK, 0);
+  this->lx16a->set_servo_mode(SERVO_LEFT_FRONT);
+  this->lx16a->set_servo_mode(SERVO_RIGHT_FRONT);
+  this->lx16a->set_servo_mode(SERVO_LEFT_BACK);
+  this->lx16a->set_servo_mode(SERVO_RIGHT_BACK);
 }
 
 void MotorController::corner_to_position(std::vector<int> corner_ticks) {
