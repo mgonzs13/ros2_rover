@@ -10,8 +10,6 @@ from launch_ros.actions import PushRosNamespace
 def generate_launch_description():
     rover_shared_dir = get_package_share_directory(
         "rover")
-    teleop_twist_joy_shared_dir = get_package_share_directory(
-        "teleop_twist_joy")
     rover_motor_controller_shared_dir = get_package_share_directory(
         "rover_motor_controller")
 
@@ -36,7 +34,7 @@ def generate_launch_description():
 
     teleop_twist_joy_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(teleop_twist_joy_shared_dir, "launch", "teleop-launch.py")),
+            os.path.join(rover_shared_dir, "launch", "joy_teleop_launch.py")),
         launch_arguments={"config_filepath": os.path.join(
             rover_shared_dir, "config", "ps3.yaml")}.items()
     )
