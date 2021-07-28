@@ -19,16 +19,6 @@ def generate_launch_description():
     namespace_action_cmd = PushRosNamespace("rover")
 
     #
-    # NODES
-    #
-
-    joy_linux_action_cmd = Node(
-        package="joy_linux",
-        executable="joy_linux_node",
-        name="joy_linux_node"
-    )
-
-    #
     # LAUNCHES
     #
 
@@ -49,7 +39,6 @@ def generate_launch_description():
     ld.add_action(stdout_linebuf_envvar)
     ld.add_action(namespace_action_cmd)
 
-    ld.add_action(joy_linux_action_cmd)
     ld.add_action(teleop_twist_joy_action_cmd)
     ld.add_action(rover_motor_controller_action_cmd)
 
