@@ -9,8 +9,6 @@ from geometry_msgs.msg import Twist
 from rover_interfaces.msg import MotorsCommand
 from rover_motor_controller.lewansoul import MotorControllers
 
-# Speed [-100, +100] * 4 = [-400, +400]
-SPEED_FACTOR = 4
 # Radius from 255 (0 degrees) to 55 centimeters (45 degrees)
 MAX_RADIUS = 255
 MIN_RADIUS = 55
@@ -27,6 +25,9 @@ class VelParserNode(Node):
         self.declare_parameter("enc_min", 250)
         self.declare_parameter("enc_max", 750)
 
+        # Speed [-100, +100] * 6 = [-600, +600]
+        self.declare_parameter("speed_factor", 6)
+
         # getting params
         hardware_distances = self.get_parameter(
             "hardware_distances").get_parameter_value().string_value.split(",")
@@ -34,6 +35,8 @@ class VelParserNode(Node):
             "enc_min").get_parameter_value().integer_value
         enc_max = self.get_parameter(
             "enc_max").get_parameter_value().integer_value
+        self.speed_factor = self.get_parameter(
+            "speed_factor").get_parameter_value().integer_value
 
         self.d1 = float(hardware_distances[0])
         self.d2 = float(hardware_distances[1])
@@ -159,7 +162,7 @@ class VelParserNode(Node):
                     velocity = [abs_v1, abs_v2,
                                 abs_v3, -abs_v4, -abs_v5, -abs_v6]
 
-        speed = [SPEED_FACTOR * i for i in velocity]
+        speed = [self.speed_factor * i for i in velocity]
 
         # Set the speeds between the range [-max_speed, +max_speed]
         return speed

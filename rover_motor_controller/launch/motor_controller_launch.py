@@ -27,6 +27,12 @@ def generate_launch_description():
         default_value="250",
         description="enc_min")
 
+    speed_factor = LaunchConfiguration("speed_factor")
+    declare_speed_factor_cmd = DeclareLaunchArgument(
+        "speed_factor",
+        default_value="6",
+        description="Speed [-100, +100] * 6 = [-600, +600]")
+
     enc_max = LaunchConfiguration("enc_max")
     declare_enc_max_cmd = DeclareLaunchArgument(
         "enc_max",
@@ -53,7 +59,7 @@ def generate_launch_description():
         package=pkg_name,
         executable="vel_parser_node",
         name="vel_parser_node",
-        parameters=[hardware_distances, enc_min, enc_max]
+        parameters=[hardware_distances, enc_min, enc_max, speed_factor]
     )
 
     controller_node_cmd = Node(
@@ -70,6 +76,7 @@ def generate_launch_description():
     ld.add_action(declare_hardware_distances_cmd)
     ld.add_action(declare_enc_min_cmd)
     ld.add_action(declare_enc_max_cmd)
+    ld.add_action(declare_speed_factor_cmd)
     ld.add_action(declare_motor_controller_device_cmd)
     ld.add_action(declare_baud_rate_cmd)
 
