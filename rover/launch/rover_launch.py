@@ -35,12 +35,12 @@ def generate_launch_description():
 
     teleop_twist_joy_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(teleop_twist_joy_shared_dir, "teleop-launch.py"))
+            os.path.join(teleop_twist_joy_shared_dir, "launch", "teleop-launch.py"))
     )
 
     rover_motor_controller_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_motor_controller_shared_dir, "motor_controller_launch.py"))
+            os.path.join(rover_motor_controller_shared_dir, "launch", "motor_controller_launch.py"))
     )
 
     ld = LaunchDescription()
