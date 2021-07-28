@@ -63,12 +63,12 @@ class VelParserNode(Node):
         motors_command = MotorsCommand()
 
         norm_speed = self.normalize(msg.linear.x, -1.5, 1.5, -100, 100)
-        norm_steering = self.normalize(msg.angular.z, -1, 1, -100, 100)
+        norm_steering = self.normalize(msg.angular.z, -1, 1, -100, 100) * -1
 
         out_cmds = self.generate_commands(norm_speed, norm_steering)
 
         motors_command.drive_motor = [int(ele) for ele in out_cmds[0]]
-        motors_command.corner_motor = [int(ele) for ele in out_cmds[0]]
+        motors_command.corner_motor = [int(ele) for ele in out_cmds[1]]
 
         self.publisher.publish(motors_command)
 
