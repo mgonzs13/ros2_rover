@@ -2,7 +2,9 @@
 After=network.service
 
 [Service]
-ExecStart=/usr/local/bin/rover.sh
+User=ubuntu
+Group=ubuntu
+ExecStart=/bin/bash /usr/local/bin/rover.sh
 
 [Install]
 WantedBy=default.target
