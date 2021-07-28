@@ -1,3 +1,5 @@
+from glob import glob
+import os
 from setuptools import setup, find_packages
 
 package_name = 'rover_motor_controller'
@@ -10,6 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name), glob('launch/*_launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
