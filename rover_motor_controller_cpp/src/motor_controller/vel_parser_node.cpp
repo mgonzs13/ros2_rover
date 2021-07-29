@@ -67,7 +67,8 @@ void VelParserNode::callback(const geometry_msgs::msg::Twist::SharedPtr msg) {
 
   // convert to int
   for (unsigned i = 0; i < new_speeds.size(); i++) {
-    motors_command.drive_motor.push_back(int(new_speeds.at(i)));
+    motors_command.drive_motor.push_back(int(new_speeds.at(i)) *
+                                         this->speed_factor);
   }
 
   for (unsigned i = 0; i < new_ticks.size(); i++) {
@@ -140,12 +141,12 @@ std::vector<float> VelParserNode::calculate_velocity(float velocity,
     }
 
     //  Get speed of each wheel
-    float abs_v1 = abs(velocity) * sqrt(b + c) / rx * this->speed_factor;
-    float abs_v2 = abs(velocity) * (f / rx) * this->speed_factor;
-    float abs_v3 = abs(velocity) * sqrt(a + c) / rx * this->speed_factor;
-    float abs_v4 = abs(velocity) * sqrt(b + d) / rx * this->speed_factor;
-    float abs_v5 = abs(velocity) * (e / rx) * this->speed_factor;
-    float abs_v6 = abs(velocity) * sqrt(a + d) / rx * this->speed_factor;
+    float abs_v1 = abs(velocity) * sqrt(b + c) / rx;
+    float abs_v2 = abs(velocity) * (f / rx);
+    float abs_v3 = abs(velocity) * sqrt(a + c) / rx;
+    float abs_v4 = abs(velocity) * sqrt(b + d) / rx;
+    float abs_v5 = abs(velocity) * (e / rx);
+    float abs_v6 = abs(velocity) * sqrt(a + d) / rx;
 
     if (velocity < 0) { //#Go back
 
