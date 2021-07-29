@@ -21,7 +21,7 @@ class VelParserNode(Node):
 
         # declaring params
         self.declare_parameter("hardware_distances",
-                               "23,25.5,28.5,26")
+                               [23.0, 25.5, 28.5, 26.0])
         self.declare_parameter("enc_min", 250)
         self.declare_parameter("enc_max", 750)
 
@@ -30,7 +30,7 @@ class VelParserNode(Node):
 
         # getting params
         hardware_distances = self.get_parameter(
-            "hardware_distances").get_parameter_value().string_value.split(",")
+            "hardware_distances").get_parameter_value().double_array_value
         enc_min = self.get_parameter(
             "enc_min").get_parameter_value().integer_value
         enc_max = self.get_parameter(
@@ -38,10 +38,10 @@ class VelParserNode(Node):
         self.speed_factor = self.get_parameter(
             "speed_factor").get_parameter_value().integer_value
 
-        self.d1 = float(hardware_distances[0])
-        self.d2 = float(hardware_distances[1])
-        self.d3 = float(hardware_distances[2])
-        self.d4 = float(hardware_distances[3])
+        self.d1 = hardware_distances[0]
+        self.d2 = hardware_distances[1]
+        self.d3 = hardware_distances[2]
+        self.d4 = hardware_distances[3]
 
         self.enc_min = enc_min
         self.enc_max = enc_max

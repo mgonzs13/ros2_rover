@@ -18,7 +18,9 @@ using namespace motor_controller;
 VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
 
   // declaring params
-  this->declare_parameter<std::string>("hardware_distances", "23,25.5,28.5,26");
+  this->declare_parameter<std::vector<double>>(
+      "hardware_distances", std::vector<double>({23.0, 25.5, 28.5, 26.0}));
+
   this->declare_parameter<int>("enc_min", 250);
   this->declare_parameter<int>("enc_max", 750);
 
@@ -26,24 +28,18 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
   this->declare_parameter<int>("speed_factor", 6);
 
   // getting params
-  std::string hardware_distances;
+  std::vector<double> hardware_distances;
   this->get_parameter("hardware_distances", hardware_distances);
 
   this->get_parameter("enc_min", this->enc_min);
   this->get_parameter("enc_max", this->enc_max);
   this->get_parameter("speed_factor", this->speed_factor);
 
-  this->d1 =
-      std::stod(hardware_distances.substr(0, hardware_distances.find(',')));
-  this->d2 =
-      std::stod(hardware_distances.substr(1, hardware_distances.find(',')));
-  this->d3 =
-      std::stod(hardware_distances.substr(2, hardware_distances.find(',')));
-  this->d4 =
-      std::stod(hardware_distances.substr(3, hardware_distances.find(',')));
+  this->d1 = hardware_distances[0];
+  this->d2 = hardware_distances[1];
+  this->d3 = hardware_distances[2];
+  this->d4 = hardware_distances[3];
 
-  this->enc_min = enc_min;
-  this->enc_max = enc_max;
   this->enc_mid = (this->enc_max + this->enc_min) / 2;
 
   // pubs and subs
