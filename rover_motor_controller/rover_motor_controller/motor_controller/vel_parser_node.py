@@ -7,7 +7,7 @@ from typing import List
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from rover_interfaces.msg import MotorsCommand
-from rover_motor_controller.lewansoul import MotorControllers
+from rover_motor_controller.lewansoul import MotorController
 
 # Radius from 255 (0 degrees) to 55 centimeters (45 degrees)
 MAX_RADIUS = 255
@@ -45,7 +45,7 @@ class VelParserNode(Node):
 
         self.enc_min = enc_min
         self.enc_max = enc_max
-        self.mids = (self.enc_max + self.enc_min) / 2
+        self.enc_mid = (self.enc_max + self.enc_min) / 2
 
         # pubs and subs
         self.publisher = self.create_publisher(
@@ -68,10 +68,12 @@ class VelParserNode(Node):
         norm_speed = self.normalize(msg.linear.x, -1.5, 1.5, -100, 100)
         norm_steering = self.normalize(msg.angular.z, -1, 1, -100, 100) * -1
 
-        out_cmds = self.generate_commands(norm_speed, norm_steering)
+        new_speeds = self.calculate_velocity(norm_speed, norm_steering)
+        new_ticks = self.calculate_target_tick(
+            self.calculate_target_deg(norm_steering))
 
-        motors_command.drive_motor = [int(ele) for ele in out_cmds[0]]
-        motors_command.corner_motor = [int(ele) for ele in out_cmds[1]]
+        motors_command.drive_motor = [int(ele) for ele in new_speeds]
+        motors_command.corner_motor = [int(ele) for ele in new_ticks]
 
         self.publisher.publish(motors_command)
 
@@ -81,10 +83,10 @@ class VelParserNode(Node):
         return (new_max - new_min) * ((value - old_min) / (old_max - old_min)) + new_min
 
     @staticmethod
-    def deg_to_tick(deg, e_min: float, e_max: float) -> float:
+    def deg_to_tick(deg: float, e_min: float, e_max: float) -> float:
         """
         Converts a degrees to tick value
-        :param int deg  : Degrees value desired
+        :param float deg  : Degrees value desired
         :param int e_min: The minimum encoder value based on physical stop
         :param int e_max: The maximum encoder value based on physical stop
         """
@@ -101,8 +103,8 @@ class VelParserNode(Node):
     def calculate_velocity(self, v: float, r: float) -> List[float]:
         """
         Returns a list of speeds for each individual drive motor based on current turning radius
-        :param int v: Drive speed command range from -100 to 100
-        :param int r: Current turning radius range from -100 to 100
+        :param float v: Drive speed command range from -100 to 100
+        :param float r: Current turning radius range from -100 to 100
         """
 
         if v == 0:
@@ -134,12 +136,12 @@ class VelParserNode(Node):
                 rx = f
 
             # Get speed of each wheel
-            abs_v1 = int(abs(v) * (math.sqrt(b + c)) / rx)
-            abs_v2 = int(abs(v) * (f / rx))
-            abs_v3 = int(abs(v) * (math.sqrt(a + c)) / rx)
-            abs_v4 = int((abs(v) * math.sqrt(b + d)) / rx)
-            abs_v5 = int(abs(v) * (e / rx))
-            abs_v6 = int((abs(v) * math.sqrt(a + d)) / rx)
+            abs_v1 = abs(v) * (math.sqrt(b + c)) / rx
+            abs_v2 = abs(v) * (f / rx)
+            abs_v3 = abs(v) * (math.sqrt(a + c)) / rx
+            abs_v4 = (abs(v) * math.sqrt(b + d)) / rx
+            abs_v5 = abs(v) * (e / rx)
+            abs_v6 = (abs(v) * math.sqrt(a + d)) / rx
 
             if v < 0:
                 # Go back
@@ -170,7 +172,7 @@ class VelParserNode(Node):
     def calculate_target_deg(self, radius: float) -> List[float]:
         """
         Takes a turning radius and calculates what angle [degrees] each corner should be at
-        :param int radius: Radius drive command, ranges from -100 (left) to +100 (right)
+        :param float radius: Radius drive command, ranges from -100 (left) to +100 (right)
         """
 
         # Scaled from MAX_RADIUS (255) to MIN_RADIUS (55) centimeters
@@ -186,16 +188,16 @@ class VelParserNode(Node):
 
         # Turn Right - Turn Left
         # Front Left - Front Right
-        ang7 = int(math.degrees(math.atan(self.d3 / (abs(r) + self.d1))))
+        ang7 = math.degrees(math.atan(self.d3 / (abs(r) + self.d1)))
 
         # Front Right - Front Left
-        ang8 = int(math.degrees(math.atan(self.d3 / (abs(r) - self.d1))))
+        ang8 = math.degrees(math.atan(self.d3 / (abs(r) - self.d1)))
 
         # Back Left - Back Right
-        ang9 = int(math.degrees(math.atan(self.d2 / (abs(r) + self.d1))))
+        ang9 = math.degrees(math.atan(self.d2 / (abs(r) + self.d1)))
 
         # Back Right - Back Left
-        ang10 = int(math.degrees(math.atan(self.d2 / (abs(r) - self.d1))))
+        ang10 = math.degrees(math.atan(self.d2 / (abs(r) - self.d1)))
 
         if radius < 0:
             # Turn Left
@@ -209,7 +211,7 @@ class VelParserNode(Node):
     def calculate_target_tick(self, tar_enc: float) -> List[float]:
         """
         Takes the target angle and gets what encoder tick that value is for position control
-        :param list [int] tar_enc: List of target angles in degrees for each corner
+        :param list [float] tar_enc: List of target angles in degrees for each corner
         """
 
         tick = []
@@ -219,19 +221,3 @@ class VelParserNode(Node):
                 tar_enc[i], self.enc_min, self.enc_max))
 
         return tick
-
-    def generate_commands(self, v: float, r: float) -> List[List[float]]:
-        """
-        Driving method for the Rover, rover will not do any commands if any motor controller
-        throws an error
-        :param int v: driving velocity command, % based from -100 (backward) to 100 (forward)
-        :param int r: driving turning radius command, % based from -100 (left) to 100 (right)
-        """
-
-        # Get speed of each wheel
-        speed = self.calculate_velocity(v, r)
-
-        # Get turn of each wheel measured in ticks
-        ticks = self.calculate_target_tick(self.calculate_target_deg(r))
-
-        return (speed, ticks)

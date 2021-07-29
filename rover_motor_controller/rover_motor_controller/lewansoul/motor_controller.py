@@ -21,9 +21,9 @@ SERVO_LEFT_BACK = 9
 SERVO_RIGHT_BACK = 10
 
 
-class MotorControllers(object):
+class MotorController(object):
     """
-    MotorControllers class contains the methods necessary to send commands to
+    MotorController class contains the methods necessary to send commands to
     the motor controllers for the corner and drive motors.
     """
 

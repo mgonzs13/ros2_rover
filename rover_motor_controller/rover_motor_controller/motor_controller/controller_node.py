@@ -5,7 +5,7 @@ Motor controller node.
 from rclpy.node import Node
 
 from rover_interfaces.msg import MotorsCommand
-from rover_motor_controller.lewansoul import MotorControllers
+from rover_motor_controller.lewansoul import MotorController
 
 
 class ControllerNode(Node):
@@ -24,7 +24,7 @@ class ControllerNode(Node):
         baud_rate = self.get_parameter(
             "baud_rate").get_parameter_value().integer_value
 
-        self.motor_controller = MotorControllers(
+        self.motor_controller = MotorController(
             motor_controller_device, baud_rate)
 
         # sub
