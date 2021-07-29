@@ -303,7 +303,7 @@ void LX16A::set_motor_mode(uint8_t servo_id, int speed) {
   int aux_speed = clamp(-1000, 1000, speed);
 
   if (aux_speed < 0)
-    speed += 65536;
+    aux_speed += 65536;
 
   this->send_command(
       servo_id, SERVO_OR_MOTOR_MODE_WRITE,
