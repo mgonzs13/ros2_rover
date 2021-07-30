@@ -3,7 +3,6 @@
 #define LX16A_CONSTS_HPP
 
 #include <cstdint>
-#include <string>
 
 namespace lx16a {
 

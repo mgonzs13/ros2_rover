@@ -2,12 +2,9 @@
 #ifndef CONTROLLER_NODE_HPP
 #define CONTROLLER_NODE_HPP
 
-#include <memory>
-
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-#include "lx16a/motor_controller.hpp"
 #include "rover_interfaces/msg/motors_command.hpp"
 
 #define MAX_RADIUS 255

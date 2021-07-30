@@ -1,14 +1,11 @@
 
 #define BOOST_BIND_NO_PLACEHOLDERS
 
-#include <memory>
-#include <string>
 #include <vector>
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-#include "lx16a/motor_controller.hpp"
 #include "motor_controller/vel_parser_node.hpp"
 #include "rover_interfaces/msg/motors_command.hpp"
 
