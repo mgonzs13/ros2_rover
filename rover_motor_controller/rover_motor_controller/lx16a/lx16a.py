@@ -5,61 +5,30 @@ Lewansoul interface.
 
 import logging
 import threading
-from functools import partial
+from typing import List
 
+from serial import Serial
 from serial.serialutil import Timeout
 
-SERVO_ID_ALL = 0xfe
-SERVO_FRAME_HEADER = 0x55
-SERVO_FRAME_HEADER_STRING = "0x55"
-
-SERVO_MOVE_TIME_WRITE = 1
-SERVO_MOVE_TIME_READ = 2
-SERVO_MOVE_TIME_WAIT_WRITE = 7
-SERVO_MOVE_TIME_WAIT_READ = 8
-SERVO_MOVE_START = 11
-SERVO_MOVE_STOP = 12
-SERVO_ID_WRITE = 13
-SERVO_ID_READ = 14
-SERVO_ANGLE_OFFSET_ADJUST = 17
-SERVO_ANGLE_OFFSET_WRITE = 18
-SERVO_ANGLE_OFFSET_READ = 19
-SERVO_ANGLE_LIMIT_WRITE = 20
-SERVO_ANGLE_LIMIT_READ = 21
-SERVO_VIN_LIMIT_WRITE = 22
-SERVO_VIN_LIMIT_READ = 23
-SERVO_TEMP_MAX_LIMIT_WRITE = 24
-SERVO_TEMP_MAX_LIMIT_READ = 25
-SERVO_TEMP_READ = 26
-SERVO_VIN_READ = 27
-SERVO_POS_READ = 28
-SERVO_OR_MOTOR_MODE_WRITE = 29
-SERVO_OR_MOTOR_MODE_READ = 30
-SERVO_LOAD_OR_UNLOAD_WRITE = 31
-SERVO_LOAD_OR_UNLOAD_READ = 32
-SERVO_LED_CTRL_WRITE = 33
-SERVO_LED_CTRL_READ = 34
-SERVO_LED_ERROR_WRITE = 35
-SERVO_LED_ERROR_READ = 36
-
-SERVO_ERROR_OVER_TEMPERATURE = 1
-SERVO_ERROR_OVER_VOLTAGE = 2
-SERVO_ERROR_LOCKED_ROTOR = 4
+from .lx16a_consts import *
 
 
-def lower_byte(value):
+####
+# aux functions
+# ####
+def lower_byte(value: int) -> int:
     return int(value) % 256
 
 
-def higher_byte(value):
+def higher_byte(value: int):
     return int(value / 256) % 256
 
 
-def word(low, high):
+def word(low: int, high: int) -> int:
     return int(low) + int(high) * 256
 
 
-def clamp(range_min, range_max, value):
+def clamp(range_min: int, range_max: int, value: int) -> int:
     return min(range_max, max(range_min, value))
 
 
@@ -71,43 +40,23 @@ class TimeoutError(RuntimeError):
     pass
 
 
-LOGGER = logging.getLogger("lewansoul.servos.lx16a")
+LOGGER = logging.getLogger("lx16a")
 
 
-class Servo(object):
+class LX16A(object):
     """
-    Servo class.
-    """
-
-    def __init__(self, controller, servo_id):
-        self.__dict__.update({
-            "_controller": controller,
-            "servo_id": servo_id,
-        })
-
-    def __hasattr__(self, name):
-        return hasattr(self._controller, name)
-
-    def __getattr__(self, name):
-        attr = getattr(self._controller, name)
-
-        if callable(attr):
-            attr = partial(attr, self.servo_id)
-
-        return attr
-
-
-class ServoController(object):
-    """
-    ServoController class.
+    LX16A class.
     """
 
-    def __init__(self, serial, timeout=1):
-        self._serial = serial
+    def __init__(self, serial_port: str, baud_rate: int, timeout: int = 1):
+        self._serial = Serial(serial_port, baud_rate, timeout=1)
         self._timeout = timeout
         self._lock = threading.RLock()
 
-    def _command(self, servo_id, command, params):
+    ####
+    # serial functions
+    ####
+    def _command(self, servo_id: int, command: int, params: int) -> None:
         if isinstance(params, list):
             length = 3 + len(params)
             checksum = 255 - \
@@ -133,7 +82,7 @@ class ServoController(object):
         with self._lock:
             self._serial.write(bytearray(command_list))
 
-    def _wait_for_response(self, servo_id, command, timeout=None):
+    def _wait_for_response(self, servo_id: int, command: int, timeout: int = None) -> List[int]:
         timeout = Timeout(timeout or self._timeout)
 
         def read(size=1):
@@ -198,26 +147,29 @@ class ServoController(object):
                     "Got command response from unexpected servo %s", sid)
                 continue
 
-            return [sid, cmd, params]
+            return params
 
-    def _query(self, servo_id, command, timeout=None):
+    def _query(self, servo_id: int, command: int, timeout: int = None) -> List[int]:
         with self._lock:
             self._command(servo_id, command, [])
 
             return self._wait_for_response(servo_id, command, timeout=timeout)
 
-    def servo(self, servo_id):
-        return Servo(self, servo_id)
-
-    def get_servo_id(self, servo_id=SERVO_ID_ALL, timeout=None):
+    ####
+    # servo functions
+    ####
+    def get_servo_id(self, servo_id: int, timeout: int = None) -> int:
         response = self._query(servo_id, SERVO_ID_READ, timeout=timeout)
 
-        return response[2]
+        return response[0]
 
-    def set_servo_id(self, servo_id, new_servo_id):
+    def set_servo_id(self, servo_id: int, new_servo_id: int) -> None:
         self._command(servo_id, SERVO_ID_WRITE, new_servo_id)
 
-    def move(self, servo_id, position, time=0):
+    ####
+    # move functions
+    ####
+    def move(self, servo_id: int, position: int, time: int = 0) -> None:
         position = clamp(0, 1000, position)
         time = clamp(0, 30000, time)
 
@@ -227,14 +179,7 @@ class ServoController(object):
              lower_byte(time), higher_byte(time)]
         )
 
-    def get_prepared_move(self, servo_id, timeout=None):
-        """ Returns servo position and time tuple """
-        response = self._query(
-            servo_id, SERVO_MOVE_TIME_WAIT_READ, timeout=timeout)
-
-        return word(response[2], response[3]), word(response[4], response[5])
-
-    def move_prepare(self, servo_id, position, time=0):
+    def move_prepare(self, servo_id: int, position: int, time: int = 0) -> None:
         position = clamp(0, 1000, position)
         time = clamp(0, 30000, time)
 
@@ -244,23 +189,46 @@ class ServoController(object):
              lower_byte(time), higher_byte(time)]
         )
 
-    def move_start(self, servo_id=SERVO_ID_ALL):
+    def move_start(self, servo_id: int = SERVO_ID_ALL) -> None:
         self._command(servo_id, SERVO_MOVE_START, [])
 
-    def move_stop(self, servo_id=SERVO_ID_ALL):
+    def move_stop(self, servo_id: int = SERVO_ID_ALL) -> None:
         self._command(servo_id, SERVO_MOVE_STOP, [])
 
-    def get_position_offset(self, servo_id, timeout=None):
+    def get_prepared_move(self, servo_id: int, timeout: int = None) -> List[int]:
+        """ Returns servo position and time tuple """
+        response = self._query(
+            servo_id, SERVO_MOVE_TIME_WAIT_READ, timeout=timeout)
+        return word(response[0], response[1]), word(response[2], response[3])
+
+    ####
+    # position functions
+    ####
+    def get_position_offset(self, servo_id: int, timeout: int = None) -> int:
         response = self._query(
             servo_id, SERVO_ANGLE_OFFSET_READ, timeout=timeout)
-        deviation = response[2]
+        deviation = response[0]
 
         if deviation > 127:
             deviation -= 256
 
         return deviation
 
-    def set_position_offset(self, servo_id, deviation):
+    def get_position_limits(self, servo_id: int, timeout: int = None) -> List[int]:
+        response = self._query(
+            servo_id, SERVO_ANGLE_LIMIT_READ, timeout=timeout)
+        return word(response[0], response[1]), word(response[2], response[3])
+
+    def get_position(self, servo_id: int, timeout: int = None) -> int:
+        response = self._query(servo_id, SERVO_POS_READ, timeout=timeout)
+        position = word(response[0], response[1])
+
+        if position > 32767:
+            position -= 65536
+
+        return position
+
+    def set_position_offset(self, servo_id: int, deviation: int) -> None:
         deviation = clamp(-125, 125, deviation)
 
         if deviation < 0:
@@ -271,13 +239,7 @@ class ServoController(object):
     def save_position_offset(self, servo_id):
         self._command(servo_id, SERVO_ANGLE_OFFSET_WRITE, [])
 
-    def get_position_limits(self, servo_id, timeout=None):
-        response = self._query(
-            servo_id, SERVO_ANGLE_LIMIT_READ, timeout=timeout)
-
-        return word(response[2], response[3]), word(response[4], response[5])
-
-    def set_position_limits(self, servo_id, min_position, max_position):
+    def set_position_limits(self, servo_id: int, min_position: int, max_position: int) -> None:
         min_position = clamp(0, 1000, min_position)
         max_position = clamp(0, 1000, max_position)
 
@@ -287,12 +249,18 @@ class ServoController(object):
              lower_byte(max_position), higher_byte(max_position)]
         )
 
-    def get_voltage_limits(self, servo_id, timeout=None):
+    ####
+    # voltage functions
+    ####
+    def get_voltage_limits(self, servo_id: int, timeout: int = None) -> List[int]:
         response = self._query(servo_id, SERVO_VIN_LIMIT_READ, timeout=timeout)
+        return word(response[0], response[1]), word(response[2], response[3])
 
-        return word(response[2], response[3]), word(response[4], response[5])
+    def get_voltage(self, servo_id: int, timeout: int = None) -> int:
+        response = self._query(servo_id, SERVO_VIN_READ, timeout=timeout)
+        return word(response[0], response[1])
 
-    def set_voltage_limits(self, servo_id, min_voltage, max_voltage):
+    def set_voltage_limits(self, servo_id: int, min_voltage: int, max_voltage: int) -> None:
         min_voltage = clamp(4500, 12000, min_voltage)
         max_voltage = clamp(4500, 12000, max_voltage)
 
@@ -302,63 +270,52 @@ class ServoController(object):
              lower_byte(max_voltage), higher_byte(max_voltage)]
         )
 
-    def get_max_temperature_limit(self, servo_id, timeout=None):
+    ####
+    # voltage functions
+    ####
+    def get_max_temperature_limit(self, servo_id: int, timeout: int = None) -> int:
         response = self._query(
             servo_id, SERVO_TEMP_MAX_LIMIT_READ, timeout=timeout)
+        return response[0]
 
-        return response[2]
+    def get_temperature(self, servo_id: int, timeout: int = None) -> int:
+        response = self._query(servo_id, SERVO_TEMP_READ, timeout=timeout)
+        return response[0]
 
-    def set_max_temperature_limit(self, servo_id, max_temperature):
+    def set_max_temperature_limit(self, servo_id: int, max_temperature: int) -> None:
         max_temperature = clamp(50, 100, max_temperature)
-
         self._command(servo_id, SERVO_TEMP_MAX_LIMIT_WRITE, max_temperature)
 
-    def get_temperature(self, servo_id, timeout=None):
-        response = self._query(servo_id, SERVO_TEMP_READ, timeout=timeout)
-
-        return response[2]
-
-    def get_voltage(self, servo_id, timeout=None):
-        response = self._query(servo_id, SERVO_VIN_READ, timeout=timeout)
-
-        return word(response[2], response[3])
-
-    def get_position(self, servo_id, timeout=None):
-        response = self._query(servo_id, SERVO_POS_READ, timeout=timeout)
-        position = word(response[2][0], response[2][1])
-
-        if position > 32767:
-            position -= 65536
-
-        return position
-
-    def get_mode(self, servo_id, timeout=None):
+    ####
+    # mode functions
+    ####
+    def get_mode(self, servo_id: int, timeout: int = None) -> int:
         response = self._query(
             servo_id, SERVO_OR_MOTOR_MODE_READ, timeout=timeout)
 
-        return response[2][0]
+        return response[0]
 
-    def get_motor_speed(self, servo_id, timeout=None):
+    def get_motor_speed(self, servo_id: int, timeout: int = None) -> int:
         response = self._query(
             servo_id, SERVO_OR_MOTOR_MODE_READ, timeout=timeout)
 
         if response[2][0] != 1:
             return 0
 
-        speed = word(response[2][2], response[2][3])
+        speed = word(response[2], response[3])
 
         if speed > 32767:
             speed -= 65536
 
         return speed
 
-    def set_servo_mode(self, servo_id):
+    def set_servo_mode(self, servo_id: int) -> None:
         self._command(
             servo_id, SERVO_OR_MOTOR_MODE_WRITE,
             [0, 0, 0, 0]
         )
 
-    def set_motor_mode(self, servo_id, speed=0):
+    def set_motor_mode(self, servo_id: int, speed: int = 0) -> None:
         speed = clamp(-1000, 1000, speed)
 
         if speed < 0:
@@ -369,35 +326,34 @@ class ServoController(object):
             [1, 0, lower_byte(speed), higher_byte(speed)]
         )
 
-    def is_motor_on(self, servo_id, timeout=None):
+    def is_motor_on(self, servo_id: int, timeout: int = None) -> bool:
         response = self._query(
             servo_id, SERVO_LOAD_OR_UNLOAD_READ, timeout=timeout)
+        return response[0] == 1
 
-        return response[2][0] == 1
-
-    def motor_on(self, servo_id):
+    def motor_on(self, servo_id: int) -> None:
         self._command(servo_id, SERVO_LOAD_OR_UNLOAD_WRITE, 1)
 
-    def motor_off(self, servo_id):
+    def motor_off(self, servo_id: int) -> None:
         self._command(servo_id, SERVO_LOAD_OR_UNLOAD_WRITE, 0)
 
-    def is_led_on(self, servo_id, timeout=None):
+    ####
+    # LEDS functions
+    ####
+    def is_led_on(self, servo_id: int, timeout: int = None) -> bool:
         response = self._query(servo_id, SERVO_LED_CTRL_READ, timeout=timeout)
+        return response[0] == 0
 
-        return response[2] == 0
-
-    def led_on(self, servo_id):
+    def led_on(self, servo_id: int) -> None:
         self._command(servo_id, SERVO_LED_CTRL_WRITE, 0)
 
-    def led_off(self, servo_id):
+    def led_off(self, servo_id: int) -> None:
         self._command(servo_id, SERVO_LED_CTRL_WRITE, 1)
 
-    def get_led_errors(self, servo_id, timeout=None):
+    def get_led_errors(self, servo_id: int, timeout: int = None) -> int:
         response = self._query(servo_id, SERVO_LED_ERROR_READ, timeout=timeout)
+        return response[0]
 
-        return response[2]
-
-    def set_led_errors(self, servo_id, error):
+    def set_led_errors(self, servo_id: int, error: int) -> None:
         error = clamp(0, 7, error)
-
         self._command(servo_id, SERVO_LED_ERROR_WRITE, error)

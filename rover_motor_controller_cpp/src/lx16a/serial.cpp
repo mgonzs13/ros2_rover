@@ -6,10 +6,10 @@
 
 using namespace lx16a;
 
-Serial::Serial(std::string device_name, unsigned int baudrate) {
+Serial::Serial(std::string device_name, unsigned int baud_rate) {
 
   this->device_name = device_name;
-  this->baudrate = baudrate;
+  this->baud_rate = baud_rate;
 
   this->io_service = std::make_unique<boost::asio::io_service>();
   this->serial_port = std::make_unique<boost::asio::serial_port>(
@@ -26,11 +26,11 @@ bool Serial::connect() {
 
     this->serial_port->set_option(flowCrtl);
 
-    unsigned int baudrate = 0;
+    unsigned int baud_rate = 0;
 
-    // setting baudrate
+    // setting baud_rate
     this->serial_port->set_option(
-        boost::asio::serial_port_base::baud_rate(baudrate));
+        boost::asio::serial_port_base::baud_rate(baud_rate));
 
     // charsize
     unsigned int charsize = 8;

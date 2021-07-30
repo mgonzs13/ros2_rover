@@ -12,7 +12,7 @@ namespace lx16a {
 
 class Serial {
 public:
-  Serial(std::string device_name, unsigned int baudrate);
+  Serial(std::string device_name, unsigned int baud_rate);
   bool connect();
   bool receive(unsigned char &receive_data);
   bool transmit(unsigned char &data);
@@ -20,7 +20,7 @@ public:
 
 private:
   std::string device_name;
-  unsigned int baudrate;
+  unsigned int baud_rate;
   std::unique_ptr<boost::asio::serial_port> serial_port;
   std::unique_ptr<boost::asio::io_service> io_service;
 };

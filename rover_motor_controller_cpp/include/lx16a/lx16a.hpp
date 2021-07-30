@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "lx16a/serial.hpp"
-#include "lx16a/servo_info.hpp"
 
 namespace lx16a {
 
@@ -20,11 +19,11 @@ private:
 
   void send_command(uint8_t servo_id, uint8_t command,
                     std::vector<uint8_t> params);
-  ServoInfo wait_for_response(uint8_t servo_id, uint8_t command);
-  ServoInfo query(uint8_t servo_id, uint8_t command);
+  std::vector<uint8_t> wait_for_response(uint8_t servo_id, uint8_t command);
+  std::vector<uint8_t> query(uint8_t servo_id, uint8_t command);
 
 public:
-  LX16A(std::string serial_port, unsigned int baudrate);
+  LX16A(std::string serial_port, unsigned int baud_rate);
 
   uint8_t lower_byte(int value);
   uint8_t higher_byte(int value);
@@ -58,12 +57,12 @@ public:
   void set_max_temperature_limit(uint8_t servo_id, int max_temperature);
 
   uint8_t get_mode(uint8_t servo_id);
+  int get_motor_speed(uint8_t servo_id);
   void set_servo_mode(uint8_t servo_id);
   void set_motor_mode(uint8_t servo_id, int speed);
   bool is_motor_on(uint8_t servo_id);
   void motor_on(uint8_t servo_id);
   void motor_off(uint8_t servo_id);
-  int get_motor_speed(uint8_t servo_id);
 
   bool is_led_on(uint8_t servo_id);
   void led_on(uint8_t servo_id);

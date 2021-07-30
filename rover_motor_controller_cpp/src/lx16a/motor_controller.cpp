@@ -9,9 +9,9 @@
 using namespace lx16a;
 
 MotorController::MotorController(std::string serial_port,
-                                 unsigned int baudrate) {
+                                 unsigned int baud_rate) {
 
-  this->lx16a = std::make_unique<LX16A>(LX16A(serial_port, baudrate));
+  this->lx16a = std::make_unique<LX16A>(LX16A(serial_port, baud_rate));
 
   this->lx16a->set_motor_mode(MOTOR_LEFT_FRONT, 0);
   this->lx16a->set_motor_mode(MOTOR_LEFT_MIDDLE, 0);

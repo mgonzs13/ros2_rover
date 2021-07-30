@@ -5,7 +5,7 @@ Motor controller node.
 from rclpy.node import Node
 
 from rover_interfaces.msg import MotorsCommand
-from rover_motor_controller.lewansoul import MotorController
+from rover_motor_controller.lx16a import MotorController
 
 
 class ControllerNode(Node):

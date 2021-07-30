@@ -4,10 +4,11 @@ Motor controller node.
 
 import math
 from typing import List
+
 from rclpy.node import Node
+
 from geometry_msgs.msg import Twist
 from rover_interfaces.msg import MotorsCommand
-from rover_motor_controller.lewansoul import MotorController
 
 # Radius from 255 (0 degrees) to 55 centimeters (45 degrees)
 MAX_RADIUS = 255

@@ -17,7 +17,7 @@ private:
   std::unique_ptr<LX16A> lx16a;
 
 public:
-  MotorController(std::string serial_port, unsigned int baudrate);
+  MotorController(std::string serial_port, unsigned int baud_rate);
 
   void corner_to_position(std::vector<int> corner_ticks);
   void send_motor_duty(std::vector<int> drive_ticks);
