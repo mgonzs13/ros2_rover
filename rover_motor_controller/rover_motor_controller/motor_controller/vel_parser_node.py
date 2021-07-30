@@ -57,7 +57,7 @@ class VelParserNode(Node):
             self.callback,
             10)
 
-    def callback(self, msg: Twist):
+    def callback(self, msg: Twist) -> None:
         """
         Callback function called when a Twist message is received from /cmd_vel topic
         :param list msg: Command velocity message

@@ -34,7 +34,7 @@ class ControllerNode(Node):
             self.callback,
             10)
 
-    def callback(self, msg: MotorsCommand):
+    def callback(self, msg: MotorsCommand) -> None:
         """
         Callback function called when a MotorsCommand message is received from /motors_command topic
         :param list msg: A list of corner and motor lists values
@@ -46,7 +46,7 @@ class ControllerNode(Node):
         # Send speed values to drive motors
         self.motor_controller.send_motor_duty(msg.drive_motor)
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """
         Stop motors
         """

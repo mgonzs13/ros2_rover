@@ -3,7 +3,7 @@
 Lewansoul wrapper.
 """
 
-
+from typing import List
 import serial
 
 from .lewansoul import ServoController
@@ -45,7 +45,7 @@ class MotorController(object):
         self.lw_controller.set_servo_mode(SERVO_LEFT_BACK)
         self.lw_controller.set_servo_mode(SERVO_RIGHT_BACK)
 
-    def corner_to_position(self, corner_ticks):
+    def corner_to_position(self, corner_ticks: List[int]) -> None:
         """
         Method to send position commands to the corner motors
 
@@ -64,7 +64,7 @@ class MotorController(object):
 
         self.lw_controller.move_start()
 
-    def send_motor_duty(self, drive_ticks):
+    def send_motor_duty(self, drive_ticks: List[int]) -> None:
         """
         Method to send position commands to the drive motors
 
@@ -78,7 +78,7 @@ class MotorController(object):
         self.lw_controller.set_motor_mode(MOTOR_RIGHT_MIDDLE, drive_ticks[4])
         self.lw_controller.set_motor_mode(MOTOR_RIGHT_BACK, drive_ticks[5])
 
-    def kill_motors(self):
+    def kill_motors(self) -> None:
         """
         Stops drive motors and align corner motors
         """
@@ -88,23 +88,23 @@ class MotorController(object):
         # Stop drive motors
         self.send_motor_duty([0, 0, 0, 0, 0, 0])
 
-    def get_corner_position(self, servo_id):
+    def get_corner_position(self, servo_id: int) -> int:
         return self.lw_controller.get_position(servo_id)
 
-    def get_motor_speed(self, servo_id):
+    def get_motor_speed(self, servo_id: int) -> int:
         return self.lw_controller.get_motor_speed(servo_id)
 
-    def get_mode(self, servo_id):
+    def get_mode(self, servo_id: int) -> int:
         return self.lw_controller.get_mode(servo_id)
 
-    def get_status(self, servo_id):
+    def get_status(self, servo_id: int) -> int:
         return self.lw_controller.is_motor_on(servo_id)
 
-    def move(self, servo_id, position, time=1000):
+    def move(self, servo_id: int, position: int, time: int = 1000) -> None:
         self.lw_controller.move(servo_id, position, time)
 
-    def led_turn_off(self, servo_id):
+    def led_turn_off(self, servo_id: int) -> None:
         self.lw_controller.led_off(servo_id)
 
-    def led_turn_on(self, servo_id):
+    def led_turn_on(self, servo_id: int) -> None:
         self.lw_controller.led_on(servo_id)
