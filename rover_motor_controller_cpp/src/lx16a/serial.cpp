@@ -78,6 +78,10 @@ void Serial::time_out(const boost::system::error_code &error) {
 
 bool Serial::read_with_timeout(unsigned char &receive_data, int timeout) {
 
+  if (!timeout) {
+    return this->read(receive_data);
+  }
+
   unsigned char buffer[1];
   bool read_error = true;
 
