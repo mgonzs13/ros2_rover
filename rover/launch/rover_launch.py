@@ -25,7 +25,7 @@ def generate_launch_description():
     urg_node_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(rover_shared_dir, "launch", "urg_node_launch.py")),
-        launch_arguments={"sensor_interface": os.path.join(
+        launch_arguments={"config_filepath": os.path.join(
             rover_shared_dir, "config", "urg_node_serial.yaml")}.items()
     )
 
