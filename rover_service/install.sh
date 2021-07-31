@@ -1,6 +1,6 @@
 # dependencies
 echo "--------INSTALLING DEPENDENCIES"
-apt install ros-foxy-joy-linux ros-foxy-teleop-twist-joy -y >> /dev/null
+apt install ros-foxy-joy-linux ros-foxy-teleop-twist-joy ros-foxy-urg-node -y >> /dev/null
 
 # copy rover project
 echo "--------COPYING SH FILE"

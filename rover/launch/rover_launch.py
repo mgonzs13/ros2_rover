@@ -22,6 +22,13 @@ def generate_launch_description():
     # LAUNCHES
     #
 
+    urg_node_action_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(rover_shared_dir, "launch", "urg_node_launch.py")),
+        launch_arguments={"sensor_interface": os.path.join(
+            rover_shared_dir, "config", "urg_node_serial.yaml")}.items()
+    )
+
     teleop_twist_joy_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(rover_shared_dir, "launch", "joy_teleop_launch.py")),
@@ -39,6 +46,7 @@ def generate_launch_description():
     ld.add_action(stdout_linebuf_envvar)
     ld.add_action(namespace_action_cmd)
 
+    # ld.add_action(urg_node_action_cmd)
     ld.add_action(teleop_twist_joy_action_cmd)
     ld.add_action(rover_motor_controller_action_cmd)
 
