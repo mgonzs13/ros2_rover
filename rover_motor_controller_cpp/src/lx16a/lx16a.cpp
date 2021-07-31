@@ -46,7 +46,7 @@ void LX16A::send_command(uint8_t servo_id, uint8_t command,
 
   // send
   const std::lock_guard<std::mutex> lock(*this->mtx);
-  this->serial->transmit(msg);
+  this->serial->write(msg);
 }
 
 std::vector<uint8_t> LX16A::wait_for_response(uint8_t servo_id,
@@ -56,7 +56,7 @@ std::vector<uint8_t> LX16A::wait_for_response(uint8_t servo_id,
     unsigned char buffer;
 
     // header part 1
-    this->serial->receive(buffer);
+    this->serial->read(buffer);
     data.push_back(uint8_t(buffer));
 
     if (data.at(0) != SERVO_FRAME_HEADER) {
@@ -64,7 +64,7 @@ std::vector<uint8_t> LX16A::wait_for_response(uint8_t servo_id,
     }
 
     // header part 2
-    this->serial->receive(buffer);
+    this->serial->read(buffer);
     data.push_back(uint8_t(buffer));
 
     if (data.at(1) != SERVO_FRAME_HEADER) {
@@ -72,15 +72,15 @@ std::vector<uint8_t> LX16A::wait_for_response(uint8_t servo_id,
     }
 
     // id, length and command
-    this->serial->receive(buffer);
+    this->serial->read(buffer);
     data.push_back(uint8_t(buffer));
     uint8_t sid = data[2];
 
-    this->serial->receive(buffer);
+    this->serial->read(buffer);
     data.push_back(uint8_t(buffer));
     uint8_t length = data[3];
 
-    this->serial->receive(buffer);
+    this->serial->read(buffer);
     data.push_back(uint8_t(buffer));
     uint8_t cmd = data[4];
 
@@ -92,13 +92,13 @@ std::vector<uint8_t> LX16A::wait_for_response(uint8_t servo_id,
     // params
     uint8_t sum = 0;
     for (uint8_t i = 5; i < length - 3 + 5; i++) {
-      this->serial->receive(buffer);
+      this->serial->read(buffer);
       data.push_back(uint8_t(buffer));
       sum += data.at(i);
     }
 
     // Checksum
-    this->serial->receive(buffer);
+    this->serial->read(buffer);
     data.push_back(uint8_t(buffer));
     uint8_t checksum = data.back();
 

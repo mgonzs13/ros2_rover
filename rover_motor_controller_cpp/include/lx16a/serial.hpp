@@ -14,15 +14,23 @@ class Serial {
 public:
   Serial(std::string device_name, unsigned int baud_rate);
   bool connect();
-  bool receive(unsigned char &receive_data);
-  bool transmit(unsigned char &data);
-  bool transmit(const std::vector<uint8_t> &data);
+
+  bool read(unsigned char &receive_data);
+  bool read_with_timeout(unsigned char &receive_data, int timeout = 3);
+  void time_out(const boost::system::error_code &error);
+  void read_complete(const boost::system::error_code &error,
+                     size_t bytes_transferred);
+
+  bool write(unsigned char &data);
+  bool write(const std::vector<uint8_t> &data);
 
 private:
   std::string device_name;
   unsigned int baud_rate;
-  std::unique_ptr<boost::asio::serial_port> serial_port;
   std::unique_ptr<boost::asio::io_service> io_service;
+  std::unique_ptr<boost::asio::serial_port> serial_port;
+  std::unique_ptr<boost::asio::deadline_timer> timer;
+  bool read_error;
 };
 
 } // namespace lx16a

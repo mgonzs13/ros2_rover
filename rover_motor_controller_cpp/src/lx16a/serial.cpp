@@ -14,6 +14,10 @@ Serial::Serial(std::string device_name, unsigned int baud_rate) {
   this->io_service = std::make_unique<boost::asio::io_service>();
   this->serial_port = std::make_unique<boost::asio::serial_port>(
       boost::asio::serial_port(*this->io_service));
+  this->timer =
+      std::make_unique<boost::asio::deadline_timer>(*this->io_service);
+
+  this->read_error = true;
 }
 
 bool Serial::connect() {
@@ -52,17 +56,61 @@ bool Serial::connect() {
   return true;
 }
 
-bool Serial::receive(unsigned char &receive_data) {
+bool Serial::read(unsigned char &receive_data) {
   this->serial_port->read_some(boost::asio::buffer(&receive_data, 1));
   return true;
 }
 
-bool Serial::transmit(unsigned char &data) {
+void Serial::read_complete(const boost::system::error_code &error,
+                           size_t bytes_transferred) {
+
+  this->read_error = (error || bytes_transferred == 0);
+  this->timer->cancel();
+}
+
+void Serial::time_out(const boost::system::error_code &error) {
+
+  if (error) {
+    return;
+  }
+
+  this->serial_port->cancel();
+}
+
+bool Serial::read_with_timeout(unsigned char &receive_data, int timeout) {
+
+  unsigned char buffer[1];
+
+  // asynchronously read 1 char
+  boost::asio::async_read(
+      *this->serial_port, boost::asio::buffer(&buffer, 1),
+      boost::bind(&Serial::read_complete, this,
+                  boost::asio::placeholders::error,
+                  boost::asio::placeholders::bytes_transferred));
+
+  // setup a deadline time to implement our timeout.
+  this->timer->expires_from_now(boost::posix_time::seconds(timeout));
+  this->timer->async_wait(
+      boost::bind(&Serial::time_out, this, boost::asio::placeholders::error));
+
+  // block until a character is read or until it is cancelled.
+  this->io_service->run();
+
+  // reset after a timeout and cancel
+  this->io_service->reset();
+
+  if (!read_error)
+    receive_data = buffer[0];
+
+  return !read_error;
+}
+
+bool Serial::write(unsigned char &data) {
   this->serial_port->write_some(boost::asio::buffer(&data, 1));
   return true;
 }
 
-bool Serial::transmit(const std::vector<uint8_t> &data) {
+bool Serial::write(const std::vector<uint8_t> &data) {
   this->serial_port->write_some(
       boost::asio::buffer(&data.front(), data.size()));
   return true;
