@@ -23,16 +23,14 @@ bool Serial::connect() {
   try {
     this->serial_port->open(this->device_name);
 
+    // flow control
     boost::asio::serial_port_base::flow_control flowCrtl(
         boost::asio::serial_port_base::flow_control::none);
-
     this->serial_port->set_option(flowCrtl);
-
-    unsigned int baud_rate = 0;
 
     // setting baud_rate
     this->serial_port->set_option(
-        boost::asio::serial_port_base::baud_rate(baud_rate));
+        boost::asio::serial_port_base::baud_rate(this->baud_rate));
 
     // charsize
     unsigned int charsize = 8;
