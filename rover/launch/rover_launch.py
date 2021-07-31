@@ -46,7 +46,7 @@ def generate_launch_description():
     ld.add_action(stdout_linebuf_envvar)
     ld.add_action(namespace_action_cmd)
 
-    # ld.add_action(urg_node_action_cmd)
+    ld.add_action(urg_node_action_cmd)
     ld.add_action(teleop_twist_joy_action_cmd)
     ld.add_action(rover_motor_controller_action_cmd)
 
