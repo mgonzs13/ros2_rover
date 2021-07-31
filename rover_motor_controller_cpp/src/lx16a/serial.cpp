@@ -16,8 +16,6 @@ Serial::Serial(std::string device_name, unsigned int baud_rate) {
       boost::asio::serial_port(*this->io_service));
   this->timer =
       std::make_unique<boost::asio::deadline_timer>(*this->io_service);
-
-  this->read_error = true;
 }
 
 bool Serial::connect() {
@@ -61,10 +59,11 @@ bool Serial::read(unsigned char &receive_data) {
   return true;
 }
 
-void Serial::read_complete(const boost::system::error_code &error,
+void Serial::read_complete(bool &read_error,
+                           const boost::system::error_code &error,
                            size_t bytes_transferred) {
 
-  this->read_error = (error || bytes_transferred == 0);
+  read_error = (error || bytes_transferred == 0);
   this->timer->cancel();
 }
 
@@ -80,11 +79,12 @@ void Serial::time_out(const boost::system::error_code &error) {
 bool Serial::read_with_timeout(unsigned char &receive_data, int timeout) {
 
   unsigned char buffer[1];
+  bool read_error = true;
 
   // asynchronously read 1 char
-  boost::asio::async_read(
-      *this->serial_port, boost::asio::buffer(&buffer, 1),
-      boost::bind(&Serial::read_complete, this,
+  this->serial_port->async_read_some(
+      boost::asio::buffer(buffer, 1),
+      boost::bind(&Serial::read_complete, this, boost::ref(read_error),
                   boost::asio::placeholders::error,
                   boost::asio::placeholders::bytes_transferred));
 
