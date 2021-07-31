@@ -33,15 +33,15 @@ bool Serial::connect() {
         boost::asio::serial_port_base::baud_rate(this->baud_rate));
 
     // charsize
-    unsigned int charsize = 8;
-
     boost::asio::serial_port_base::stop_bits stopBits_1(
         boost::asio::serial_port_base::stop_bits::one);
+    this->serial_port->set_option(stopBits_1);
+
     boost::asio::serial_port_base::parity parityBits_0(
         boost::asio::serial_port_base::parity::none);
-    this->serial_port->set_option(stopBits_1);
     this->serial_port->set_option(parityBits_0);
 
+    unsigned int charsize = 8;
     this->serial_port->set_option(
         boost::asio::serial_port_base::character_size(charsize));
 
