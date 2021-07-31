@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "lx16a/lx16a_consts.hpp"
 #include "lx16a/serial.hpp"
 
 namespace lx16a {
@@ -33,10 +34,10 @@ public:
   uint8_t get_servo_id(uint8_t servo_id);
   void set_servo_id(uint8_t servo_id, uint8_t new_servo_id);
 
-  void move(uint8_t servo_id, int position, int time);
-  void move_prepare(uint8_t servo_id, int position, int time);
-  void move_start(uint8_t servo_id);
-  void move_stop(uint8_t servo_id);
+  void move(uint8_t servo_id, int position, int time = 0);
+  void move_prepare(uint8_t servo_id, int position, int time = 0);
+  void move_start(uint8_t servo_id = SERVO_ID_ALL);
+  void move_stop(uint8_t servo_id = SERVO_ID_ALL);
 
   std::vector<uint8_t> get_prepared_move(uint8_t servo_id);
   int get_position_offset(uint8_t servo_id);
@@ -59,7 +60,7 @@ public:
   uint8_t get_mode(uint8_t servo_id);
   int get_motor_speed(uint8_t servo_id);
   void set_servo_mode(uint8_t servo_id);
-  void set_motor_mode(uint8_t servo_id, int speed);
+  void set_motor_mode(uint8_t servo_id, int speed = 0);
   bool is_motor_on(uint8_t servo_id);
   void motor_on(uint8_t servo_id);
   void motor_off(uint8_t servo_id);
