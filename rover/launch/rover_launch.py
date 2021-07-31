@@ -11,7 +11,7 @@ def generate_launch_description():
     rover_shared_dir = get_package_share_directory(
         "rover")
     rover_motor_controller_shared_dir = get_package_share_directory(
-        "rover_motor_controller")
+        "rover_motor_controller_cpp")
 
     stdout_linebuf_envvar = SetEnvironmentVariable(
         "RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED", "1")
