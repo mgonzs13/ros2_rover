@@ -22,7 +22,7 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
   this->declare_parameter<int>("enc_max", 750);
 
   // Speed [-100, +100] * 6 = [-600, +600]
-  this->declare_parameter<int>("speed_factor", 6);
+  this->declare_parameter<int>("speed_factor", 10);
 
   // getting params
   std::vector<double> hardware_distances;
@@ -36,8 +36,6 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
   this->d2 = hardware_distances[1];
   this->d3 = hardware_distances[2];
   this->d4 = hardware_distances[3];
-
-  this->enc_mid = (this->enc_max + this->enc_min) / 2;
 
   // pubs and subs
   this->publisher =

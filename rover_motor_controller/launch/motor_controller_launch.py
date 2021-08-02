@@ -29,7 +29,7 @@ def generate_launch_description():
     speed_factor = LaunchConfiguration("speed_factor")
     declare_speed_factor_cmd = DeclareLaunchArgument(
         "speed_factor",
-        default_value="6",
+        default_value="10",
         description="Speed [-100, +100] * 6 = [-600, +600]")
 
     enc_max = LaunchConfiguration("enc_max")

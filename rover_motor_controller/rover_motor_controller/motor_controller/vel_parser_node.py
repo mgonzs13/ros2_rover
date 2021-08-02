@@ -27,7 +27,7 @@ class VelParserNode(Node):
         self.declare_parameter("enc_max", 750)
 
         # Speed [-100, +100] * 6 = [-600, +600]
-        self.declare_parameter("speed_factor", 6)
+        self.declare_parameter("speed_factor", 10)
 
         # getting params
         hardware_distances = self.get_parameter(
@@ -46,7 +46,6 @@ class VelParserNode(Node):
 
         self.enc_min = enc_min
         self.enc_max = enc_max
-        self.enc_mid = (self.enc_max + self.enc_min) / 2
 
         # pubs and subs
         self.publisher = self.create_publisher(
