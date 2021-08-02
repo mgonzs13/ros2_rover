@@ -65,7 +65,13 @@ class VelParserNode(Node):
 
         motors_command = MotorsCommand()
 
-        norm_speed = self.normalize(msg.linear.x, -1.5, 1.5, -100, 100)
+        speed = math.sqrt(math.pow(msg.linear.x, 2) +
+                          math.pow(msg.angular.z, 2))
+
+        if msg.linear.x < 0:
+            speed *= -1
+
+        norm_speed = self.normalize(speed, -1.5, 1.5, -100, 100)
         norm_steering = self.normalize(msg.angular.z, -1, 1, -100, 100) * -1
 
         new_speeds = self.calculate_velocity(norm_speed, norm_steering)

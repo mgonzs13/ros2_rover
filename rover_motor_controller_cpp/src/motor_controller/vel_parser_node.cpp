@@ -51,7 +51,13 @@ void VelParserNode::callback(const geometry_msgs::msg::Twist::SharedPtr msg) {
   auto motors_command = rover_interfaces::msg::MotorsCommand();
 
   // normalize speed and steering
-  float norm_speed = this->normalize(msg->linear.x, -1.5, 1.5, -100, 100);
+  float speed = sqrt(pow(msg->linear.x, 2) + pow(msg->angular.z, 2));
+
+  if (msg->linear.x < 0) {
+    speed *= -1;
+  }
+
+  float norm_speed = this->normalize(speed, -1, 1, -100, 100);
   float norm_steering = this->normalize(msg->angular.z, -1, 1, -100, 100) * -1;
 
   // calculate new speeds and steerings
