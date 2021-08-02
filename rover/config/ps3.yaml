@@ -9,11 +9,11 @@ rover:
         x: 2.0
 
       axis_angular:
-        yaw: 1
+        yaw: 0
       scale_angular:
-        yaw: 0.5
+        yaw: 0.4
       scale_angular_turbo:
-        yaw: 2.0
+        yaw: 1.0
 
       enable_button: 8  # L2 shoulder button
       enable_turbo_button: 10  # L1 shoulder button
