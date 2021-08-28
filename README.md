@@ -34,7 +34,7 @@ ros2 launch rover rover_launch.py
 ## Rover Service
 A Linux service can be created to control the execution and launch everything at boot time. To create the rover service, the following commands are used:
 ```shell
-cd rover_service
+cd ~/ros2_ws/src/ros2_rover/rover_service
 sudo ./install.sh
 ```
 
