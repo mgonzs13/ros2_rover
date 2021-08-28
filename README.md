@@ -15,7 +15,7 @@ sudo apt install ros-foxy-joy-linux ros-foxy-teleop-twist-joy ros-foxy-urg-node
 Clone the repository:
 ```shell
 cd ~/ros2_ws/src
-git clone https://niebla.unileon.es/mgonzs/ros2_rover
+git clone https://github.com/mgonzs13/ros2_rover
 ```
 
 Compile using colcon:
