@@ -2,9 +2,9 @@
 
 This is a ROS 2 (Foxy) version of the [Probable Adventure Project](https://github.com/gadiego92/probable-adventure). A [C++](./rover_motor_controller_cpp) version and a [Python](./rover_motor_controller) version of the lx16a controller are included. Besides, a PS3 joy controller and a hokuyo laser can be used.
 
-<p align="center">
+<div align="center">
     <img src="rover.png" width="50%"/>
-</p>
+</div>
 
 ## Dependencies
 ```shell
