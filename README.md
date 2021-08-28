@@ -1,6 +1,8 @@
 # ros2_rover
 
-This is a ROS 2 version of the [Probable Adventure Project](https://github.com/gadiego92/probable-adventure). A [C++](./rover_motor_controller_cpp) version and a [Python](./rover_motor_controller) version are included. Finally, there is a PS3 joy controller and a hokuyo laser can be used.
+This is a ROS 2 (Foxy) version of the [Probable Adventure Project](https://github.com/gadiego92/probable-adventure). A [C++](./rover_motor_controller_cpp) version and a [Python](./rover_motor_controller) version of the lx16a controller are included. Besides, a PS3 joy controller and a hokuyo laser can be used.
+
+![](./rover.png)
 
 
 ## Dependencies
@@ -27,8 +29,13 @@ ros2 launch rover rover_launch.py
 ```
 
 ## Rover Service
-A Linux service can be created to control the execution of this project and execute it at boot time. To create it, the following commands are used:
+A Linux service can be created to control the execution and launch everything at boot time. To create the rover service, the following commands are used:
 ```shell
 cd rover_service
 sudo ./install.sh
+```
+
+Check rover service:
+```shell
+sudo service rover status
 ```
