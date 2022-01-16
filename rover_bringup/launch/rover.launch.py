@@ -1,6 +1,5 @@
 import os
 from launch import LaunchDescription
-from launch_ros.actions import Node
 from launch.actions import SetEnvironmentVariable, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
@@ -24,21 +23,21 @@ def generate_launch_description():
 
     urg_node_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_bringup_shared_dir, "launch", "urg_node_launch.py")),
+            os.path.join(rover_bringup_shared_dir, "launch", "urg_node.launch.py")),
         launch_arguments={"config_filepath": os.path.join(
             rover_bringup_shared_dir, "config", "urg_node_serial.yaml")}.items()
     )
 
     teleop_twist_joy_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_bringup_shared_dir, "launch", "joy_teleop_launch.py")),
+            os.path.join(rover_bringup_shared_dir, "launch", "joy_teleop.launch.py")),
         launch_arguments={"config_filepath": os.path.join(
             rover_bringup_shared_dir, "config", "ps3.yaml")}.items()
     )
 
     rover_motor_controller_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_motor_controller_shared_dir, "launch", "motor_controller_launch.py"))
+            os.path.join(rover_motor_controller_shared_dir, "launch", "motor_controller.launch.py"))
     )
 
     ld = LaunchDescription()
