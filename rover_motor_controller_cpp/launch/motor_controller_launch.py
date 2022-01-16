@@ -58,14 +58,18 @@ def generate_launch_description():
         package=pkg_name,
         executable="vel_parser_node",
         name="vel_parser_node",
-        parameters=[hardware_distances, enc_min, enc_max, speed_factor]
+        parameters=[{"hardware_distances": hardware_distances,
+                     "enc_min": enc_min,
+                     "enc_max": enc_max,
+                     "speed_factor": speed_factor}]
     )
 
     controller_node_cmd = Node(
         package=pkg_name,
         executable="controller_node",
         name="controller_node",
-        parameters=[motor_controller_device, baud_rate]
+        parameters=[{"motor_controller_device": motor_controller_device,
+                     "baud_rate": baud_rate}]
     )
 
     ld = LaunchDescription()

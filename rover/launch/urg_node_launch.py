@@ -26,7 +26,7 @@ def generate_launch_description():
 
         launch_ros.actions.Node(
             package="urg_node",
-            node_executable="urg_node_driver",
+            executable="urg_node_driver",
             output="screen",
             parameters=[config_filepath]),
     ])
