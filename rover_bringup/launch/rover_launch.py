@@ -8,8 +8,8 @@ from launch_ros.actions import PushRosNamespace
 
 
 def generate_launch_description():
-    rover_shared_dir = get_package_share_directory(
-        "rover")
+    rover_bringup_shared_dir = get_package_share_directory(
+        "rover_bringup")
     rover_motor_controller_shared_dir = get_package_share_directory(
         "rover_motor_controller_cpp")
 
@@ -24,16 +24,16 @@ def generate_launch_description():
 
     urg_node_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_shared_dir, "launch", "urg_node_launch.py")),
+            os.path.join(rover_bringup_shared_dir, "launch", "urg_node_launch.py")),
         launch_arguments={"config_filepath": os.path.join(
-            rover_shared_dir, "config", "urg_node_serial.yaml")}.items()
+            rover_bringup_shared_dir, "config", "urg_node_serial.yaml")}.items()
     )
 
     teleop_twist_joy_action_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_shared_dir, "launch", "joy_teleop_launch.py")),
+            os.path.join(rover_bringup_shared_dir, "launch", "joy_teleop_launch.py")),
         launch_arguments={"config_filepath": os.path.join(
-            rover_shared_dir, "config", "ps3.yaml")}.items()
+            rover_bringup_shared_dir, "config", "ps3.yaml")}.items()
     )
 
     rover_motor_controller_action_cmd = IncludeLaunchDescription(

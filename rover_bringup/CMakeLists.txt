@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(rover)
+project(rover_bringup)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
