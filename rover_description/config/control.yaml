@@ -14,10 +14,10 @@ controller_manager:
 joint_trajectory_controller:
   ros__parameters:
     joints:
-      - back_left_corner_joint
-      - back_right_corner_joint
       - front_left_corner_joint
       - front_right_corner_joint
+      - back_left_corner_joint
+      - back_right_corner_joint
     interface_name: position
     command_interfaces:
       - position
@@ -28,12 +28,12 @@ joint_trajectory_controller:
 velocity_controller:
   ros__parameters:
     joints:
-      - back_left_wheel_joint
-      - back_right_wheel_joint
       - front_left_wheel_joint
-      - front_right_wheel_joint
       - mid_left_wheel_joint
+      - back_left_wheel_joint
+      - front_right_wheel_joint
       - mid_right_wheel_joint
+      - back_right_wheel_joint
     command_interfaces:
       - velocity
     state_interfaces:
