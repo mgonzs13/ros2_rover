@@ -12,6 +12,11 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
+  <depend>rover_motor_controller_cpp</depend>
+  <depend>joy_linux</depend>
+  <depend>teleop_twist_joy</depend>
+  <depend>urg_node</depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
