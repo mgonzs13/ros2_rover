@@ -8,11 +8,18 @@
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
   <depend>gazebo</depend>
+  <depend>gazebo_ros</depend>
   <depend>xacro</depend>
   <depend>rviz2</depend>
+
   <depend>rover_description</depend>
-  <depend>gazebo_ros</depend>
+  <depend>rover_interfaces</depend>
+  <depend>rover_motor_controller_cpp</depend>
+
+  <depend>std_msgs</depend>
+  <depend>trajectory_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

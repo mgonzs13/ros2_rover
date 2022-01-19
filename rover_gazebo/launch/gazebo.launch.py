@@ -89,9 +89,30 @@ def generate_launch_description():
         launch_arguments={"world": world, "pause": pause_gz, }.items()
     )
 
+    localization_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_rover_localization, "launch",
+                         "localization.launch.py")
+        ),
+    )
+
+    localization_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_rover_localization, "launch",
+                         "localization.launch.py")
+        ),
+    )
+
+    cmd_vel_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_path, "launch/include",
+                         "cmd_vel.launch.py")
+        ),
+    )
+
     spawn_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_path, "launch", "spawn.launch.py")
+            os.path.join(pkg_path, "launch/include", "spawn.launch.py")
         ),
         launch_arguments={
             "initial_pose_x": initial_pose_x,
@@ -114,6 +135,8 @@ def generate_launch_description():
 
     ld.add_action(gazebo_client_cmd)
     ld.add_action(gazebo_server_cmd)
+    ld.add_action(localization_cmd)
+    ld.add_action(cmd_vel_cmd)
     ld.add_action(spawn_cmd)
     ld.add_action(rviz_cmd)
 
