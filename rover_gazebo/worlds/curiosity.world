@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="mars_curiosity">
+
+    <!-- Physics -->
+    <physics type='ode'>
+        
+        <solver>
+          <type>quick</type>
+        </solver>
+
+      <constraints>
+        <cfm>0.001</cfm>
+        <erp>0.02</erp>
+        <contact_max_correcting_vel>100.0</contact_max_correcting_vel>
+        <contact_surface_layer>0.001</contact_surface_layer>
+      </constraints>
+
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 -3.711</gravity>
+    </physics>
+
+    <include>
+        <uri>model://sun</uri>
+    </include>
+
+    <include>
+        <uri>model://curiosity_path</uri>
+        <name>curiosity_path</name>
+        <pose>0 0 8.5 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

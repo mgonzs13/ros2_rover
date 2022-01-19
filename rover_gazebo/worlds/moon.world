@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+    <scene>
+      <background>0 0 0 0</background>
+    </scene>
+
+    <physics type="ode">
+        <max_step_size>0.001</max_step_size>
+        <gravity>0 0 -1.62</gravity>     <!-- Moon Gravity -->
+    </physics>
+    
+    <include>
+      <uri>model://moon</uri>
+    </include>
+
+    <scene>
+      <!--background>0 0 0 1</background-->
+    </scene>
+  </world>
+</sdf>
