@@ -285,7 +285,7 @@ uint8_t LX16A::get_temperature(uint8_t servo_id) {
 }
 
 void LX16A::set_max_temperature_limit(uint8_t servo_id, int max_temperature) {
-  uint8_t aux_max_temperature = clamp(50, 100, max_temperature);
+  uint8_t aux_max_temperature = this->clamp(50, 100, max_temperature);
   this->send_command(servo_id, SERVO_TEMP_MAX_LIMIT_WRITE,
                      {aux_max_temperature});
 }
@@ -317,7 +317,7 @@ void LX16A::set_servo_mode(uint8_t servo_id) {
 }
 
 void LX16A::set_motor_mode(uint8_t servo_id, int speed) {
-  int aux_speed = clamp(-1000, 1000, speed);
+  int aux_speed = this->clamp(-1000, 1000, speed);
 
   if (aux_speed < 0)
     aux_speed += 65536;
@@ -361,6 +361,6 @@ uint8_t LX16A::get_led_errors(uint8_t servo_id) {
 }
 
 void LX16A::set_led_errors(uint8_t servo_id, uint8_t error) {
-  uint8_t aux_error = clamp(0, 7, error);
+  uint8_t aux_error = this->clamp(0, 7, error);
   this->send_command(servo_id, SERVO_LED_ERROR_WRITE, {aux_error});
 }
