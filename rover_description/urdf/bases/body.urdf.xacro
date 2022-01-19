@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot name="body" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="body_box_length" value="0.43" />
+    <xacro:property name="body_box_width" value="0.29" />
+    <xacro:property name="body_box_depth" value="0.10" />
+    <xacro:property name="body_box_mass" value="1.0" />
+
+    <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+
+    <xacro:macro name="body" params="parent">
+
+        <link name="body_box_link">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rover_description/meshes/bases/body_box.stl" />
+                    <!-- <box size="${body_box_length} ${body_box_width} ${body_box_depth}"/> -->
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <box size="${body_box_length} ${body_box_width} ${body_box_depth}"/>
+                </geometry>
+            </collision>
+            <xacro:solid_cuboid_inertial 
+                rpy="0 0 0" xyz="0 0 0"
+                mass="${body_box_mass}"
+                x="${body_box_length}" y="${body_box_width}" z="${body_box_depth}" />
+        </link>
+
+        <gazebo reference="body_box_link">
+            <material>Gazebo/White</material>
+        </gazebo>
+
+        <joint name="body_box_joint" type="fixed">
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <parent link="${parent}" />
+            <child link="body_box_link" />
+        </joint>
+
+    </xacro:macro>
+</robot>

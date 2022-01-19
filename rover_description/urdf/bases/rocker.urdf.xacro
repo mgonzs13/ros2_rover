@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="rocker" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="rocker_box_length" value="0.43" />
+    <xacro:property name="rocker_box_width" value="0.29" />
+    <xacro:property name="rocker_box_depth" value="0.10" />
+    <xacro:property name="rocker_box_mass" value="1.0" />
+
+    <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+
+
+    <xacro:macro name="rocker" params="parent lat_label reflect">
+
+        <!-- link -->
+        <link name="${lat_label}_rocker_link">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rover_description/meshes/bases/${lat_label}_rocker_asm.stl" />
+                    <!-- <box size="0.1 0.015 0.015"/> -->
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <box size="${rocker_box_length} ${rocker_box_width} ${rocker_box_depth}"/>
+                </geometry>
+            </collision>
+            <xacro:solid_cuboid_inertial 
+                rpy="0 0 0" xyz="0 0 0"
+                mass="${rocker_box_mass}"
+                x="${rocker_box_length}" y="${rocker_box_width}" z="${rocker_box_depth}" />
+        </link> 
+
+        <gazebo reference="${lat_label}_rocker_link">
+            <material>Gazebo/White</material>
+        </gazebo>
+
+
+        <!-- joint -->
+        <joint name="${lat_label}_rocker_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.071 ${reflect * 0.155} 0.0118"/>
+            <axis xyz="0 1 0" />
+            <limit 
+                lower="${-math_pi_over_4}"
+                upper="${math_pi_over_4}"
+                effort="100.0"
+                velocity="30.0" />
+            <parent link="${parent}" />
+            <child link="${lat_label}_rocker_link" />
+        </joint>
+
+        <gazebo reference="${lat_label}_rocker_joint">
+            <provideFeedback>true</provideFeedback>
+            <implicitSpringDamper>true</implicitSpringDamper>
+        </gazebo>
+    </xacro:macro>
+</robot>

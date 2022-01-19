@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot name="sennsor_depth_camera" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+
+  <xacro:macro name="sennsor_depth_camera" params="prefix parent *origin ">
+    <xacro:property name="math_pi_over_2" value="1.5707963267948966" />
+
+    <joint name="${prefix}_joint" type="fixed">
+        <axis xyz="1 0 0"/>
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${prefix}_link"/>
+    </joint>
+
+    <link name="${prefix}_link">
+      <visual>
+        <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://rb1_torso_description/meshes/sensors/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://rb1_torso_description/meshes/sensors/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+          iyy="0.001" iyz="0.0"
+          izz="0.001" />
+      </inertial>
+    </link>
+
+
+    <joint name="camera_frame_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-${math_pi_over_2} 0 -${math_pi_over_2}" />
+      <parent link="${prefix}_link" />
+      <child link="camera_frame" />
+    </joint>
+
+    <link name="camera_frame">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+          iyy="0.001" iyz="0.0"
+          izz="0.001" />
+      </inertial>
+    </link>
+
+
+    <gazebo reference="${prefix}_link">
+      <sensor name="camera" type="depth">
+        <visualize>true</visualize>
+        <update_rate>30</update_rate>
+        <camera name="depth_camera">
+          <horizontal_fov>1.3439</horizontal_fov>
+          <image>
+            <width>720</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.05</near>
+            <far>3</far>
+          </clip>
+        </camera>
+        <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
+          <baseline>0.2</baseline>
+          <always_on>true</always_on>
+          <update_rate>0.0</update_rate>
+          <frame_name>camera_frame</frame_name>
+          <point_cloud_cutoff>0.5</point_cloud_cutoff>
+          <point_cloud_cutoff_max>3.0</point_cloud_cutoff_max>
+          <distortion_k1>0</distortion_k1>
+          <distortion_k2>0</distortion_k2>
+          <distortion_k3>0</distortion_k3>
+          <distortion_t1>0</distortion_t1>
+          <distortion_t2>0</distortion_t2>
+          <CxPrime>0</CxPrime>
+          <Cx>0</Cx>
+          <Cy>0</Cy>
+          <focal_length>0</focal_length>
+          <hack_baseline>0</hack_baseline>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

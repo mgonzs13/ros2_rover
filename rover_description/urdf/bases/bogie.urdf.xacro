@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="rocker" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="bogie_box_length" value="0.43" />
+    <xacro:property name="bogie_box_width" value="0.29" />
+    <xacro:property name="bogie_box_depth" value="0.10" />
+    <xacro:property name="bogie_box_mass" value="1.0" />
+
+    <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+
+
+    <xacro:macro name="bogie" params="lat_label reflect">
+
+        <!-- link -->
+        <link name="${lat_label}_bogie_link">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rover_description/meshes/bases/${lat_label}_bogie_asm.stl" />
+                    <!-- <box size="0.1 0.015 0.015"/> -->
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <box size="${bogie_box_length} ${bogie_box_width} ${bogie_box_depth}"/>
+                </geometry>
+            </collision>
+            <xacro:solid_cuboid_inertial 
+                rpy="0 0 0" xyz="0 0 0"
+                mass="${bogie_box_mass}"
+                x="${bogie_box_length}" y="${bogie_box_width}" z="${bogie_box_depth}" />
+        </link>
+
+        <gazebo reference="${lat_label}_bogie_link">
+            <material>Gazebo/White</material>
+        </gazebo>
+
+
+        <!-- joint -->
+        <joint name="${lat_label}_bogie_joint" type="revolute">
+            <origin rpy="0 0 0" xyz="-0.181 ${reflect * 0.025} -0.062"/>
+            <axis xyz="0 1 0" />
+            <limit 
+                lower="${-math_pi_over_4}"
+                upper="${math_pi_over_4}"
+                effort="100.0"
+                velocity="30.0" />
+            <parent link="${lat_label}_rocker_link" />
+            <child link="${lat_label}_bogie_link" />
+        </joint>
+
+        <gazebo reference="${lat_label}_bogie_joint">
+            <provideFeedback>true</provideFeedback>
+            <implicitSpringDamper>true</implicitSpringDamper>
+        </gazebo>
+    </xacro:macro>
+</robot>

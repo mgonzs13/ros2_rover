@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot name="body" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="wheel_width" value="0.100" />
+    <xacro:property name="wheel_radius" value="0.060" />
+    <xacro:property name="wheel_mass" value="0.15" />
+
+    <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+
+    <!-- link -->
+    <xacro:macro name="wheel_link" params="lon_label lat_label reflect">
+        <link name="${lon_label}_${lat_label}_wheel_link">
+            <visual>
+                <origin rpy="${reflect * math_pi_over_2} 0 0" xyz="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rover_description/meshes/wheels/wheel_asm.stl" />
+                </geometry>
+                <material name="black" />
+            </visual>
+            <collision>
+                <origin rpy="${reflect * math_pi_over_2} 0 0" xyz="0 0 0" />
+                <geometry>
+                    <!-- <cylinder length="${wheel_width}" radius="${wheel_radius}" /> -->
+                    <mesh filename="package://rover_description/meshes/wheels/wheel_asm.stl" />
+                </geometry>
+            </collision>
+            <xacro:solid_cylinder_inertial
+                rpy="0 0 0" xyz="0 0 0"
+                mass="${wheel_mass}"
+                radius="${wheel_radius}" length="${wheel_width}" />
+        </link>    
+
+        <gazebo reference="${lon_label}_${lat_label}_wheel_link">
+            <material>Gazebo/DarkGray</material>
+        </gazebo>
+    </xacro:macro>
+
+
+    <!-- corner wheel joint -->
+    <xacro:macro name="corner_wheel_joint" params="lon_label lat_label reflect">
+        <joint name="${lon_label}_${lat_label}_wheel_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0 0 -0.132"/>
+            <axis xyz="0 1 0" />
+            <parent link="${lon_label}_${lat_label}_corner_link" />
+            <child link="${lon_label}_${lat_label}_wheel_link" />
+            <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="30"/>
+            <dynamics damping="0.0" friction="0.0"/>
+        </joint>
+
+        <ros2_control name="GazeboSystem" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="${lon_label}_${lat_label}_wheel_joint">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+            </joint>
+        </ros2_control>
+
+        <gazebo reference="${lon_label}_${lat_label}_wheel_joint">
+            <provideFeedback>true</provideFeedback>
+        </gazebo>
+    </xacro:macro>
+
+
+    <!-- mid wheel joint -->
+    <xacro:macro name="mid_wheel_joint" params="lat_label reflect">
+        <joint name="mid_${lat_label}_wheel_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.1063 ${reflect * 0.0929} -0.0959"/>
+            <axis xyz="0 1 0" />
+            <parent link="${lat_label}_bogie_link" />
+            <child link="mid_${lat_label}_wheel_link" />
+            <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="30"/>
+            <dynamics damping="0.0" friction="0.0"/>    
+        </joint>
+
+        <ros2_control name="GazeboSystem" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="mid_${lat_label}_wheel_joint">
+                <command_interface name="velocity">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+            </joint>
+        </ros2_control>
+
+        <gazebo reference="mid_${lat_label}_wheel_joint">
+            <provideFeedback>true</provideFeedback>
+        </gazebo>
+    </xacro:macro>
+</robot>

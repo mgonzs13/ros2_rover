@@ -1,0 +1,118 @@
+<?xml version="1.0" ?>
+
+<robot name="rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <!-- Include macros -->
+    <xacro:include filename="$(find rover_description)/urdf/materials.xacro"/>
+    <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+    <xacro:include filename="$(find rover_description)/urdf/bases/body.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/bases/differential.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/bases/turnbuckle.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/bases/rocker.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/bases/bogie.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/wheels/wheel.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/wheels/corner.urdf.xacro" />
+    <xacro:include filename="$(find rover_description)/urdf/sensors/all_sensors.urdf.xacro" />
+
+
+    <!-- Gazebo ROS2 Control -->
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <parameters>$(find rover_description)/config/control.yaml</parameters>
+        </plugin>
+    </gazebo>
+    
+    <gazebo>
+        <plugin name="rover_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
+            <update_rate>30</update_rate>
+            
+            <joint_name>left_rocker_joint</joint_name>
+            <joint_name>right_rocker_joint</joint_name>
+            <joint_name>left_bogie_joint</joint_name>
+            <joint_name>right_bogie_joint</joint_name>
+
+            <joint_name>diff_brace_joint</joint_name>
+            
+            <joint_name>back_left_turnbuckle_joint</joint_name>
+            <joint_name>back_right_turnbuckle_joint</joint_name>
+            <joint_name>front_left_turnbuckle_joint</joint_name>
+            <joint_name>front_right_turnbuckle_joint</joint_name>
+
+            <joint_name>back_left_corner_joint</joint_name>
+            <joint_name>back_right_corner_joint</joint_name>
+            <joint_name>front_left_corner_joint</joint_name>
+            <joint_name>front_right_corner_joint</joint_name>
+        </plugin>
+    </gazebo>
+
+  
+    <!-- The base link -->
+    <link name="base_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="orange" />
+        </visual>
+    </link>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <!-- body -->
+    <xacro:body parent="base_link" />
+    <xacro:differential parent="base_link" />
+
+    <xacro:turnbuckle lat_label="left" reflect="1"/>
+    <xacro:turnbuckle lat_label="right" reflect="-1"/>
+    
+    <xacro:rocker parent="base_link" lat_label="left" reflect="1"/>
+    <xacro:rocker parent="base_link" lat_label="right" reflect="-1"/>
+
+    <xacro:bogie lat_label="left" reflect="1"/>
+    <xacro:bogie lat_label="right" reflect="-1"/>
+
+    <!-- sensors -->
+    <xacro:sensor_hokuyo prefix="laser" parent="base_link" min_angle="-1.0" max_angle="1.0">
+        <origin xyz="0.17 0 0.005" rpy="0 0 0"/>
+    </xacro:sensor_hokuyo>   
+    
+    <xacro:sensor_imu prefix="imu" parent="base_link">
+        <!-- <origin xyz="-0.32 0 0.05" rpy="0 0.5 0"/> -->
+        <origin xyz="0 0 -0.04" rpy="0 0 0"/>
+    </xacro:sensor_imu>
+
+    <xacro:sennsor_depth_camera prefix="camera" parent="base_link">
+        <origin xyz="0.212 0 0.065" rpy="0 0 0"/>
+    </xacro:sennsor_depth_camera>
+
+    <!-- wheels -->
+    <xacro:corner_link lon_label="front" lat_label="left" reflect="1"/>
+    <xacro:corner_link lon_label="front" lat_label="right" reflect="-1"/>
+    <xacro:front_corner_joint lat_label="left" reflect="1"/>
+    <xacro:front_corner_joint lat_label="right" reflect="-1"/>
+
+    <xacro:corner_link lon_label="back" lat_label="left" reflect="1"/>
+    <xacro:corner_link lon_label="back" lat_label="right" reflect="-1"/>
+    <xacro:back_corner_joint lat_label="left" reflect="1"/>
+    <xacro:back_corner_joint lat_label="right" reflect="-1"/>
+
+    <xacro:wheel_link lon_label="front" lat_label="left" reflect="1"/>
+    <xacro:wheel_link lon_label="front" lat_label="right" reflect="-1"/>
+    <xacro:corner_wheel_joint lon_label="front" lat_label="left" reflect="1"/>
+    <xacro:corner_wheel_joint lon_label="front" lat_label="right" reflect="-1"/>
+
+    <xacro:wheel_link lon_label="mid" lat_label="left" reflect="1"/>
+    <xacro:wheel_link lon_label="mid" lat_label="right" reflect="-1"/>
+    <xacro:mid_wheel_joint lat_label="left" reflect="1"/>
+    <xacro:mid_wheel_joint lat_label="right" reflect="-1"/>
+
+    <xacro:wheel_link lon_label="back" lat_label="left" reflect="1"/>
+    <xacro:wheel_link lon_label="back" lat_label="right" reflect="-1"/>
+    <xacro:corner_wheel_joint lon_label="back" lat_label="left" reflect="1"/>
+    <xacro:corner_wheel_joint lon_label="back" lat_label="right" reflect="-1"/>
+
+
+</robot>

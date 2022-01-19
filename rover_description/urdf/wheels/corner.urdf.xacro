@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<robot name="corner" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="corner_box_length" value="0.43" />
+    <xacro:property name="corner_box_width" value="0.29" />
+    <xacro:property name="corner_box_depth" value="0.10" />
+    <xacro:property name="corner_box_mass" value="1.0" />
+
+    <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+
+    <!-- link -->
+    <xacro:macro name="corner_link" params="lon_label lat_label reflect">
+        <link name="${lon_label}_${lat_label}_corner_link">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rover_description/meshes/bases/${lon_label}_${lat_label}_steering_asm.stl" />
+                    <!-- <box size="0.1 0.1 0.1"/> -->
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <box size="${corner_box_length} ${corner_box_width} ${corner_box_depth}"/>
+                </geometry>
+            </collision>
+            <xacro:solid_cuboid_inertial 
+                rpy="0 0 0" xyz="0 0 0"
+                mass="${corner_box_mass}"
+                x="${corner_box_length}" y="${corner_box_width}" z="${corner_box_depth}" />
+        </link> 
+
+        <gazebo reference="${lon_label}_${lat_label}_corner_link">
+            <material>Gazebo/White</material>
+        </gazebo>
+
+    </xacro:macro>
+
+
+    <!-- front joint -->
+    <xacro:macro name="front_corner_joint" params="lat_label reflect">
+        <joint name="front_${lat_label}_corner_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.2116 ${reflect * 0.075} -0.0279"/>
+            <axis xyz="0 0 1" />
+            <parent link="${lat_label}_rocker_link" />
+            <child link="front_${lat_label}_corner_link" />
+            <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="30"/>
+            <dynamics damping="0.0" friction="0.0"/>
+        </joint>
+
+        <ros2_control name="GazeboSystem" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="front_${lat_label}_corner_joint">
+            <command_interface name="position">
+                <param name="min">-3.14159</param>
+                <param name="max">3.14159</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+            </joint>
+        </ros2_control>
+
+        <gazebo reference="front_${lat_label}_corner_joint">
+            <provideFeedback>true</provideFeedback>
+        </gazebo>
+    </xacro:macro>
+
+
+    <!-- back joint -->
+    <xacro:macro name="back_corner_joint" params="lat_label reflect">
+        <joint name="back_${lat_label}_corner_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="-0.149 ${reflect * 0.05} 0.0338"/>
+            <axis xyz="0 0 1" />
+            <parent link="${lat_label}_bogie_link" />
+            <child link="back_${lat_label}_corner_link" />
+            <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="30"/>
+            <dynamics damping="0.0" friction="0.0"/>
+        </joint>
+
+        <ros2_control name="GazeboSystem" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="back_${lat_label}_corner_joint">
+            <command_interface name="position">
+                <param name="min">-3.14159</param>
+                <param name="max">3.14159</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+            </joint>
+        </ros2_control>
+
+        <gazebo reference="back_${lat_label}_corner_joint">
+            <provideFeedback>true</provideFeedback>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

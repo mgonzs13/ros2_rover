@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="all_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+  <!-- Imu -->
+  <xacro:include filename="$(find rover_description)/urdf/sensors/imu.urdf.xacro" />  
+  
+  <!-- Hokuyo -->
+  <xacro:include filename="$(find rover_description)/urdf/sensors/hokuyo.urdf.xacro" /> 
+
+  <!-- Hokuyo -->
+  <xacro:include filename="$(find rover_description)/urdf/sensors/depth_camera.urdf.xacro" /> 
+  
+</robot>
