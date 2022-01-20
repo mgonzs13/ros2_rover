@@ -32,12 +32,12 @@ MotorsCommandParserNode::MotorsCommandParserNode()
 void MotorsCommandParserNode::callback(
     const rover_interfaces::msg::MotorsCommand::SharedPtr msg) {
 
-  RCLCPP_INFO(this->get_logger(),
-              "Speed: %d %d %d %d %d %d, Sterring: %d, %d, %d, %d",
-              msg->drive_motor[0], msg->drive_motor[1], msg->drive_motor[2],
-              msg->drive_motor[3], msg->drive_motor[4], msg->drive_motor[5],
-              msg->corner_motor[0], msg->corner_motor[1], msg->corner_motor[2],
-              msg->corner_motor[3]);
+  // RCLCPP_INFO(this->get_logger(),
+  //             "Speed: %d %d %d %d %d %d, Sterring: %d, %d, %d, %d",
+  //             msg->drive_motor[0], msg->drive_motor[1], msg->drive_motor[2],
+  //             msg->drive_motor[3], msg->drive_motor[4], msg->drive_motor[5],
+  //             msg->corner_motor[0], msg->corner_motor[1],
+  //             msg->corner_motor[2], msg->corner_motor[3]);
 
   // create msgs
   auto corners_positions = trajectory_msgs::msg::JointTrajectory();
@@ -65,7 +65,7 @@ void MotorsCommandParserNode::callback(
   for (int position : msg->corner_motor) {
 
     point.positions.push_back(
-        this->normalize(250, 750, this->clamp(-250, 750, position)) * -pi);
+        this->normalize(250, 750, this->clamp(-250, 750, position)) * -pi / 2);
   }
 
   std::vector<trajectory_msgs::msg::JointTrajectoryPoint> points;

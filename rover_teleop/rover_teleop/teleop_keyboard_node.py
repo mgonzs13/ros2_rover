@@ -67,7 +67,7 @@ def main():
 
     x = 0.0
     th = 0.0
-    x_factor = 0.2
+    x_factor = 0.1
     th_factor = 0.1
 
     status = 0
@@ -81,7 +81,7 @@ def main():
             if key in move_bindings.keys():
 
                 x = limit(x + move_bindings[key][0] * x_factor, 1.0)
-                th = limit(th + move_bindings[key][3] * th_factor, 0.5)
+                th = limit(th + move_bindings[key][3] * th_factor, 1.0)
 
                 if 1 not in move_bindings[key] and -1 not in move_bindings[key]:
                     x = 0.0

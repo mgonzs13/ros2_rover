@@ -54,7 +54,7 @@ sudo service rover status
 ## Gazebo
 
 ```shell
-ros2 launch rover_gazebo mars.launch.py
+ros2 launch rover_gazebo moon.launch.py
 ```
 
 <div>

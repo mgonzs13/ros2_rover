@@ -4,7 +4,6 @@
 
     <!-- Physics -->
     <physics type='ode'>
-        
         <solver>
           <type>quick</type>
         </solver>
@@ -25,6 +24,10 @@
     <include>
         <uri>model://sun</uri>
     </include>
+
+    <scene>
+      <background>202 150 66</background>
+    </scene>
 
     <include>
         <uri>model://curiosity_path</uri>
