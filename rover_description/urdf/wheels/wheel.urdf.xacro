@@ -19,8 +19,8 @@
             <collision>
                 <origin rpy="${reflect * math_pi_over_2} 0 0" xyz="0 0 0" />
                 <geometry>
-                    <!-- <cylinder length="${wheel_width}" radius="${wheel_radius}" /> -->
-                    <mesh filename="package://rover_description/meshes/wheels/wheel_asm.stl" />
+                    <cylinder length="${wheel_width}" radius="${wheel_radius}" />
+                    <!-- <mesh filename="package://rover_description/meshes/wheels/wheel_asm.stl" /> -->
                 </geometry>
             </collision>
             <xacro:solid_cylinder_inertial

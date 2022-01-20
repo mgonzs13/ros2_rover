@@ -45,12 +45,12 @@ void MotorsCommandParserNode::callback(
 
   float pi = atan(1) * 4;
 
-  for (int i = 0; i < msg->drive_motor.size(); i++) {
+  for (long unsigned int i = 0; i < msg->drive_motor.size(); i++) {
 
     float value =
         this->normalize(-1000, 1000,
                         this->clamp(-1000, 1000, msg->drive_motor[i])) *
-        50;
+        10;
 
     if (i > 2) {
       value *= -1;
@@ -65,7 +65,7 @@ void MotorsCommandParserNode::callback(
   for (int position : msg->corner_motor) {
 
     point.positions.push_back(
-        this->normalize(268, 714, this->clamp(-1000, 1000, position)) * pi);
+        this->normalize(250, 750, this->clamp(-250, 750, position)) * -pi);
   }
 
   std::vector<trajectory_msgs::msg::JointTrajectoryPoint> points;
