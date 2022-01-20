@@ -22,8 +22,8 @@ def generate_launch_description():
 
         launch.actions.DeclareLaunchArgument("config_filepath", default_value=[
             launch.substitutions.TextSubstitution(text=os.path.join(
-                get_package_share_directory("teleop_twist_joy"), "config", "")),
-            joy_config, launch.substitutions.TextSubstitution(text=".config.yaml")]),
+                get_package_share_directory("rover_teleop"), "config", "")),
+            joy_config, launch.substitutions.TextSubstitution(text=".yaml")]),
 
         launch_ros.actions.Node(
             package="joy_linux",
