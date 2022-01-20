@@ -26,19 +26,19 @@ ekf_filter_node:
       [
         true,
         true,
-        true,
-
-        false,
-        false,
-        true,
-
-        true,
-        false,
         false,
 
         false,
         false,
         true,
+
+        false,
+        false,
+        false,
+
+        false,
+        false,
+        false,
 
         false,
         false,
@@ -60,14 +60,14 @@ ekf_filter_node:
 
         false,
         false,
-        true,
+        false,
 
         true,
         true,
-        true,
+        false,
 
-        true,
-        true,
+        false,
+        false,
         true,
 
         false,

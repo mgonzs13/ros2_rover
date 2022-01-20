@@ -6,7 +6,7 @@ def generate_launch_description():
     parameters = [{
         "frame_id": "base_link",
         "subscribe_depth": True,
-        "approx_sync": False,
+        "approx_sync": True,
         "publish_tf": False,
         "wait_imu_to_init": False}]
 
