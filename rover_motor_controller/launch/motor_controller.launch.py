@@ -17,7 +17,7 @@ def generate_launch_description():
     hardware_distances = LaunchConfiguration("hardware_distances")
     declare_hardware_distances_cmd = DeclareLaunchArgument(
         "hardware_distances",
-        default_value="23.0,25.5,28.5,26.0",
+        default_value="[23.0, 25.5, 28.5, 26.0]",
         description="Rover hardware distances")
 
     enc_min = LaunchConfiguration("enc_min")
