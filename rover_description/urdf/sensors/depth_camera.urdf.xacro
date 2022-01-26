@@ -16,14 +16,14 @@
       <visual>
         <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://rb1_torso_description/meshes/sensors/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://rover_description/meshes/sensors/camera/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </visual>
 
       <collision>
         <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://rb1_torso_description/meshes/sensors/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://rover_description/meshes/sensors/camera/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
 
