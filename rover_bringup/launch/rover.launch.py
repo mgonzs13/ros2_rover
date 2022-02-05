@@ -17,8 +17,6 @@ def generate_launch_description():
     stdout_linebuf_envvar = SetEnvironmentVariable(
         "RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED", "1")
 
-    namespace_action_cmd = PushRosNamespace("rover")
-
     #
     # LAUNCHES
     #
@@ -43,7 +41,6 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     ld.add_action(stdout_linebuf_envvar)
-    ld.add_action(namespace_action_cmd)
 
     ld.add_action(urg_node_action_cmd)
     ld.add_action(teleop_twist_joy_action_cmd)
