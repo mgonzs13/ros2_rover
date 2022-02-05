@@ -15,7 +15,7 @@
   <depend>gazebo_plugins</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>robot_state_publisher</depend>
-  <depend>joint_trajectory_controller</depend>
+  <depend>position_controllers</depend>
   <depend>velocity_controllers</depend>
 
   <export>

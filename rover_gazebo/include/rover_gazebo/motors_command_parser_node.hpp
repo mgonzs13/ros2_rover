@@ -4,7 +4,6 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
-#include "trajectory_msgs/msg/joint_trajectory.hpp"
 
 #include "rover_interfaces/msg/motors_command.hpp"
 
@@ -20,7 +19,7 @@ private:
       subscription;
   rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr
       velocity_publisher;
-  rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr
+  rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr
       position_publisher;
 };
 

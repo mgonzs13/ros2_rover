@@ -9,7 +9,7 @@ find_package(gazebo_ros_pkgs REQUIRED)
 find_package(gazebo_plugins REQUIRED)
 find_package(joint_state_broadcaster REQUIRED)
 find_package(robot_state_publisher REQUIRED)
-find_package(joint_trajectory_controller REQUIRED)
+find_package(position_controllers REQUIRED)
 find_package(velocity_controllers REQUIRED)
 
 install(

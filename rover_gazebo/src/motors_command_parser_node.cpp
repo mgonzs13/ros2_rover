@@ -5,7 +5,6 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
-#include "trajectory_msgs/msg/joint_trajectory.hpp"
 
 #include "rover_gazebo/motors_command_parser_node.hpp"
 #include "rover_interfaces/msg/motors_command.hpp"
@@ -20,8 +19,8 @@ MotorsCommandParserNode::MotorsCommandParserNode()
           "velocity_controller/commands", 10);
 
   this->position_publisher =
-      this->create_publisher<trajectory_msgs::msg::JointTrajectory>(
-          "joint_trajectory_controller/joint_trajectory", 10);
+      this->create_publisher<std_msgs::msg::Float64MultiArray>(
+          "position_controller/commands", 10);
 
   this->subscription =
       this->create_subscription<rover_interfaces::msg::MotorsCommand>(
@@ -40,7 +39,7 @@ void MotorsCommandParserNode::callback(
   //             msg->corner_motor[2], msg->corner_motor[3]);
 
   // create msgs
-  auto corners_positions = trajectory_msgs::msg::JointTrajectory();
+  auto corners_positions = std_msgs::msg::Float64MultiArray();
   auto wheel_velocities = std_msgs::msg::Float64MultiArray();
 
   float pi = atan(1) * 4;
@@ -59,22 +58,11 @@ void MotorsCommandParserNode::callback(
     wheel_velocities.data.push_back(value);
   }
 
-  trajectory_msgs::msg::JointTrajectoryPoint point;
-  point.time_from_start = rclcpp::Duration::from_seconds(1.0);
-
   for (int position : msg->corner_motor) {
 
-    point.positions.push_back(
+    corners_positions.data.push_back(
         this->normalize(250, 750, this->clamp(-250, 750, position)) * -pi / 2);
   }
-
-  std::vector<trajectory_msgs::msg::JointTrajectoryPoint> points;
-  points.push_back(point);
-
-  corners_positions.joint_names = {
-      "front_left_corner_joint", "front_right_corner_joint",
-      "back_left_corner_joint", "back_right_corner_joint"};
-  corners_positions.points = points;
 
   // publish
   this->position_publisher->publish(corners_positions);
