@@ -21,6 +21,7 @@ find_package(ament_cmake REQUIRED)
 
 find_package(gazebo REQUIRED)
 find_package(gazebo_ros REQUIRED)
+find_package(controller_manager REQUIRED)
 find_package(rviz2 REQUIRED)
 find_package(xacro REQUIRED)
 
