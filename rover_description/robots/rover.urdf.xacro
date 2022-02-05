@@ -84,9 +84,9 @@
         <origin xyz="0 0 -0.04" rpy="0 0 0"/>
     </xacro:sensor_imu>
 
-    <xacro:sennsor_depth_camera prefix="camera" parent="base_link">
+    <xacro:sensor_asus_xtion prefix="camera" parent="base_link">
         <origin xyz="0.212 0 0.065" rpy="0 0 0"/>
-    </xacro:sennsor_depth_camera>
+    </xacro:sensor_asus_xtion>
 
     <!-- wheels -->
     <xacro:corner_link lon_label="front" lat_label="left" reflect="1"/>

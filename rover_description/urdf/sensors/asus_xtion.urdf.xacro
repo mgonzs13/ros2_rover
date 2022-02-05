@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<robot name="sennsor_depth_camera" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="sensor_asus_xtion" xmlns:xacro="http://www.ros.org/wiki/xacro">
   
 
-  <xacro:macro name="sennsor_depth_camera" params="prefix parent *origin ">
+  <xacro:macro name="sensor_asus_xtion" params="prefix parent *origin ">
     <xacro:property name="math_pi_over_2" value="1.5707963267948966" />
 
     <joint name="${prefix}_joint" type="fixed">
@@ -16,14 +16,14 @@
       <visual>
         <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://rover_description/meshes/sensors/camera/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://rover_description/meshes/sensors/asus_xtion/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </visual>
 
       <collision>
         <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://rover_description/meshes/sensors/camera/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://rover_description/meshes/sensors/asus_xtion/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
 
