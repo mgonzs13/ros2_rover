@@ -11,26 +11,19 @@ def generate_launch_description():
         "wait_imu_to_init": False}]
 
     remappings = [
-        ("rgb/image", "/camera/image_raw"),
-        ("rgb/camera_info", "/camera/camera_info"),
-        ("depth/image", "/camera/depth/image_raw"),
-        ("imu", "/imu")]
+        ("rgb/image", "camera/image_raw"),
+        ("rgb/camera_info", "camera/camera_info"),
+        ("depth/image", "camera/depth/image_raw"),
+        ("imu", "imu"),
+        ("odom", "odom_rgbd")]
 
     return LaunchDescription([
 
         Node(
             package="rtabmap_ros",
             executable="rgbd_odometry",
-            namespace="rtab",
             output="log",
             parameters=parameters,
             remappings=remappings,
             arguments=['--ros-args', '--log-level', "Warn"]),
-
-        # Node(
-        #     package="rtabmap_ros",
-        #     executable="rtabmapviz",
-        #     output="screen",
-        #     parameters=parameters,
-        #     remappings=remappings),
     ])
