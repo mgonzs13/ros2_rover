@@ -40,18 +40,19 @@ def generate_launch_description():
         launch_rtabmapviz_cmd,
 
         Node(
-            package='rtabmap_ros',
-            executable='rtabmap',
-            output='screen',
+            package="rtabmap_ros",
+            executable="rtabmap",
+            output="screen",
             parameters=parameters,
             remappings=remappings,
-            arguments=['-d']),
+            arguments=["-d",
+                       "--ros-args", "--log-level", "Warn"]),
 
         Node(
             condition=IfCondition(launch_rtabmapviz),
-            package='rtabmap_ros',
-            executable='rtabmapviz',
-            output='screen',
+            package="rtabmap_ros",
+            executable="rtabmapviz",
+            output="screen",
             parameters=parameters,
             remappings=remappings),
     ])

@@ -26,5 +26,5 @@ def generate_launch_description():
             output="log",
             parameters=parameters,
             remappings=remappings,
-            arguments=['--ros-args', '--log-level', "Warn"]),
+            arguments=["--ros-args", "--log-level", "Warn"]),
     ])
