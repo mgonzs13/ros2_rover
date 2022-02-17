@@ -94,13 +94,7 @@ def generate_launch_description():
             os.path.join(pkg_rover_localization, "launch",
                          "localization.launch.py")
         ),
-    )
-
-    localization_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_rover_localization, "launch",
-                         "localization.launch.py")
-        ),
+        launch_arguments={"use_sim_time": "True"}.items()
     )
 
     cmd_vel_cmd = IncludeLaunchDescription(

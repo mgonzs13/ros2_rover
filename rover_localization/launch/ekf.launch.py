@@ -15,14 +15,23 @@ def generate_launch_description():
         default_value="False",
         description="Use simulation (Gazebo) clock if True")
 
+    params_file = os.path.join(get_package_share_directory(
+        "rover_localization"), "config", "ekf.yaml")
+
+    param_substitutions = {
+        "use_sim_time": use_sim_time}
+
+    configured_params = RewrittenYaml(
+        source_file=params_file,
+        param_rewrites=param_substitutions,
+        convert_types=True)
+
     ekf_cmd = Node(
         package="robot_localization",
         executable="ekf_node",
         name="ekf_filter_node",
         output="log",
-        parameters=[os.path.join(get_package_share_directory(
-                    "rover_localization"), "config", "ekf.yaml"),
-                    {"use_sim_time": use_sim_time}],
+        parameters=[configured_params],
         remappings=[("odometry/filtered", "/odom"),
                     ("accel/filtered", "/accel")])
 

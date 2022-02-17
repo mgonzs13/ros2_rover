@@ -2,7 +2,7 @@ ekf_filter_node:
   ros__parameters:
     # frequency: 50.0
     # sensor_timeout: 20.0
-    use_sim_time: true
+    use_sim_time: false
 
     two_d_mode: false
 
