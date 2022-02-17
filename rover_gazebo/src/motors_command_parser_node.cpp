@@ -49,7 +49,7 @@ void MotorsCommandParserNode::callback(
     float value =
         this->normalize(-1000, 1000,
                         this->clamp(-1000, 1000, msg->drive_motor[i])) *
-        10;
+        15;
 
     if (i > 2) {
       value *= -1;
