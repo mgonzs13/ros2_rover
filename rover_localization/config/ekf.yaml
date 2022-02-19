@@ -26,7 +26,7 @@ ekf_filter_node:
       [
         true,
         true,
-        false,
+        true,
 
         false,
         false,
@@ -64,7 +64,7 @@ ekf_filter_node:
 
         true,
         true,
-        false,
+        true,
 
         false,
         false,
