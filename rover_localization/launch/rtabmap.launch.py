@@ -26,7 +26,25 @@ def generate_launch_description():
         "subscribe_scan": False,
         "approx_sync": True,
         "publish_tf": True,
-        "use_sim_time": use_sim_time}]
+        "use_sim_time": use_sim_time,
+
+        "Optimizer/GravitySigma": "0",
+        "Optimizer/Strategy": "1",
+        "RGBD/OptimizeMaxError": "1.0",
+        "Vis/MaxFeatures": "500",
+
+        "GFTT/MinDistance": "10",
+        "GFTT/QualityLevel": "0.00001",
+        "Vis/CorGuessWinSize": "40",
+
+        "Grid/MinClusterSize": "20",
+        "Grid/MaxGroundAngle": "35",
+        "Grid/RangeMax": "5",
+        "Grid/NormalK": "10",
+        "Grid/CellSize": "0.1",
+        "Grid/FlatObstacleDetected": "false",
+        "GridGlobal/MinSize": "200"
+    }]
 
     remappings = [
         ("rgb/image", "camera/image_raw"),

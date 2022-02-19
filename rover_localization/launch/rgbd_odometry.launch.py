@@ -9,7 +9,13 @@ def generate_launch_description():
         "subscribe_rgb": True,
         "approx_sync": True,
         "publish_tf": False,
-        "wait_imu_to_init": False}]
+        "wait_imu_to_init": False,
+
+        "GFTT/MinDistance": "10",
+        "GFTT/QualityLevel": "0.00001",
+        "Vis/CorGuessWinSize": "40",
+        "Vis/MaxFeatures": "1000"
+    }]
 
     remappings = [
         ("rgb/image", "camera/image_raw"),
