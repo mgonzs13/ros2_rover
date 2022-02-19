@@ -48,7 +48,7 @@ install(TARGETS
 
 
 install(
-  DIRECTORY launch worlds models
+  DIRECTORY launch worlds models rviz
   DESTINATION share/${PROJECT_NAME}
 )
 

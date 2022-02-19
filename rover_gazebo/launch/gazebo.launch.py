@@ -15,6 +15,11 @@ def generate_launch_description():
     pkg_gazebo_ros = get_package_share_directory("gazebo_ros")
     pkg_rover_localization = get_package_share_directory("rover_localization")
 
+    rviz_config = os.path.join(
+        pkg_path,
+        "rviz",
+        "default.rviz")
+
     ### ARGS ###
     world = LaunchConfiguration("world")
     world_cmd = DeclareLaunchArgument(
@@ -69,7 +74,7 @@ def generate_launch_description():
         name="rviz",
         package="rviz2",
         executable="rviz2",
-        # output="log",
+        arguments=["-d", rviz_config],
         parameters=[{"use_sim_time": True}],
         condition=IfCondition(PythonExpression([launch_rviz])),
     )
