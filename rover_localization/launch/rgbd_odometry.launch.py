@@ -11,10 +11,29 @@ def generate_launch_description():
         "publish_tf": False,
         "wait_imu_to_init": False,
 
-        "GFTT/MinDistance": "2.5",
+        "Optimizer/Strategy": "1",
+        "Optimizer/GravitySigma": "0.0",
+
+        "GFTT/MinDistance": "10",
         "GFTT/QualityLevel": "0.1",
+
+        "SURF/Extended": "true",
+        "SURF/Upright": "true",
+
+        "SIFT/NFeatures": "500",
+        "SIFT/NOctaveLayers": "5",
+
+        "FREAK/OrientationNormalized": "true",
+        "FREAK/ScaleNormalized": "true",
+
+        "KAZE/Extended": "true",
+        "KAZE/Upright": "true",
+
         "Vis/CorGuessWinSize": "40",
-        "Vis/MaxFeatures": "1000"
+        "Vis/CorType": "0",
+        "Vis/MaxFeatures": "1000",
+        "Vis/MinDepth": "0.0",
+        "Vis/MaxDepth": "2.5",
     }]
 
     remappings = [

@@ -12,7 +12,7 @@ ekf_filter_node:
     print_diagnostics: true
     debug: false
 
-    permit_corrected_publication: true
+    permit_corrected_publication: false
     publish_acceleration: true
     publish_tf: true
 
@@ -36,7 +36,7 @@ ekf_filter_node:
         # lineal vel
         true,
         true,
-        false,
+        true,
 
         # angular vel
         false,
