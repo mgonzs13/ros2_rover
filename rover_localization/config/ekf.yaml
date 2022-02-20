@@ -58,16 +58,16 @@ ekf_filter_node:
         false,
         false,
 
-        false,
-        false,
+        true,
+        true,
         false,
 
         true,
         true,
         true,
 
-        false,
-        false,
+        true,
+        true,
         true,
 
         false,

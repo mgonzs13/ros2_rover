@@ -28,21 +28,31 @@ def generate_launch_description():
         "publish_tf": True,
         "use_sim_time": use_sim_time,
 
-        "Optimizer/GravitySigma": "0",
         "Optimizer/Strategy": "1",
+        "Optimizer/GravitySigma": "0.0",
+
         "RGBD/OptimizeMaxError": "1.0",
-        "Vis/MaxFeatures": "500",
+        "RGBD/OptimizeFromGraphEnd": "true",
 
-        "GFTT/MinDistance": "10",
-        "GFTT/QualityLevel": "0.00001",
+        "GFTT/MinDistance": "2.5",
+        "GFTT/QualityLevel": "0.1",
+
         "Vis/CorGuessWinSize": "40",
+        "Vis/CorType": "0",
+        "Vis/MaxFeatures": "1000",
+        "Vis/MinDepth": "0.0",
+        "Vis/MaxDepth": "2.5",
 
+        "Grid/DepthDecimation": "2",
+        "Grid/RangeMin": "0.0",
+        "Grid/RangeMax": "2.5",
         "Grid/MinClusterSize": "20",
         "Grid/MaxGroundAngle": "35",
-        "Grid/RangeMax": "5",
-        "Grid/NormalK": "10",
+        "Grid/NormalK": "20",
         "Grid/CellSize": "0.1",
         "Grid/FlatObstacleDetected": "false",
+
+        "GridGlobal/UpdateError": "0.01",
         "GridGlobal/MinSize": "200"
     }]
 

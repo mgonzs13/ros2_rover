@@ -11,8 +11,8 @@ def generate_launch_description():
         "publish_tf": False,
         "wait_imu_to_init": False,
 
-        "GFTT/MinDistance": "10",
-        "GFTT/QualityLevel": "0.00001",
+        "GFTT/MinDistance": "2.5",
+        "GFTT/QualityLevel": "0.1",
         "Vis/CorGuessWinSize": "40",
         "Vis/MaxFeatures": "1000"
     }]
