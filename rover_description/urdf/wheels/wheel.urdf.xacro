@@ -2,7 +2,7 @@
 <robot name="body" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="wheel_width" value="0.100" />
     <xacro:property name="wheel_radius" value="0.060" />
-    <xacro:property name="wheel_mass" value="0.15" />
+    <xacro:property name="wheel_mass" value="0.25" />
 
     <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
 

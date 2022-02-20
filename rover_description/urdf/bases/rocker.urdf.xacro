@@ -3,7 +3,7 @@
     <xacro:property name="rocker_box_length" value="0.43" />
     <xacro:property name="rocker_box_width" value="0.29" />
     <xacro:property name="rocker_box_depth" value="0.10" />
-    <xacro:property name="rocker_box_mass" value="1.0" />
+    <xacro:property name="rocker_box_mass" value="0.25" />
 
     <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
 
