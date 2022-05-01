@@ -21,7 +21,7 @@ ekf_filter_node:
     base_link_frame: base_link
     world_frame: odom
 
-    odom0: /odom_rgbd
+    odom0: odom_rgbd
     odom0_config: [
         # position
         true,
@@ -55,7 +55,7 @@ ekf_filter_node:
     # odom0_pose_rejection_threshold: 5.0
     # odom0_twist_rejection_threshold: 1.0
 
-    imu0: /imu
+    imu0: imu
     imu0_config: [
         # position
         false,

@@ -61,7 +61,8 @@ def generate_launch_description():
         ("rgb/camera_info", "camera/camera_info"),
         ("depth/image", "camera/depth/image_raw"),
         ("imu", "imu"),
-        ("odom", "odom")]
+        ("odom", "odom"),
+        ("goal", "goal_pose")]
 
     return LaunchDescription([
         use_sim_time_cmd,

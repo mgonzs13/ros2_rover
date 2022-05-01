@@ -10,9 +10,16 @@ def generate_launch_description():
         "approx_sync": True,
         "publish_tf": False,
         "wait_imu_to_init": False,
+        "publish_null_when_lost": False,
 
-        "Optimizer/Strategy": "1",
+        "Optimizer/Strategy": "2",
         "Optimizer/GravitySigma": "0.0",
+
+        "Odom/Strategy": "0",
+        "Odom/ResetCountdown": "1",
+        "Odom/Holonomic": "false",
+        "Odom/FilteringStrategy": "0",
+        "Odom/ParticleSize": "500",
 
         "GFTT/MinDistance": "10",
         "GFTT/QualityLevel": "0.1",
