@@ -14,6 +14,7 @@ def generate_launch_description():
     pkg_path = get_package_share_directory("rover_gazebo")
     pkg_gazebo_ros = get_package_share_directory("gazebo_ros")
     pkg_rover_localization = get_package_share_directory("rover_localization")
+    pkg_rover_navigation = get_package_share_directory("rover_navigation")
 
     rviz_config = os.path.join(
         pkg_path,
@@ -102,6 +103,14 @@ def generate_launch_description():
         launch_arguments={"use_sim_time": "True"}.items()
     )
 
+    navigation_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_rover_navigation, "launch",
+                         "bringup.launch.py")
+        ),
+        launch_arguments={"use_sim_time": "True"}.items()
+    )
+
     cmd_vel_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_path, "launch/include",
@@ -135,6 +144,7 @@ def generate_launch_description():
     ld.add_action(gazebo_client_cmd)
     ld.add_action(gazebo_server_cmd)
     ld.add_action(localization_cmd)
+    ld.add_action(navigation_cmd)
     ld.add_action(cmd_vel_cmd)
     ld.add_action(spawn_cmd)
     ld.add_action(rviz_cmd)
