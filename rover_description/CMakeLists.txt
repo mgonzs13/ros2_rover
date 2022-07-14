@@ -11,9 +11,10 @@ find_package(joint_state_broadcaster REQUIRED)
 find_package(robot_state_publisher REQUIRED)
 find_package(position_controllers REQUIRED)
 find_package(velocity_controllers REQUIRED)
+find_package(xacro REQUIRED)
 
 install(
-  DIRECTORY config meshes urdf robots
+  DIRECTORY config launch meshes urdf robots
   DESTINATION share/${PROJECT_NAME}
 )
 

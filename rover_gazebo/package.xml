@@ -12,7 +12,6 @@
   <depend>gazebo</depend>
   <depend>gazebo_ros</depend>
   <depend>controller_manager</depend>
-  <depend>xacro</depend>
   <depend>rviz2</depend>
 
   <depend>rover_description</depend>

@@ -17,6 +17,7 @@
   <depend>robot_state_publisher</depend>
   <depend>position_controllers</depend>
   <depend>velocity_controllers</depend>
+  <depend>xacro</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

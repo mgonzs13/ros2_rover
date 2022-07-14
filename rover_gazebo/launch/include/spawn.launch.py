@@ -1,20 +1,13 @@
 import os
 from ament_index_python import get_package_share_directory
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch import LaunchDescription
-import xacro
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
-
-    xacro_file = os.path.join(get_package_share_directory(
-        "rover_description"), "robots/rover.urdf.xacro")
-
-    doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
-    params = {"robot_description": doc.toxml(), "use_sim_time": True}
 
     initial_pose_x = LaunchConfiguration("initial_pose_x")
     initial_pose_x_cmd = DeclareLaunchArgument(
@@ -40,14 +33,7 @@ def generate_launch_description():
         default_value="0.0",
         description="Initial pose yaw")
 
-    robot_state_publisher_cmd = Node(
-        name="robot_state_publisher",
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        output="screen",
-        parameters=[params]
-    )
-
+    ### NODES ###
     spawn_entity_cmd = Node(
         package="gazebo_ros",
         executable="spawn_entity.py",
@@ -86,6 +72,14 @@ def generate_launch_description():
                    "--controller-manager-timeout", "120"],
     )
 
+    ### LAUNCH ###
+    robot_state_publisher_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory(
+                "rover_description"), "launch", "robot_state_publisher.launch.py")
+        )
+    )
+
     ld = LaunchDescription()
 
     ld.add_action(initial_pose_x_cmd)
@@ -93,11 +87,10 @@ def generate_launch_description():
     ld.add_action(initial_pose_z_cmd)
     ld.add_action(initial_pose_yaw_cmd)
 
-    ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_entity_cmd)
-
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(position_controller_spawner)
     ld.add_action(velocity_controller_spawner)
+    ld.add_action(robot_state_publisher_cmd)
 
     return ld
