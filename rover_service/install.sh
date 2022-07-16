@@ -1,10 +1,10 @@
 # dependencies
 echo "--------INSTALLING DEPENDENCIES"
-apt install ros-foxy-joy-linux ros-foxy-teleop-twist-joy ros-foxy-urg-node -y >> /dev/null
+apt install ros-galactic-joy-linux ros-galactic-teleop-twist-joy ros-galactic-urg-node -y >>/dev/null
 
 # copy rover project
 echo "--------COPYING SH FILE"
-cp rover.sh /usr/local/bin/rover.sh >> /dev/null
+cp rover.sh /usr/local/bin/rover.sh >>/dev/null
 
 # copy rover service
 echo "--------COPYING SERVICE FILE"

@@ -27,6 +27,9 @@ def generate_launch_description():
         "approx_sync": True,
         "publish_tf": True,
         "use_sim_time": use_sim_time,
+        "qos_image": 2,
+        "qos_camera_info": 2,
+        "qos_imu": 2,
 
         "Optimizer/Strategy": "1",
         "Optimizer/GravitySigma": "0.0",

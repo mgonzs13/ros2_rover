@@ -11,6 +11,8 @@ def generate_launch_description():
         "publish_tf": False,
         "wait_imu_to_init": False,
         "publish_null_when_lost": False,
+        "qos": 2,
+        "qos_camera_info": 2,
 
         "Optimizer/Strategy": "2",
         "Optimizer/GravitySigma": "0.0",
