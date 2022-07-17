@@ -39,7 +39,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 0
@@ -60,7 +60,7 @@ Visualization Manager:
         Value: /scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
@@ -109,15 +109,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         diff_brace_link:
           Alpha: 1
           Show Axes: false
@@ -143,20 +134,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        laser_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        laser_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         left_bogie_link:
           Alpha: 1
           Show Axes: false
@@ -183,6 +160,116 @@ Visualization Manager:
           Show Trail: false
           Value: true
         right_rocker_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_battery_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_box_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_camera_accel_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_accel_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_gyro_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_gyro_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_imu_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_imu_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        vault_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_computer_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_cover_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_gps_antenna_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_gps_board_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        vault_realsense_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -204,7 +291,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /camera/image_raw
+        Value: /camera/color/image_raw
       Value: true
     - Class: rviz_default_plugins/TF
       Enabled: true
@@ -223,10 +310,6 @@ Visualization Manager:
           Value: true
         body_box_link:
           Value: true
-        camera_frame:
-          Value: true
-        camera_link:
-          Value: true
         diff_brace_link:
           Value: true
         front_left_corner_link:
@@ -237,15 +320,11 @@ Visualization Manager:
           Value: true
         front_right_wheel_link:
           Value: true
-        imu_link:
-          Value: true
-        laser_base_link:
-          Value: true
-        laser_link:
-          Value: true
         left_bogie_link:
           Value: true
         left_rocker_link:
+          Value: true
+        map:
           Value: true
         mid_left_wheel_link:
           Value: true
@@ -257,46 +336,127 @@ Visualization Manager:
           Value: true
         right_rocker_link:
           Value: true
+        vault_base_link:
+          Value: true
+        vault_battery_link:
+          Value: true
+        vault_box_link:
+          Value: true
+        vault_camera_accel_frame:
+          Value: true
+        vault_camera_accel_optical_frame:
+          Value: true
+        vault_camera_bottom_screw_frame:
+          Value: true
+        vault_camera_color_frame:
+          Value: true
+        vault_camera_color_optical_frame:
+          Value: true
+        vault_camera_depth_frame:
+          Value: true
+        vault_camera_depth_optical_frame:
+          Value: true
+        vault_camera_gyro_frame:
+          Value: true
+        vault_camera_gyro_optical_frame:
+          Value: true
+        vault_camera_imu_frame:
+          Value: true
+        vault_camera_imu_optical_frame:
+          Value: true
+        vault_camera_infra1_frame:
+          Value: true
+        vault_camera_infra1_optical_frame:
+          Value: true
+        vault_camera_infra2_frame:
+          Value: true
+        vault_camera_infra2_optical_frame:
+          Value: true
+        vault_camera_link:
+          Value: true
+        vault_computer_link:
+          Value: true
+        vault_cover_link:
+          Value: true
+        vault_gps_antenna_link:
+          Value: true
+        vault_gps_board_link:
+          Value: true
+        vault_imu_link:
+          Value: true
+        vault_realsense_mount_link:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_link:
-            body_box_link:
-              {}
-            camera_link:
-              camera_frame:
+        map:
+          odom:
+            base_link:
+              body_box_link:
                 {}
-            diff_brace_link:
-              {}
-            imu_link:
-              {}
-            laser_base_link:
-              laser_link:
+              diff_brace_link:
                 {}
-            left_rocker_link:
-              front_left_corner_link:
-                front_left_wheel_link:
-                  {}
-              left_bogie_link:
-                back_left_corner_link:
-                  back_left_wheel_link:
+              left_rocker_link:
+                front_left_corner_link:
+                  front_left_wheel_link:
                     {}
-                mid_left_wheel_link:
-                  {}
-            right_rocker_link:
-              front_right_corner_link:
-                front_right_wheel_link:
-                  {}
-              right_bogie_link:
-                back_right_corner_link:
-                  back_right_wheel_link:
+                left_bogie_link:
+                  back_left_corner_link:
+                    back_left_wheel_link:
+                      {}
+                  mid_left_wheel_link:
                     {}
-                mid_right_wheel_link:
-                  {}
+              right_rocker_link:
+                front_right_corner_link:
+                  front_right_wheel_link:
+                    {}
+                right_bogie_link:
+                  back_right_corner_link:
+                    back_right_wheel_link:
+                      {}
+                  mid_right_wheel_link:
+                    {}
+              vault_base_link:
+                vault_box_link:
+                  vault_battery_link:
+                    {}
+                  vault_computer_link:
+                    {}
+                  vault_cover_link:
+                    {}
+                  vault_gps_antenna_link:
+                    {}
+                  vault_gps_board_link:
+                    {}
+                  vault_imu_link:
+                    {}
+                  vault_realsense_mount_link:
+                    vault_camera_bottom_screw_frame:
+                      vault_camera_link:
+                        vault_camera_accel_frame:
+                          vault_camera_accel_optical_frame:
+                            {}
+                        vault_camera_color_frame:
+                          vault_camera_color_optical_frame:
+                            {}
+                        vault_camera_depth_frame:
+                          vault_camera_depth_optical_frame:
+                            {}
+                        vault_camera_gyro_frame:
+                          vault_camera_gyro_optical_frame:
+                            {}
+                        vault_camera_imu_frame:
+                          vault_camera_imu_optical_frame:
+                            {}
+                        vault_camera_infra1_frame:
+                          vault_camera_infra1_optical_frame:
+                            {}
+                        vault_camera_infra2_frame:
+                          vault_camera_infra2_optical_frame:
+                            {}
       Update Interval: 0
       Value: true
     - Angle Tolerance: 0.10000000149011612
@@ -341,8 +501,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: -0.11005693674087524
-        Min Value: -0.635146975517273
+        Max Value: 0.004106245934963226
+        Min Value: -0.784746527671814
         Value: true
       Axis: Z
       Channel Name: intensity

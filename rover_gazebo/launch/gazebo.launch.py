@@ -13,7 +13,7 @@ def generate_launch_description():
 
     pkg_path = get_package_share_directory("rover_gazebo")
     pkg_gazebo_ros = get_package_share_directory("gazebo_ros")
-    pkg_rover_localization = get_package_share_directory("rover_localization")
+    pkg_vault_localization = get_package_share_directory("vault_localization")
     pkg_rover_navigation = get_package_share_directory("rover_navigation")
 
     rviz_config = os.path.join(
@@ -97,10 +97,11 @@ def generate_launch_description():
 
     localization_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_rover_localization, "launch",
+            os.path.join(pkg_vault_localization, "launch",
                          "localization.launch.py")
         ),
-        launch_arguments={"use_sim_time": "True"}.items()
+        launch_arguments={"use_sim_time": "True",
+                          "namespace": ""}.items()
     )
 
     navigation_cmd = IncludeLaunchDescription(

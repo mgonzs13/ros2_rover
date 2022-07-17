@@ -12,7 +12,7 @@
     <xacro:include filename="$(find rover_description)/urdf/bases/bogie.urdf.xacro" />
     <xacro:include filename="$(find rover_description)/urdf/wheels/wheel.urdf.xacro" />
     <xacro:include filename="$(find rover_description)/urdf/wheels/corner.urdf.xacro" />
-    <xacro:include filename="$(find rover_description)/urdf/sensors/all_sensors.urdf.xacro" />
+    <xacro:include filename="$(find vault_description)/urdf/vault.urdf.xacro" />
 
 
     <!-- Gazebo ROS2 Control -->
@@ -74,20 +74,10 @@
     <xacro:bogie lat_label="left" reflect="1"/>
     <xacro:bogie lat_label="right" reflect="-1"/>
 
-    <!-- sensors -->
-    <xacro:sensor_hokuyo prefix="laser" parent="base_link" min_angle="-1.0" max_angle="1.0">
-        <origin xyz="0.17 0 0.005" rpy="0 0 0"/>
-    </xacro:sensor_hokuyo>   
-    
-    <xacro:sensor_imu prefix="imu" parent="base_link">
-        <!-- <origin xyz="-0.32 0 0.05" rpy="0 0.5 0"/> -->
-        <origin xyz="0 0 -0.04" rpy="0 0 0"/>
-    </xacro:sensor_imu>
-
-    <xacro:sensor_asus_xtion prefix="camera" parent="base_link">
-        <origin xyz="0.215 0 0.065" rpy="0 0.5 0"/>
-        <!-- <origin xyz="0.212 0 0.065" rpy="0 0 0"/> -->
-    </xacro:sensor_asus_xtion>
+    <!-- vault -->
+    <xacro:vault parent="base_link">
+        <origin xyz="0.1 0 0.05" rpy="0 0 0"/>
+    </xacro:vault>   
 
     <!-- wheels -->
     <xacro:corner_link lon_label="front" lat_label="left" reflect="1"/>
