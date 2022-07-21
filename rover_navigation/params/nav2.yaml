@@ -4,7 +4,7 @@ bt_navigator:
     transform_tolerance: 5.0
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: odom
+    odom_topic: /vault/odom
     default_bt_xml_filename: navigate_w_replanning_time.xml
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -69,6 +69,7 @@ controller_server:
     progress_checker_plugin: progress_checker
     goal_checker_plugins: [goal_checker]
     controller_plugins: [FollowPath]
+    odom_topic: /vault/odom
 
     progress_checker:
       plugin: nav2_controller::SimpleProgressChecker
@@ -160,6 +161,7 @@ local_costmap:
           obstacle_min_range: 0.0
       static_layer:
         map_subscribe_transient_local: True
+        map_topic: /vault/map
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -198,6 +200,7 @@ global_costmap:
       static_layer:
         plugin: nav2_costmap_2d::StaticLayer
         map_subscribe_transient_local: True
+        map_topic: /vault/map
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 10.0

@@ -33,12 +33,6 @@ def generate_launch_description():
         default_value="0.0",
         description="Initial pose yaw")
 
-    use_t265 = LaunchConfiguration("use_t265")
-    use_t265_cmd = DeclareLaunchArgument(
-        "use_t265",
-        default_value="True",
-        description="Wheter to use T265 camera or D435i")
-
     ### NODES ###
     spawn_entity_cmd = Node(
         package="gazebo_ros",
@@ -83,8 +77,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory(
                 "rover_description"), "launch", "robot_state_publisher.launch.py")
-        ),
-        launch_arguments={"use_t265": use_t265}.items()
+        )
     )
 
     ld = LaunchDescription()
@@ -93,7 +86,6 @@ def generate_launch_description():
     ld.add_action(initial_pose_y_cmd)
     ld.add_action(initial_pose_z_cmd)
     ld.add_action(initial_pose_yaw_cmd)
-    ld.add_action(use_t265_cmd)
 
     ld.add_action(spawn_entity_cmd)
     ld.add_action(joint_state_broadcaster_spawner)

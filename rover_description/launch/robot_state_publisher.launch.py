@@ -7,14 +7,13 @@ from launch.actions import DeclareLaunchArgument, OpaqueFunction
 import xacro
 
 
-def robot_state_publisher(context: LaunchContext, use_t265):
+def robot_state_publisher(context: LaunchContext):
 
     ### XACRO ###
-    use_t265_str = context.perform_substitution(use_t265)
     xacro_file = os.path.join(get_package_share_directory(
         "rover_description"), "robots/rover.urdf.xacro")
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc, mappings={"t265": use_t265_str})
+    xacro.process_doc(doc)
 
     params = {"robot_description": doc.toxml(), "use_sim_time": True}
 
@@ -32,17 +31,9 @@ def robot_state_publisher(context: LaunchContext, use_t265):
 
 def generate_launch_description():
 
-    use_t265 = LaunchConfiguration("use_t265")
-    use_t265_cmd = DeclareLaunchArgument(
-        "use_t265",
-        default_value="True",
-        description="Wheter to use T265 camera or D435i")
-
-    prepare_xacro_cmd = OpaqueFunction(
-        function=robot_state_publisher, args=[use_t265])
+    prepare_xacro_cmd = OpaqueFunction(function=robot_state_publisher)
 
     ld = LaunchDescription()
-    ld.add_action(use_t265_cmd)
     ld.add_action(prepare_xacro_cmd)
 
     return ld
