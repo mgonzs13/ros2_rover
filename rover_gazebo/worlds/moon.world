@@ -23,6 +23,15 @@
       <shadows>true</shadows>
     </scene>
 
+    <!-- Define the latitude, longitude, and elevation -->
+    <!-- <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>42.0</latitude_deg>
+      <longitude_deg>-5.0</longitude_deg>
+      <elevation>830.0</elevation>
+      <heading_deg>180</heading_deg>
+    </spherical_coordinates> -->
+
     <physics type="ode">
       <max_step_size>0.001</max_step_size>
       <gravity>0 0 -1.62</gravity>     <!-- Moon Gravity -->
