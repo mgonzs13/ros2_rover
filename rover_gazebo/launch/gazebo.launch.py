@@ -100,20 +100,25 @@ def generate_launch_description():
             os.path.join(pkg_vault_localization, "launch",
                          "localization.launch.py")
         ),
-        launch_arguments={"use_sim_time": "True",
-                          "use_visual_slam": "True"}.items()
-    )
+        launch_arguments={
+            "namespace": "vault",
+            "use_sim_time": "True",
 
-    fix_odom_frame_cmd = Node(
-        package="vault_sensors",
-        executable="fix_odom_frame_node",
-        name="fix_odom_frame_node",
-        namespace="vault",
-        output="screen",
-        parameters=[{"frame_id": "base_link",
-                     "odom_frame": "odom"}],
-        remappings=[("odom_out", "odom"),
-                    ("odom_in", "t265/pose/sample")]
+            "fix_t265_odom": "True",
+            "publish_t265_odom_tf": "False",
+            "fix_d435i_imu_filter": "False",
+
+            "publish_visual_slam_tf": "True",
+            "use_t265": "False",
+            "use_gps": "False",
+
+            "run_ekf": "True",
+            "run_dual_ekf": "False",
+
+            "run_rgbd_odometry": "False",
+            "run_stereo_odometry": "False",
+            "run_icp_odometry": "False",
+        }.items()
     )
 
     navigation_cmd = IncludeLaunchDescription(
@@ -162,6 +167,5 @@ def generate_launch_description():
     ld.add_action(cmd_vel_cmd)
     ld.add_action(spawn_cmd)
     ld.add_action(rviz_cmd)
-    ld.add_action(fix_odom_frame_cmd)
 
     return ld
