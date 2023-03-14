@@ -7,9 +7,10 @@ from launch.actions import (DeclareLaunchArgument, GroupAction,
                             IncludeLaunchDescription, SetEnvironmentVariable)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PythonExpression
-from launch_ros.actions import PushRosNamespace
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.actions import PushRosNamespace
+from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
@@ -21,12 +22,6 @@ def generate_launch_description():
         "RCUTILS_LOGGING_BUFFERED_STREAM", "1")
 
     # Create the launch configuration variables
-    cmd_vel_topic = LaunchConfiguration("cmd_vel_topic")
-    cmd_vel_topic_cmd = DeclareLaunchArgument(
-        "cmd_vel_topic",
-        default_value="cmd_vel",
-        description="cmd_vel topic (for remmaping)")
-
     namespace = LaunchConfiguration("namespace")
     declare_namespace_cmd = DeclareLaunchArgument(
         "namespace",
@@ -36,26 +31,35 @@ def generate_launch_description():
     use_namespace = LaunchConfiguration("use_namespace")
     declare_use_namespace_cmd = DeclareLaunchArgument(
         "use_namespace",
-        default_value="False",
+        default_value="false",
         description="Whether to apply a namespace to the navigation stack")
 
     use_sim_time = LaunchConfiguration("use_sim_time")
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         "use_sim_time",
-        default_value="False",
-        description="Use simulation (Gazebo) clock if True")
+        default_value="false",
+        description="Use simulation (Gazebo) clock if true")
 
-    param_file_name = "nav2" + ".yaml"
-    params_file = LaunchConfiguration(
-        "params_file",
-        default=os.path.join(
-            pkg_dir,
-            "params",
-            param_file_name))
-    declare_params_file_cmd = DeclareLaunchArgument(
-        "params_file",
-        default_value=params_file,
-        description="Full path to the ROS2 parameters file to use for all launched nodes")
+    autostart = LaunchConfiguration("autostart")
+    declare_autostart_cmd = DeclareLaunchArgument(
+        "autostart", default_value="true",
+        description="Automatically startup the nav2 stack")
+
+    use_composition = LaunchConfiguration("use_composition")
+    declare_use_composition_cmd = DeclareLaunchArgument(
+        "use_composition", default_value="True",
+        description="Whether to use composed bringup")
+
+    use_respawn = LaunchConfiguration("use_respawn")
+    declare_use_respawn_cmd = DeclareLaunchArgument(
+        "use_respawn", default_value="False",
+        description="Whether to respawn if a node crashes. Applied when composition is disabled.")
+
+    cmd_vel_topic = LaunchConfiguration("cmd_vel_topic")
+    cmd_vel_topic_cmd = DeclareLaunchArgument(
+        "cmd_vel_topic",
+        default_value="cmd_vel",
+        description="cmd_vel topic (for remmaping)")
 
     default_bt_xml_filename = LaunchConfiguration("default_bt_xml_filename")
     declare_bt_xml_cmd = DeclareLaunchArgument(
@@ -65,10 +69,18 @@ def generate_launch_description():
             "behavior_trees", "navigate_w_replanning_time.xml"),
         description="Full path to the behavior tree xml file to use")
 
-    autostart = LaunchConfiguration("autostart")
-    declare_autostart_cmd = DeclareLaunchArgument(
-        "autostart", default_value="True",
-        description="Automatically startup the nav2 stack")
+    remappings = [("/tf", "tf"),
+                  ("/tf_static", "tf_static"),
+                  ("/cmd_vel", cmd_vel_topic)]
+
+    params_file = os.path.join(pkg_dir, "params", "nav2.yaml")
+    param_substitutions = {
+        "use_sim_time": use_sim_time}
+    configured_params = RewrittenYaml(
+        source_file=params_file,
+        root_key=namespace,
+        param_rewrites=param_substitutions,
+        convert_types=True)
 
     # Specify the actions
     bringup_cmd_group = GroupAction([
@@ -76,18 +88,27 @@ def generate_launch_description():
             condition=IfCondition(use_namespace),
             namespace=namespace),
 
+        Node(
+            condition=IfCondition(use_composition),
+            name="nav2_container",
+            package="rclcpp_components",
+            executable="component_container_isolated",
+            parameters=[configured_params, {"autostart": autostart}],
+            remappings=remappings,
+            output="screen"),
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(
                 launch_dir, "navigation.launch.py")),
-            launch_arguments={"cmd_vel_topic": cmd_vel_topic,
-                              "namespace": namespace,
+            launch_arguments={"namespace": namespace,
+                              "cmd_vel_topic": cmd_vel_topic,
+                              "default_bt_xml_filename": default_bt_xml_filename,
                               "use_sim_time": use_sim_time,
                               "autostart": autostart,
                               "params_file": params_file,
-                              "default_bt_xml_filename": default_bt_xml_filename,
-                              "use_lifecycle_mgr": "False",
-                              "map_subscribe_transient_local": "True"}.items()),
-
+                              "use_composition": use_composition,
+                              "use_respawn": use_respawn,
+                              "container_name": "nav2_container"}.items()),
     ])
 
     # Create the launch description and populate
@@ -98,13 +119,13 @@ def generate_launch_description():
 
     # Declare the launch options
     ld.add_action(cmd_vel_topic_cmd)
-
+    ld.add_action(declare_bt_xml_cmd)
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_use_sim_time_cmd)
-    ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
-    ld.add_action(declare_bt_xml_cmd)
+    ld.add_action(declare_use_composition_cmd)
+    ld.add_action(declare_use_respawn_cmd)
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(bringup_cmd_group)

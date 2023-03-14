@@ -49,6 +49,7 @@ def generate_launch_description():
     )
 
     joint_state_broadcaster_spawner = Node(
+        name="joint_state_broadcaster_spawner",
         package="controller_manager",
         executable="spawner",
         arguments=["joint_state_broadcaster",
@@ -57,6 +58,7 @@ def generate_launch_description():
     )
 
     position_controller_spawner = Node(
+        name="position_controller_spawner",
         package="controller_manager",
         executable="spawner",
         arguments=["position_controller",
@@ -65,6 +67,7 @@ def generate_launch_description():
     )
 
     velocity_controller_spawner = Node(
+        name="velocity_controller_spawner",
         package="controller_manager",
         executable="spawner",
         arguments=["velocity_controller",

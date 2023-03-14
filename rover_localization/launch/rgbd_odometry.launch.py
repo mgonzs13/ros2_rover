@@ -8,6 +8,7 @@ def generate_launch_description():
         "subscribe_depth": True,
         "subscribe_rgb": True,
         "approx_sync": True,
+        "approx_sync_max_interval": 0.01,
         "publish_tf": False,
         "wait_imu_to_init": False,
         "publish_null_when_lost": False,
