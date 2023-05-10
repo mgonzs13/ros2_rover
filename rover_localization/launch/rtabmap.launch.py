@@ -72,7 +72,7 @@ def generate_launch_description():
         launch_rtabmapviz_cmd,
 
         Node(
-            package="rtabmap_ros",
+            package="rtabmap_slam",
             executable="rtabmap",
             output="screen",
             parameters=parameters,
@@ -82,8 +82,8 @@ def generate_launch_description():
 
         Node(
             condition=IfCondition(launch_rtabmapviz),
-            package="rtabmap_ros",
-            executable="rtabmapviz",
+            package="rtabmap_viz",
+            executable="rtabmap_viz",
             output="screen",
             parameters=parameters,
             remappings=remappings),
