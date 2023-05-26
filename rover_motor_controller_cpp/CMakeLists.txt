@@ -18,7 +18,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rover_interfaces REQUIRED)
+find_package(rover_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
 
@@ -36,7 +36,7 @@ set(CONTROLLER_NODE_SOURCES
 )
 add_executable(controller_node ${CONTROLLER_NODE_SOURCES})
 target_link_libraries(controller_node pthread boost_system)
-ament_target_dependencies(controller_node rclcpp rover_interfaces)
+ament_target_dependencies(controller_node rclcpp rover_msgs)
 
 
 ### VEL PARSER NODE
@@ -46,7 +46,7 @@ set(VEL_PARSER_NODE_SOURCES
 )
 add_executable(vel_parser_node ${VEL_PARSER_NODE_SOURCES})
 target_link_libraries(vel_parser_node)
-ament_target_dependencies(vel_parser_node rclcpp rover_interfaces geometry_msgs)
+ament_target_dependencies(vel_parser_node rclcpp rover_msgs geometry_msgs)
 
 
 # INSTALL

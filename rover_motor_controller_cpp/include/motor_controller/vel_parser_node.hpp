@@ -5,7 +5,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-#include "rover_interfaces/msg/motors_command.hpp"
+#include "rover_msgs/msg/motors_command.hpp"
 
 #define MAX_RADIUS 255
 #define MIN_RADIUS 55
@@ -28,7 +28,7 @@ public:
 
 private:
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr subscription;
-  rclcpp::Publisher<rover_interfaces::msg::MotorsCommand>::SharedPtr publisher;
+  rclcpp::Publisher<rover_msgs::msg::MotorsCommand>::SharedPtr publisher;
   int speed_factor;
   float d1;
   float d2;

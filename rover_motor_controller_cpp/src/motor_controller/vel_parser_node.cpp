@@ -7,7 +7,7 @@
 #include "rclcpp/rclcpp.hpp"
 
 #include "motor_controller/vel_parser_node.hpp"
-#include "rover_interfaces/msg/motors_command.hpp"
+#include "rover_msgs/msg/motors_command.hpp"
 
 using std::placeholders::_1;
 using namespace motor_controller;
@@ -39,7 +39,7 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
 
   // pubs and subs
   this->publisher =
-      this->create_publisher<rover_interfaces::msg::MotorsCommand>(
+      this->create_publisher<rover_msgs::msg::MotorsCommand>(
           "motors_command", 10);
 
   this->subscription = this->create_subscription<geometry_msgs::msg::Twist>(
@@ -48,7 +48,7 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
 
 void VelParserNode::callback(const geometry_msgs::msg::Twist::SharedPtr msg) {
 
-  auto motors_command = rover_interfaces::msg::MotorsCommand();
+  auto motors_command = rover_msgs::msg::MotorsCommand();
 
   // normalize speed and steering
   float norm_speed = this->normalize(msg->linear.x, -1, 1, -100, 100);

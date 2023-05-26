@@ -8,7 +8,7 @@
 
 #include "lx16a/motor_controller.hpp"
 #include "motor_controller/controller_node.hpp"
-#include "rover_interfaces/msg/motors_command.hpp"
+#include "rover_msgs/msg/motors_command.hpp"
 
 using std::placeholders::_1;
 using namespace motor_controller;
@@ -32,12 +32,12 @@ ControllerNode::ControllerNode() : rclcpp::Node("controller_node") {
 
   // sub
   this->subscription =
-      this->create_subscription<rover_interfaces::msg::MotorsCommand>(
+      this->create_subscription<rover_msgs::msg::MotorsCommand>(
           "motors_command", 10, std::bind(&ControllerNode::callback, this, _1));
 }
 
 void ControllerNode::callback(
-    const rover_interfaces::msg::MotorsCommand::SharedPtr msg) {
+    const rover_msgs::msg::MotorsCommand::SharedPtr msg) {
   this->motor_controller->corner_to_position(msg->corner_motor);
   this->motor_controller->send_motor_duty(msg->drive_motor);
 }

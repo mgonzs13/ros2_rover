@@ -7,19 +7,19 @@
 #include "rclcpp/rclcpp.hpp"
 
 #include "lx16a/motor_controller.hpp"
-#include "rover_interfaces/msg/motors_command.hpp"
+#include "rover_msgs/msg/motors_command.hpp"
 
 namespace motor_controller {
 
 class ControllerNode : public rclcpp::Node {
 public:
   ControllerNode();
-  void callback(const rover_interfaces::msg::MotorsCommand::SharedPtr msg);
+  void callback(const rover_msgs::msg::MotorsCommand::SharedPtr msg);
   void shutdown();
 
 private:
   std::unique_ptr<lx16a::MotorController> motor_controller;
-  rclcpp::Subscription<rover_interfaces::msg::MotorsCommand>::SharedPtr
+  rclcpp::Subscription<rover_msgs::msg::MotorsCommand>::SharedPtr
       subscription;
 };
 

@@ -7,7 +7,7 @@
 #include "std_msgs/msg/float64_multi_array.hpp"
 
 #include "rover_gazebo/motors_command_parser_node.hpp"
-#include "rover_interfaces/msg/motors_command.hpp"
+#include "rover_msgs/msg/motors_command.hpp"
 
 using std::placeholders::_1;
 
@@ -23,13 +23,13 @@ MotorsCommandParserNode::MotorsCommandParserNode()
           "position_controller/commands", 10);
 
   this->subscription =
-      this->create_subscription<rover_interfaces::msg::MotorsCommand>(
+      this->create_subscription<rover_msgs::msg::MotorsCommand>(
           "motors_command", 10,
           std::bind(&MotorsCommandParserNode::callback, this, _1));
 }
 
 void MotorsCommandParserNode::callback(
-    const rover_interfaces::msg::MotorsCommand::SharedPtr msg) {
+    const rover_msgs::msg::MotorsCommand::SharedPtr msg) {
 
   // RCLCPP_INFO(this->get_logger(),
   //             "Speed: %d %d %d %d %d %d, Sterring: %d, %d, %d, %d",
