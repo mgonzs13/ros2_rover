@@ -115,7 +115,12 @@ def generate_launch_description():
             os.path.join(pkg_rover_localization, "launch",
                          "localization.launch.py")
         ),
-        launch_arguments={"use_sim_time": "True"}.items()
+        launch_arguments={
+            "use_sim_time": "True",
+            "use_octomap": "True",
+            # "map_file_path": "",
+            # "nav2_params_file": ""
+        }.items()
     )
 
     navigation_cmd = IncludeLaunchDescription(

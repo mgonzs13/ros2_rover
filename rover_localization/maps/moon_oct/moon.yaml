@@ -1,0 +1,14 @@
+image: moon.pgm
+mode: trinary
+resolution: 0.5
+origin: [-50.0, -50.0, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.25
+#  elevation layer
+elevation_image: moon_ele.pgm
+min_height: 0.276
+max_height: 6.99
+#  octomap
+octomap_file: moon_octo.ot
+binary: false

@@ -80,7 +80,7 @@ def generate_launch_description():
         "default_bt_xml_filename",
         default_value=os.path.join(
             get_package_share_directory("nav2_bt_navigator"),
-            "behavior_trees", "navigate_w_replanning_time.xml"),
+            "behavior_trees", "navigate_w_replanning_only_if_goal_is_updated.xml"),
         description="Full path to the behavior tree xml file to use")
 
     remappings = [("/tf", "tf"),
@@ -116,7 +116,7 @@ def generate_launch_description():
                 launch_dir, "navigation.launch.py")),
             launch_arguments={"namespace": namespace,
                               "cmd_vel_topic": cmd_vel_topic,
-                              "default_bt_xml_filename": default_bt_xml_filename,
+                              "default_nav_to_pose_bt_xml": default_bt_xml_filename,
                               "use_sim_time": use_sim_time,
                               "autostart": autostart,
                               "params_file": params_file,

@@ -34,7 +34,7 @@ endif()
 
 # install the launch directory
 install(DIRECTORY
-  launch config
+  launch config maps
   DESTINATION share/${PROJECT_NAME}/
 )
 

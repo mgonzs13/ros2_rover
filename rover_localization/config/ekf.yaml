@@ -1,6 +1,6 @@
 ekf_filter_node:
   ros__parameters:
-    # frequency: 50.0
+    # frequency: 30.0
     # sensor_timeout: 20.0
     use_sim_time: false
 
@@ -18,7 +18,7 @@ ekf_filter_node:
 
     map_frame: map
     odom_frame: odom
-    base_link_frame: base_link
+    base_link_frame: base_footprint
     world_frame: odom
 
     odom0: odom_rgbd
@@ -48,7 +48,7 @@ ekf_filter_node:
         false,
         false,
       ]
-    # odom0_queue_size: 2
+    # odom0_queue_size: 20
     # odom0_nodelay: false
     odom0_differential: true
     odom0_relative: false
@@ -82,10 +82,10 @@ ekf_filter_node:
         false,
         false,
       ]
+    # imu0_queue_size: 50
     # imu0_nodelay: false
     imu0_differential: false
     imu0_relative: true
-    # imu0_queue_size: 5
     # imu0_pose_rejection_threshold: 0.8
     # imu0_twist_rejection_threshold: 0.8
     # imu0_linear_acceleration_rejection_threshold: 0.8

@@ -2,7 +2,21 @@
 <sdf version="1.4">
   <world name="default">
    
-    <light name='sun_directional' type='directional'>
+   <!-- <plugin name="gridmap" filename="libgazebo_ros_gridmap.so">
+      <center_x>0.0</center_x>
+      <center_y>0.0</center_y>
+      <min_scan_x>-50.0</min_scan_x>
+      <min_scan_y>-50.0</min_scan_y>
+      <min_scan_z>-10.0</min_scan_z>
+      <max_scan_x>50.0</max_scan_x>
+      <max_scan_y>50.0</max_scan_y>
+      <max_scan_z>10.0</max_scan_z>
+      <min_height>0.1</min_height>
+      <max_height>2.0</max_height>
+      <resolution>0.5</resolution>
+    </plugin> -->
+
+    <light name="sun_directional" type="directional">
       <cast_shadows>true</cast_shadows>
       <pose>200 0 14 0 0 0</pose>
       <diffuse>0.7 0.7 0.7 1</diffuse>
@@ -27,7 +41,7 @@
       <max_step_size>0.001</max_step_size>
       <gravity>0 0 -1.62</gravity>     <!-- Moon Gravity -->
       <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-      <atmosphere type='adiabatic'/>  
+      <atmosphere type="adiabatic"/>  
     </physics>
     
     <include>
