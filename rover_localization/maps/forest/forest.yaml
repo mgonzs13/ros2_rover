@@ -1,0 +1,14 @@
+image: forest.pgm
+mode: trinary
+resolution: 0.1
+origin: [-20, -20, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.25
+#  elevation layer
+elevation_image: forest_ele.pgm
+min_height: 3.12
+max_height: 8.77
+#  octomap
+octomap_file: forest_octo.ot
+binary: false

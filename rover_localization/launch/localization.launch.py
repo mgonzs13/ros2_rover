@@ -44,7 +44,7 @@ def generate_launch_description():
     map_file_path_cmd = DeclareLaunchArgument(
         "map_file_path",
         default_value=os.path.join(
-            pkg_rover_localization, "maps", "moon_oct", "moon.yaml"),
+            pkg_rover_localization, "maps", "moon", "moon.yaml"),
         description="Path to map YAML file")
 
     nav2_params_file = LaunchConfiguration("nav2_params_file")
