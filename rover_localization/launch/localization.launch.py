@@ -22,6 +22,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition, UnlessCondition
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -34,9 +35,9 @@ def generate_launch_description():
         default_value="False",
         description="Use simulation (Gazebo) clock if True")
 
-    use_octomap = LaunchConfiguration("use_octomap")
-    use_octomap_cmd = DeclareLaunchArgument(
-        "use_octomap",
+    use_slam = LaunchConfiguration("use_slam")
+    use_slam_cmd = DeclareLaunchArgument(
+        "use_slam",
         default_value="False",
         description="Whether to use octomap instead of rtabmap vslam")
 
@@ -67,7 +68,15 @@ def generate_launch_description():
                          "launch", "rtabmap.launch.py")
         ),
         launch_arguments={"use_sim_time": use_sim_time}.items(),
-        condition=UnlessCondition(PythonExpression([use_octomap]))
+        condition=IfCondition(PythonExpression([use_slam]))
+    )
+
+    octomap_to_gridmap_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_rover_localization,
+                         "launch", "octomap_to_gridmap.launch.py")
+        ),
+        condition=IfCondition(PythonExpression([use_slam]))
     )
 
     octomap_cmd = IncludeLaunchDescription(
@@ -80,7 +89,7 @@ def generate_launch_description():
             "map": map_file_path,
             "params_file": nav2_params_file
         }.items(),
-        condition=IfCondition(PythonExpression([use_octomap]))
+        condition=UnlessCondition(PythonExpression([use_slam]))
     )
 
     ekf_cmd = IncludeLaunchDescription(
@@ -91,16 +100,26 @@ def generate_launch_description():
         launch_arguments={"use_sim_time": use_sim_time}.items()
     )
 
+    tf_to_base_footprint_cmd = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=[
+            "0", "0", "0.22", "0", "0", "0", "base_footprint", "base_link"],
+        parameters=[{"use_sim_time": use_sim_time}]
+    )
+
     ld = LaunchDescription()
 
     ld.add_action(use_sim_time_cmd)
-    ld.add_action(use_octomap_cmd)
+    ld.add_action(use_slam_cmd)
     ld.add_action(map_file_path_cmd)
     ld.add_action(nav2_params_file_cmd)
 
     ld.add_action(rgbd_odometry_cmd)
     ld.add_action(rtabmap_cmd)
+    ld.add_action(octomap_to_gridmap_cmd)
     ld.add_action(octomap_cmd)
     ld.add_action(ekf_cmd)
+    ld.add_action(tf_to_base_footprint_cmd)
 
     return ld

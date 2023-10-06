@@ -19,18 +19,46 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rtabmap_ros REQUIRED)
 find_package(robot_localization REQUIRED)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(grid_map_cmake_helpers REQUIRED)
+find_package(grid_map_core REQUIRED)
+find_package(grid_map_cv REQUIRED)
+find_package(grid_map_msgs REQUIRED)
+find_package(grid_map_octomap REQUIRED)
+find_package(grid_map_ros REQUIRED)
+find_package(OCTOMAP REQUIRED)
+find_package(octomap_msgs REQUIRED)
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+set(dependencies
+  grid_map_msgs
+  grid_map_ros
+  rclcpp
+)
 
+include_directories(
+  include
+  SYSTEM
+    ${EIGEN3_INCLUDE_DIR}
+)
+
+add_executable(
+  octomap_to_gridmap
+  src/octomap_to_gridmap_node.cpp
+  src/OctomapToGridmap.cpp
+)
+ament_target_dependencies(
+  octomap_to_gridmap SYSTEM
+  ${dependencies}
+  grid_map_octomap
+  octomap_msgs
+)
+install(
+  TARGETS octomap_to_gridmap
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
 
 # install the launch directory
 install(DIRECTORY

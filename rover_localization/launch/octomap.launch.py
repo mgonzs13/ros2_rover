@@ -99,14 +99,6 @@ def generate_launch_description():
         "use_respawn", default_value="False",
         description="Whether to respawn if a node crashes. Applied when composition is disabled.")
 
-    tf_to_base_footprint_cmd = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        arguments=[
-            "0", "0", "0.22", "0", "0", "0", "base_footprint", "base_link"],
-        parameters=[{"use_sim_time": use_sim_time}]
-    )
-
     load_nodes = GroupAction(
         condition=IfCondition(PythonExpression(["not ", use_composition])),
         actions=[
@@ -188,6 +180,5 @@ def generate_launch_description():
     # Add the actions to launch all of the localization nodes
     ld.add_action(load_nodes)
     ld.add_action(load_composable_nodes)
-    ld.add_action(tf_to_base_footprint_cmd)
 
     return ld
