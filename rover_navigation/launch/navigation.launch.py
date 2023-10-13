@@ -146,8 +146,7 @@ def generate_launch_description():
                 respawn=use_respawn,
                 respawn_delay=2.0,
                 parameters=[configured_params],
-                remappings=remappings,
-                arguments=["--ros-args", "--log-level", "planner_server:=debug"]),
+                remappings=remappings),
             Node(
                 package="nav2_behaviors",
                 executable="behavior_server",
