@@ -56,6 +56,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
         <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_controller">
           <ros>
             <remapping>~/out:=imu</remapping>
+            <qos>
+              <topic name="imu">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+            </qos>
           </ros>
           <initial_orientation_as_reference>false</initial_orientation_as_reference>
           <frame_name>${prefix}_link</frame_name>

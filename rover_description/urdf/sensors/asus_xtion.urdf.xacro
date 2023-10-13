@@ -87,6 +87,65 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
           </clip>
         </camera>
         <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
+          <ros>
+            <qos>
+              <topic name="/camera/camera_info">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/image_raw">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/image_raw/compressed">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/image_raw/compressedDepth">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/image_raw/theora">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/points">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/depth/camera_info">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/depth/image_raw">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/depth/image_raw/compressed">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+              <topic name="/camera/depth/image_raw/compressedDepth">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+             <topic name="/camera/depth/image_raw/theora">
+                <publisher>
+                  <reliability>best_effort</reliability>
+                </publisher>
+              </topic>
+            </qos>
+          </ros>
           <baseline>0.2</baseline>
           <always_on>true</always_on>
           <update_rate>0.0</update_rate>

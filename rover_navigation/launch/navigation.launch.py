@@ -38,14 +38,17 @@ def generate_launch_description():
     container_name = LaunchConfiguration("container_name")
     use_respawn = LaunchConfiguration("use_respawn")
     cmd_vel_topic = LaunchConfiguration("cmd_vel_topic")
-    default_bt_xml_filename = LaunchConfiguration("default_bt_xml_filename")
+    default_bt_xml_filename = LaunchConfiguration("default_nav_to_pose_bt_xml")
 
-    lifecycle_nodes = ["controller_server",
-                       "smoother_server",
-                       "planner_server",
-                       "behavior_server",
-                       "bt_navigator",
-                       "waypoint_follower"]
+    lifecycle_nodes = [
+        "controller_server",
+        "smoother_server",
+        "planner_server",
+        "behavior_server",
+        "bt_navigator",
+        "waypoint_follower",
+        "velocity_smoother"
+    ]
 
     # Map fully qualified names to relative ones so the node"s namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn"t seem to be a better alternative
@@ -60,7 +63,7 @@ def generate_launch_description():
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
         "use_sim_time": use_sim_time,
-        "default_bt_xml_filename": default_bt_xml_filename,
+        "default_nav_to_pose_bt_xml": default_bt_xml_filename,
         "autostart": autostart}
 
     configured_params = RewrittenYaml(
@@ -109,7 +112,7 @@ def generate_launch_description():
         description="cmd_vel topic (for remmaping)")
 
     default_bt_xml_filename_cmd = DeclareLaunchArgument(
-        "default_bt_xml_filename",
+        "default_nav_to_pose_bt_xml",
         default_value=os.path.join(
             get_package_share_directory("nav2_bt_navigator"),
             "behavior_trees", "navigate_w_replanning_time.xml"),
@@ -143,7 +146,8 @@ def generate_launch_description():
                 respawn=use_respawn,
                 respawn_delay=2.0,
                 parameters=[configured_params],
-                remappings=remappings),
+                remappings=remappings,
+                arguments=["--ros-args", "--log-level", "planner_server:=debug"]),
             Node(
                 package="nav2_behaviors",
                 executable="behavior_server",
@@ -179,6 +183,14 @@ def generate_launch_description():
                 parameters=[{"use_sim_time": use_sim_time},
                             {"autostart": autostart},
                             {"node_names": lifecycle_nodes}]),
+            Node(
+                package="nav2_velocity_smoother",
+                executable="velocity_smoother",
+                name="velocity_smoother",
+                output="screen",
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                parameters=[configured_params]),
         ]
     )
 
@@ -229,6 +241,11 @@ def generate_launch_description():
                 parameters=[{"use_sim_time": use_sim_time,
                              "autostart": autostart,
                              "node_names": lifecycle_nodes}]),
+            ComposableNode(
+                package="nav2_velocity_smoother",
+                plugin="nav2_velocity_smoother::VelocitySmoother",
+                name="velocity_smoother",
+                parameters=[configured_params]),
         ],
     )
 

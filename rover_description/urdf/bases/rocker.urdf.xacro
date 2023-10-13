@@ -39,7 +39,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
             <collision>
                 <origin rpy="0 0 0" xyz="0 0 0" />
                 <geometry>
-                    <box size="${rocker_box_length} ${rocker_box_width} ${rocker_box_depth}"/>
+                    <mesh filename="package://rover_description/meshes/bases/${lat_label}_rocker_asm.stl" />
+                    <!-- <box size="${rocker_box_length} ${rocker_box_width} ${rocker_box_depth}"/> -->
                 </geometry>
             </collision>
             <xacro:solid_cuboid_inertial 

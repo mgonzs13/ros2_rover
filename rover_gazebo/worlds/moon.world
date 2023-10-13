@@ -2,7 +2,7 @@
 <sdf version="1.4">
   <world name="default">
    
-    <light name='sun_directional' type='directional'>
+    <light name="sun_directional" type="directional">
       <cast_shadows>true</cast_shadows>
       <pose>200 0 14 0 0 0</pose>
       <diffuse>0.7 0.7 0.7 1</diffuse>
@@ -27,7 +27,7 @@
       <max_step_size>0.001</max_step_size>
       <gravity>0 0 -1.62</gravity>     <!-- Moon Gravity -->
       <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-      <atmosphere type='adiabatic'/>  
+      <atmosphere type="adiabatic"/>  
     </physics>
     
     <include>

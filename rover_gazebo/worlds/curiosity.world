@@ -3,7 +3,7 @@
   <world name="mars_curiosity">
 
     <!-- Physics -->
-    <physics type='ode'>
+    <physics type="ode">
         <solver>
           <type>quick</type>
         </solver>

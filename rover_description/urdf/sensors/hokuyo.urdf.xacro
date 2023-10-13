@@ -64,14 +64,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
     </joint>
   
     <gazebo reference="${prefix}_link">
-            <sensor type="gpu_ray" name="hokuyo_sensor">   
+            <sensor type="ray" name="hokuyo_sensor">   
                 <pose>0 0 0 0 0 0</pose>
                 <visualize>true</visualize>
                 <update_rate>50</update_rate>
                 <ray>
                     <scan>
                         <horizontal>
-                            <samples>1081</samples>
+                            <samples>30</samples>
                             <resolution>1</resolution>
                             <min_angle>${min_angle}</min_angle>
                             <max_angle>${max_angle}</max_angle>
@@ -91,6 +91,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
                 <plugin name="${prefix}_controller" filename="libgazebo_ros_ray_sensor.so">
                   <ros>
                     <remapping>~/out:=scan</remapping>
+                    <qos>
+                      <topic name="scan">
+                        <publisher>
+                          <reliability>best_effort</reliability>
+                        </publisher>
+                      </topic>
+                    </qos>
                   </ros>
                   <output_type>sensor_msgs/LaserScan</output_type>
                   <frame_name>${prefix}_link</frame_name>
