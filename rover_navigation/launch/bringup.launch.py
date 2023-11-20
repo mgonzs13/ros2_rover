@@ -61,7 +61,7 @@ def generate_launch_description():
 
     use_composition = LaunchConfiguration("use_composition")
     declare_use_composition_cmd = DeclareLaunchArgument(
-        "use_composition", default_value="True",
+        "use_composition", default_value="False",
         description="Whether to use composed bringup")
 
     use_respawn = LaunchConfiguration("use_respawn")
@@ -80,7 +80,7 @@ def generate_launch_description():
         "default_bt_xml_filename",
         default_value=os.path.join(
             get_package_share_directory("nav2_bt_navigator"),
-            "behavior_trees", "navigate_w_replanning_only_if_goal_is_updated.xml"),
+            "behavior_trees", "navigate_w_replanning_only_if_path_becomes_invalid.xml"),
         description="Full path to the behavior tree xml file to use")
 
     remappings = [("/tf", "tf"),
