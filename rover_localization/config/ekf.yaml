@@ -1,6 +1,7 @@
 ekf_filter_node:
   ros__parameters:
     qos_overrides./odom.publisher.reliability: best_effort
+    qos_overrides./accel.publisher.reliability: best_effort
 
     # frequency: 50.0
     # sensor_timeout: 20.0
