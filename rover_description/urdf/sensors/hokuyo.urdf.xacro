@@ -64,7 +64,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
     </joint>
   
     <gazebo reference="${prefix}_link">
-            <sensor type="ray" name="hokuyo_sensor">   
+            <sensor type="gpu_ray" name="hokuyo_sensor">   
                 <pose>0 0 0 0 0 0</pose>
                 <visualize>true</visualize>
                 <update_rate>50</update_rate>

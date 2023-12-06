@@ -37,8 +37,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
             <collision>
                 <origin rpy="0 0 0" xyz="0 0 0" />
                 <geometry>
-                    <mesh filename="package://rover_description/meshes/bases/${lon_label}_${lat_label}_steering_asm.stl" />
-                    <!-- <box size="${corner_box_length} ${corner_box_width} ${corner_box_depth}"/> -->
+                    <!-- <mesh filename="package://rover_description/meshes/bases/${lon_label}_${lat_label}_steering_asm.stl" /> -->
+                    <box size="${corner_box_length} ${corner_box_width} ${corner_box_depth}"/>
                 </geometry>
             </collision>
             <xacro:solid_cuboid_inertial 
