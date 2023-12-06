@@ -126,12 +126,12 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: True
-      rolling_window: true
+      rolling_window: True
       width: 3
       height: 3
       resolution: 0.05
       footprint: "[[0.3, 0.3], [0.3, -0.3], [-0.3, -0.3], [-0.3, 0.3]]"
-      plugins: [inflation_layer]
+      plugins: [voxel_layer, inflation_layer]
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 3.0
@@ -216,13 +216,13 @@ planner_server:
 
     GridBased:
       plugin: nav2_smac_planner/SmacPlannerHybrid
-      tolerance: 0.01 # tolerance for planning if unable to reach exact pose, in meters
+      tolerance: 0.5 # tolerance for planning if unable to reach exact pose, in meters
       downsample_costmap: false # whether or not to downsample the map
       downsampling_factor: 1 # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
       allow_unknown: true # allow traveling in unknown space
       max_iterations: 1000000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 10000 # maximum number of iterations to attempt to reach goal once in tolerance
-      max_planning_time: 3.5 # max time in s for planner to plan, smooth, and upsample. Will scale maximum smoothing and upsampling times based on remaining time after planning.
+      max_planning_time: 5.0 # max time in s for planner to plan, smooth, and upsample. Will scale maximum smoothing and upsampling times based on remaining time after planning.
       motion_model_for_search: DUBIN # For Hybrid Dubin, Redds-Shepp
       cost_travel_multiplier: 2.0 # For 2D: Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
       angle_quantization_bins: 256 # For Hybrid nodes: Number of angle bins for search, must be 1 for 2D node (no angle search)
@@ -235,13 +235,13 @@ planner_server:
       cost_penalty: 2.0 # For Hybrid nodes: penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
       retrospective_penalty: 0.025 # For Hybrid/Lattice nodes: penalty to prefer later maneuvers before earlier along the path. Saves search time since earlier nodes are not expanded until it is necessary. Must be >= 0.0 and <= 1.0
       rotation_penalty: 200.0 # For Lattice node: Penalty to apply only to pure rotate in place commands when using minimum control sets containing rotate in place primitives. This should always be set sufficiently high to weight against this action unless strictly necessary for obstacle avoidance or there may be frequent discontinuities in the plan where it requests the robot to rotate in place to short-cut an otherwise smooth path for marginal path distance savings.
-      lookup_table_size: 100.0 # For Hybrid nodes: Size of the dubin/reeds-sheep distance window to cache, in meters.
+      lookup_table_size: 20.0 # For Hybrid nodes: Size of the dubin/reeds-sheep distance window to cache, in meters.
       cache_obstacle_heuristic: True # For Hybrid nodes: Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
       allow_reverse_expansion: False # For Lattice nodes: Whether to expand state lattice graph in forward primitives or reverse as well, will double the branching factor at each step.
       smooth_path: True # For Lattice/Hybrid nodes: Whether or not to smooth the path, always true for 2D nodes.
       smoother:
-        max_iterations: 5000
-        w_smooth: 0.5
+        max_iterations: 1000
+        w_smooth: 0.3
         w_data: 0.2
         tolerance: 1.0e-10
         do_refinement: True # Whether to recursively run the smoother 3 times on the results from prior runs to refine the results further
@@ -270,7 +270,7 @@ behavior_server:
       plugin: nav2_behaviors/DriveOnHeading
     wait:
       plugin: nav2_behaviors/Wait
-    global_frame: odom
+    global_frame: map
     robot_base_frame: base_link
     transform_tolerance: 0.1
     use_sim_time: true
