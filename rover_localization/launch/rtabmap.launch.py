@@ -54,7 +54,7 @@ def generate_launch_description():
         "RGBD/OptimizeFromGraphEnd": "true",
 
         "GFTT/MinDistance": "2.5",
-        "GFTT/QualityLevel": "0.1",
+        "GFTT/QualityLevel": "0.01",
 
         "Vis/CorGuessWinSize": "40",
         "Vis/CorType": "0",
@@ -62,7 +62,7 @@ def generate_launch_description():
         "Vis/MinDepth": "0.0",
         "Vis/MaxDepth": "2.5",
 
-        "Grid/DepthDecimation": "2",
+        "Grid/DepthDecimation": "4",
         "Grid/RangeMin": "0.0",
         "Grid/RangeMax": "2.5",
         "Grid/MinClusterSize": "20",

@@ -268,7 +268,7 @@ Visualization Manager:
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: true
+      Show Names: false
       Tree:
         map:
           odom:
@@ -349,8 +349,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: -0.12243256717920303
-        Min Value: -0.643519937992096
+        Max Value: -0.11605910956859589
+        Min Value: -0.6363832354545593
         Value: true
       Axis: Z
       Channel Name: intensity
