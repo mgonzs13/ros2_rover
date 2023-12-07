@@ -37,6 +37,9 @@ private:
   int enc_min;
   int enc_max;
   float enc_mid;
+  float linear_limit;
+  float angular_limit;
+  float angular_factor;
 };
 
 } // namespace motor_controller

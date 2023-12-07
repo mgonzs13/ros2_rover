@@ -15,6 +15,7 @@
 
 #define BOOST_BIND_NO_PLACEHOLDERS
 
+#include <algorithm>
 #include <vector>
 
 #include "geometry_msgs/msg/twist.hpp"
@@ -38,6 +39,10 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
   // Speed [-100, +100] * 6 = [-600, +600]
   this->declare_parameter<int>("speed_factor", 10);
 
+  this->declare_parameter<float>("linear_limit", 1.0);
+  this->declare_parameter<float>("angular_limit", 1.0);
+  this->declare_parameter<float>("angular_factor", 0.5);
+
   // getting params
   std::vector<double> hardware_distances;
   this->get_parameter("hardware_distances", hardware_distances);
@@ -45,6 +50,10 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
   this->get_parameter("enc_min", this->enc_min);
   this->get_parameter("enc_max", this->enc_max);
   this->get_parameter("speed_factor", this->speed_factor);
+
+  this->get_parameter("linear_limit", this->linear_limit);
+  this->get_parameter("angular_limit", this->angular_limit);
+  this->get_parameter("angular_factor", this->angular_factor);
 
   this->d1 = hardware_distances[0];
   this->d2 = hardware_distances[1];
@@ -64,8 +73,19 @@ void VelParserNode::callback(const geometry_msgs::msg::Twist::SharedPtr msg) {
   auto motors_command = rover_msgs::msg::MotorsCommand();
 
   // normalize speed and steering
-  float norm_speed = this->normalize(msg->linear.x, -1, 1, -100, 100);
-  float norm_steering = this->normalize(msg->angular.z, -1, 1, -100, 100) * -1;
+  float linear = std::min((float)msg->linear.x, this->linear_limit);
+  float angular = std::min((float)msg->angular.z, this->angular_limit);
+  float speed = sqrt(pow(linear, 2) + pow(angular * this->angular_factor, 2));
+
+  if (msg->linear.x < 0) {
+    speed *= -1;
+  }
+
+  float norm_speed = this->normalize(speed, -this->linear_limit,
+                                     this->linear_limit, -100, 100);
+  float norm_steering = this->normalize(angular, -this->angular_limit,
+                                        this->angular_limit, -100, 100) *
+                        -1;
 
   // calculate new speeds and steerings
   std::vector<float> new_speeds =

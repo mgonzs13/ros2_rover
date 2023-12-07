@@ -45,6 +45,10 @@ class VelParserNode(Node):
         # Speed [-100, +100] * 6 = [-600, +600]
         self.declare_parameter("speed_factor", 10)
 
+        self.declare_parameter("linear_limit", 1.0)
+        self.declare_parameter("angular_limit", 1.0)
+        self.declare_parameter("angular_factor", 0.5)
+
         # getting params
         hardware_distances = self.get_parameter(
             "hardware_distances").get_parameter_value().double_array_value
@@ -54,6 +58,13 @@ class VelParserNode(Node):
             "enc_max").get_parameter_value().integer_value
         self.speed_factor = self.get_parameter(
             "speed_factor").get_parameter_value().integer_value
+
+        self.linear_limit = self.get_parameter(
+            "linear_limit").get_parameter_value().double_value
+        self.angular_limit = self.get_parameter(
+            "angular_limit").get_parameter_value().double_value
+        self.angular_factor = self.get_parameter(
+            "angular_factor").get_parameter_value().double_value
 
         self.d1 = hardware_distances[0]
         self.d2 = hardware_distances[1]
@@ -81,8 +92,19 @@ class VelParserNode(Node):
 
         motors_command = MotorsCommand()
 
-        norm_speed = self.normalize(msg.linear.x, -1, 1, -100, 100)
-        norm_steering = self.normalize(msg.angular.z, -1, 1, -100, 100) * -1
+        linear = min(msg.linear.x, self.linear_limit)
+        angular = min(msg.angular.z, self.angular_limit)
+
+        speed = math.sqrt(math.pow(linear, 2) +
+                          math.pow(angular * self.angular_factor, 2))
+
+        if msg.linear.x < 0:
+            speed *= -1
+
+        norm_speed = self.normalize(
+            speed, -self.linear_limit, self.linear_limit, -100, 100)
+        norm_steering = self.normalize(
+            angular, -self.angular_limit, self.angular_limit, -100, 100) * -1
 
         new_speeds = self.calculate_velocity(norm_speed, norm_steering)
         new_ticks = self.calculate_target_tick(
