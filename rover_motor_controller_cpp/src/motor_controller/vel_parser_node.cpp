@@ -41,7 +41,7 @@ VelParserNode::VelParserNode() : rclcpp::Node("vel_parser_node") {
 
   this->declare_parameter<float>("linear_limit", 1.0);
   this->declare_parameter<float>("angular_limit", 1.0);
-  this->declare_parameter<float>("angular_factor", 0.5);
+  this->declare_parameter<float>("angular_factor", 0.0);
 
   // getting params
   std::vector<double> hardware_distances;

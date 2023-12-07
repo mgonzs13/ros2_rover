@@ -47,7 +47,7 @@ class VelParserNode(Node):
 
         self.declare_parameter("linear_limit", 1.0)
         self.declare_parameter("angular_limit", 1.0)
-        self.declare_parameter("angular_factor", 0.5)
+        self.declare_parameter("angular_factor", 0.0)
 
         # getting params
         hardware_distances = self.get_parameter(
