@@ -47,29 +47,40 @@ def generate_launch_description():
         "qos_camera_info": 2,
         "qos_imu": 2,
 
-        "Optimizer/Strategy": "1",
-        "Optimizer/GravitySigma": "0.0",
+        # 0=TORO, 1=g2o, 2=GTSAM and 3=Ceres
+        "Optimizer/Strategy": "2",
+        "Optimizer/GravitySigma": "0.3",
 
         "RGBD/OptimizeMaxError": "1.0",
         "RGBD/OptimizeFromGraphEnd": "true",
 
-        "GFTT/MinDistance": "2.5",
-        "GFTT/QualityLevel": "0.01",
+        "GFTT/MinDistance": "5.0",
+        "GFTT/QualityLevel": "0.001",
 
+        "Vis/EstimationType": "0",
+        # 0=SURF 1=SIFT 2=ORB 3=FAST/FREAK 4=FAST/BRIEF 5=GFTT/FREAK 6=GFTT/BRIEF 7=BRISK 8=GFTT/ORB 9=KAZE 10=ORB-OCTREE 11=SuperPoint 12=SURF/FREAK 13=GFTT/DAISY 14=SURF/DAISY 15=PyDetector
+        "Vis/FeatureType": "8",
+        "Vis/DepthAsMask": "true",
+        "Vis/FeatureWindowSize": "10",
         "Vis/CorGuessWinSize": "40",
+        "Vis/MaxFeatures": "0",
+        "Vis/MinDepth": "0.3",
+        "Vis/MaxDepth": "5.0",
+        # 0=Features Matching, 1=Optical Flow
         "Vis/CorType": "0",
-        "Vis/MaxFeatures": "1000",
-        "Vis/MinDepth": "0.0",
-        "Vis/MaxDepth": "2.5",
+        # kNNFlannNaive=0, kNNFlannKdTree=1, kNNFlannLSH=2, kNNBruteForce=3, kNNBruteForceGPU=4, BruteForceCrossCheck=5, SuperGlue=6, GMS=7
+        "Vis/CorNNType": "1",
 
+        "Grid/Sensor": "1",
         "Grid/DepthDecimation": "4",
-        "Grid/RangeMin": "0.0",
-        "Grid/RangeMax": "2.5",
-        "Grid/MinClusterSize": "20",
-        "Grid/MaxGroundAngle": "35",
+        "Grid/RangeMin": "0.3",
+        "Grid/RangeMax": "5.0",
+        "Grid/MinClusterSize": "10",
+        "Grid/MaxGroundAngle": "45",
         "Grid/NormalK": "20",
-        "Grid/CellSize": "0.1",
+        "Grid/CellSize": "0.05",
         "Grid/FlatObstacleDetected": "false",
+        "Gird/RayTracing": "true",
 
         "GridGlobal/UpdateError": "0.01",
         "GridGlobal/MinSize": "200"

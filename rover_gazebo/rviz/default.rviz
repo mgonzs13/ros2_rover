@@ -11,6 +11,7 @@ Panels:
         - /Odometry1/Shape1
         - /PointCloud21/Topic1
         - /PointCloud21/Autocompute Value Bounds1
+        - /Map1/Topic1
       Splitter Ratio: 0.429983526468277
     Tree Height: 253
   - Class: rviz_common/Selection
@@ -44,9 +45,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 0
+      Max Intensity: -999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 999999
       Name: LaserScan
       Position Transformer: XYZ
       Selectable: true
@@ -349,8 +350,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: -0.11605910956859589
-        Min Value: -0.6363832354545593
+        Max Value: -0.22588509321212769
+        Min Value: -1.4686529636383057
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -428,6 +429,27 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /plan
       Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz_default_plugins/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: Map
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map
+      Update Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map_updates
+      Use Timestamp: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -474,25 +496,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 20.12503433227539
+      Distance: 18.305551528930664
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 3.9046971797943115
-        Y: -2.7718045711517334
-        Z: -2.412644624710083
+        X: 2.7525975704193115
+        Y: -1.8170936107635498
+        Z: -2.0544652938842773
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9597969055175781
+      Pitch: 0.9797967672348022
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.258577823638916
+      Yaw: 3.0535762310028076
     Saved: ~
 Window Geometry:
   Displays:
