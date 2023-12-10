@@ -214,7 +214,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
     </xacro:sensor_imu>
 
     <xacro:sensor_asus_xtion prefix="camera" parent="base_link">
-        <origin xyz="0.215 0 0.065" rpy="0 0.2 0"/>
+        <origin xyz="0.215 0 0.065" rpy="0 0.4 0"/>
         <!-- <origin xyz="0.212 0 0.065" rpy="0 0 0"/> -->
     </xacro:sensor_asus_xtion>
 

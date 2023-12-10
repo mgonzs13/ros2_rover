@@ -31,7 +31,7 @@ def generate_launch_description():
         ),
         launch_arguments={"world": os.path.join(
             pkg_path, "worlds", "moon.world"),
-            "initial_pose_z": "2.4"}.items()
+            "initial_pose_z": "2.11"}.items()
     )
 
     ld = LaunchDescription()
