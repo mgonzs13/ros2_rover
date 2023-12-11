@@ -77,9 +77,10 @@ def generate_launch_description():
 
         "BRIEF/Bytes": "64",
 
-        "Vis/EstimationType": "0",
+        "Vis/EstimationType": "1",
+        "Vis/ForwardEstOnly": "true",
         # 0=SURF 1=SIFT 2=ORB 3=FAST/FREAK 4=FAST/BRIEF 5=GFTT/FREAK 6=GFTT/BRIEF 7=BRISK 8=GFTT/ORB 9=KAZE 10=ORB-OCTREE 11=SuperPoint 12=SURF/FREAK 13=GFTT/DAISY 14=SURF/DAISY 15=PyDetector
-        "Vis/FeatureType": "6",
+        "Vis/FeatureType": "8",
         "Vis/DepthAsMask": "true",
         "Vis/CorGuessWinSize": "40",
         "Vis/MaxFeatures": "1000",

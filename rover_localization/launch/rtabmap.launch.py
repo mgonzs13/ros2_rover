@@ -51,7 +51,10 @@ def generate_launch_description():
         "Optimizer/Strategy": "2",
         "Optimizer/GravitySigma": "0.0",
 
-        "RGBD/OptimizeMaxError": "0.1",
+        "Rtabmap/DetectionRate": "2",
+        "Rtabmap/CreateIntermediateNodes": "true",
+
+        "RGBD/OptimizeMaxError": "1.0",
         "RGBD/OptimizeFromGraphEnd": "true",
         "RGBD/CreateOccupancyGrid": "true",
 
@@ -64,12 +67,12 @@ def generate_launch_description():
         "BRIEF/Bytes": "64",
 
         "Vis/EstimationType": "1",
-        "Vis/ForwardEstOnly": "false",
+        "Vis/ForwardEstOnly": "true",
         # 0=SURF 1=SIFT 2=ORB 3=FAST/FREAK 4=FAST/BRIEF 5=GFTT/FREAK 6=GFTT/BRIEF 7=BRISK 8=GFTT/ORB 9=KAZE 10=ORB-OCTREE 11=SuperPoint 12=SURF/FREAK 13=GFTT/DAISY 14=SURF/DAISY 15=PyDetector
         "Vis/FeatureType": "8",
         "Vis/DepthAsMask": "true",
         "Vis/CorGuessWinSize": "40",
-        "Vis/MaxFeatures": "1000",
+        "Vis/MaxFeatures": "0",
         "Vis/MinDepth": "0.0",
         "Vis/MaxDepth": "0.0",
         # 0=Features Matching, 1=Optical Flow
@@ -89,8 +92,10 @@ def generate_launch_description():
         "Grid/FlatObstacleDetected": "false",
         "Gird/RayTracing": "true",
         "Grid/3D": "true",
+        "Grid/MapFrameProjection": "true",
 
-        "GridGlobal/UpdateError": "0.001",
+        "GridGlobal/FullUpdate": "true",
+        "GridGlobal/UpdateError": "0.01",
         "GridGlobal/MinSize": "200",
         "GridGlobal/Eroded": "true",
         "GridGlobal/FloodFillDepth": "16"
