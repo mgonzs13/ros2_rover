@@ -48,7 +48,7 @@ def generate_launch_description():
         "qos_imu": 2,
 
         # 0=TORO, 1=g2o, 2=GTSAM and 3=Ceres
-        "Optimizer/Strategy": "2",
+        "Optimizer/Strategy": "1",
         "Optimizer/GravitySigma": "0.0",
 
         "Rtabmap/DetectionRate": "2",

@@ -85,6 +85,20 @@ def generate_launch_description():
         default_value="0.0",
         description="Initial pose yaw")
 
+    nav2_planner = LaunchConfiguration("nav2_planner")
+    nav2_planner_cmd = DeclareLaunchArgument(
+        "nav2_planner",
+        default_value="SmacHybrid",
+        choices=["SmacHybrid", "SmacLattice"],
+        description="Nav2 planner (SmacHybrid or SmacLattice)")
+
+    nav2_controller = LaunchConfiguration("nav2_controller")
+    nav2_controller_cmd = DeclareLaunchArgument(
+        "nav2_controller",
+        default_value="RPP",
+        choices=["RPP", "TEB"],
+        description="Nav2 controller (RPP or TEB)")
+
     ### NODES ###
     rviz_cmd = Node(
         name="rviz",
@@ -127,7 +141,11 @@ def generate_launch_description():
             os.path.join(pkg_rover_navigation, "launch",
                          "bringup.launch.py")
         ),
-        launch_arguments={"use_sim_time": "True"}.items()
+        launch_arguments={
+            "use_sim_time": "True",
+            "planner": nav2_planner,
+            "controller": nav2_controller
+        }.items()
     )
 
     cmd_vel_cmd = IncludeLaunchDescription(
@@ -159,6 +177,8 @@ def generate_launch_description():
     ld.add_action(initial_pose_y_cmd)
     ld.add_action(initial_pose_z_cmd)
     ld.add_action(initial_pose_yaw_cmd)
+    ld.add_action(nav2_planner_cmd)
+    ld.add_action(nav2_controller_cmd)
 
     ld.add_action(gazebo_client_cmd)
     ld.add_action(gazebo_server_cmd)

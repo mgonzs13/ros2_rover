@@ -67,54 +67,113 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 
 controller_server:
   ros__parameters:
-    # controller server parameters (see Controller Server for more info)
+    odom_topic: /odom
     use_sim_time: True
-    controller_frequency: 20.0
-    min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.5
-    min_theta_velocity_threshold: 0.001
-    progress_checker_plugins: [progress_checker] # progress_checker_plugin: "progress_checker" For Humble and older
-    goal_checker_plugins: [goal_checker]
+    controller_frequency: 5.0
+    controller_plugin_types: [teb_local_planner::TebLocalPlannerROS]
     controller_plugins: [FollowPath]
+    FollowPath:
+      plugin: teb_local_planner::TebLocalPlannerROS
 
-    progress_checker:
-      plugin: nav2_controller::SimpleProgressChecker
-      required_movement_radius: 0.15
-      movement_time_allowance: 10.0
+      teb_autosize: 1.0
+      dt_ref: 0.3
+      dt_hysteresis: 0.1
+      max_samples: 500
+      global_plan_overwrite_orientation: False
+      allow_init_with_backwards_motion: False
+      max_global_plan_lookahead_dist: 5.0
+      global_plan_viapoint_sep: 0.3
+      global_plan_prune_distance: 1.0
+      exact_arc_length: False
+      feasibility_check_no_poses: 2
+      publish_feedback: False
 
-    goal_checker:
-      plugin: nav2_controller::SimpleGoalChecker
+      min_turning_radius: 0.5
+      cmd_angle_instead_rotvel: True
+
+      # Robot
+      max_vel_x_backwards: 0.2
+      max_vel_x: 0.3
+      max_vel_theta: 0.3
+      acc_lim_x: 2.5
+      acc_lim_theta: 3.2
+
+      footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+        type: polygon
+        vertices: "[[0.3, 0.3], [0.3, -0.3], [-0.3, -0.3], [-0.3, 0.3]]"
+
+      # GoalTolerance
       xy_goal_tolerance: 0.3
       yaw_goal_tolerance: 0.3
-      stateful: True
+      free_goal_vel: False
 
-    FollowPath:
-      plugin: nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
-      transform_tolerance: 1.0
-      desired_linear_vel: 0.3
+      # Obstacles
+      min_obstacle_dist: 0.27
+      inflation_dist: 0.6
+      include_costmap_obstacles: True
+      costmap_obstacles_behind_robot_dist: 1.0
+      obstacle_poses_affected: 15
 
-      use_velocity_scaled_lookahead_dist: True
-      lookahead_dist: 0.6
-      min_lookahead_dist: 0.3
-      max_lookahead_dist: 0.9
-      lookahead_time: 1.5
+      dynamic_obstacle_inflation_dist: 0.6
+      include_dynamic_obstacles: True
 
-      approach_velocity_scaling_dist: 1.0
-      min_approach_linear_velocity: 0.05
-      use_regulated_linear_velocity_scaling: True
-      use_cost_regulated_linear_velocity_scaling: True
-      regulated_linear_scaling_min_radius: 0.9
-      regulated_linear_scaling_min_speed: 0.25
+      costmap_converter_plugin: costmap_converter::CostmapToPolygonsDBSMCCH
+      costmap_converter_spin_thread: True
+      costmap_converter_rate: 5
 
-      use_collision_detection: False
-      max_allowed_time_to_collision_up_to_carrot: 1.0
+      # Optimization
+      no_inner_iterations: 5
+      no_outer_iterations: 4
+      optimization_activate: True
+      optimization_verbose: False
+      penalty_epsilon: 0.1
+      obstacle_cost_exponent: 4.0
+      weight_max_vel_x: 0.5
+      weight_max_vel_theta: 0.5
+      weight_acc_lim_x: 0.5
+      weight_acc_lim_theta: 10.5
+      weight_kinematics_nh: 1000.0
+      weight_kinematics_forward_drive: 3.0
+      weight_kinematics_turning_radius: 1.0
+      weight_optimaltime: 1.0 # must be > 0
+      weight_shortest_path: 0.0
+      weight_obstacle: 100.0
+      weight_inflation: 0.2
+      weight_dynamic_obstacle: 10.0 # not in use yet
+      weight_dynamic_obstacle_inflation: 0.2
+      weight_viapoint: 50.0
+      weight_adapt_factor: 2.0
 
-      use_rotate_to_heading: False
-      rotate_to_heading_angular_vel: 1.8
-      rotate_to_heading_min_angle: 0.785
-      max_angular_accel: 3.2
+      # Homotopy Class Planner
+      enable_homotopy_class_planning: True
+      enable_multithreading: True
+      max_number_classes: 4
+      selection_cost_hysteresis: 5.0
+      selection_prefer_initial_plan: 1.0
+      selection_obst_cost_scale: 1.0
+      selection_alternative_time_cost: True
 
-      max_robot_pose_search_dist: 10.0
+      roadmap_graph_no_samples: 15
+      roadmap_graph_area_width: 5.0
+      roadmap_graph_area_length_scale: 1.0
+      h_signature_prescaler: 0.5
+      h_signature_threshold: 0.1
+      obstacle_heading_threshold: 0.45
+      switching_blocking_period: 0.0
+      viapoints_all_candidates: True
+      delete_detours_backwards: True
+      max_ratio_detours_duration_best_duration: 3.0
+      visualize_hc_graph: False
+      visualize_with_time_as_z_axis_scale: 0.0
+
+      # Recovery
+      shrink_horizon_backup: True
+      shrink_horizon_min_duration: 10.0
+      oscillation_recovery: True
+      oscillation_v_eps: 0.1
+      oscillation_omega_eps: 0.1
+      oscillation_recovery_min_duration: 10.0
+      oscillation_filter_duration: 10.0
 
 local_costmap:
   local_costmap:
@@ -213,36 +272,32 @@ planner_server:
     use_sim_time: True
 
     GridBased:
-      plugin: nav2_smac_planner/SmacPlannerHybrid
-      tolerance: 0.01 # tolerance for planning if unable to reach exact pose, in meters
-      downsample_costmap: False # whether or not to downsample the map
-      downsampling_factor: 1 # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
-      allow_unknown: True # allow traveling in unknown space
-      max_iterations: -1 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
-      max_on_approach_iterations: 10000 # maximum number of iterations to attempt to reach goal once in tolerance
-      max_planning_time: 10.0 # max time in s for planner to plan, smooth, and upsample. Will scale maximum smoothing and upsampling times based on remaining time after planning.
-      motion_model_for_search: DUBIN # For Hybrid Dubin, Redds-Shepp
-      cost_travel_multiplier: 2.0 # For 2D: Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
-      angle_quantization_bins: 256 # For Hybrid nodes: Number of angle bins for search, must be 1 for 2D node (no angle search)
-      analytic_expansion_ratio: 20.0 # For Hybrid/Lattice nodes: The ratio to attempt analytic expansions during search for final approach.
-      analytic_expansion_max_length: 20.0 # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting (in meters). This should be scaled with minimum turning radius and be no less than 4-5x the minimum radius
-      minimum_turning_radius: 0.4 # For Hybrid/Lattice nodes: minimum turning radius in m of path / vehicle
-      reverse_penalty: 2.1 # For Reeds-Shepp model: penalty to apply if motion is reversing, must be => 1
-      change_penalty: 0.0 # For Hybrid nodes: penalty to apply if motion is changing directions, must be >= 0
-      non_straight_penalty: 1.0 # For Hybrid nodes: penalty to apply if motion is non-straight, must be => 1
-      cost_penalty: 2.5 # For Hybrid nodes: penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
-      retrospective_penalty: 0.025 # For Hybrid/Lattice nodes: penalty to prefer later maneuvers before earlier along the path. Saves search time since earlier nodes are not expanded until it is necessary. Must be >= 0.0 and <= 1.0
-      rotation_penalty: 5.0 # For Lattice node: Penalty to apply only to pure rotate in place commands when using minimum control sets containing rotate in place primitives. This should always be set sufficiently high to weight against this action unless strictly necessary for obstacle avoidance or there may be frequent discontinuities in the plan where it requests the robot to rotate in place to short-cut an otherwise smooth path for marginal path distance savings.
-      lookup_table_size: 20.0 # For Hybrid nodes: Size of the dubin/reeds-sheep distance window to cache, in meters.
-      cache_obstacle_heuristic: True # For Hybrid nodes: Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
-      allow_reverse_expansion: False # For Lattice nodes: Whether to expand state lattice graph in forward primitives or reverse as well, will double the branching factor at each step.
-      smooth_path: False # For Lattice/Hybrid nodes: Whether or not to smooth the path, always true for 2D nodes.
+      plugin: "nav2_smac_planner/SmacPlannerLattice"
+      allow_unknown: True # Allow traveling in unknown space
+      tolerance: 0.25 # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
+      max_iterations: -1 # Maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_on_approach_iterations: 1000 # Maximum number of iterations after within tolerances to continue to try to find exact solution
+      max_planning_time: 10.0 # Max time in s for planner to plan, smooth
+      analytic_expansion_ratio: 20.0 # The ratio to attempt analytic expansions during search for final approach.
+      analytic_expansion_max_length: 20.0 # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
+      reverse_penalty: 2.0 # Penalty to apply if motion is reversing, must be => 1
+      change_penalty: 0.05 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      non_straight_penalty: 1.05 # Penalty to apply if motion is non-straight, must be => 1
+      cost_penalty: 2.0 # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+      rotation_penalty: 5.0 # Penalty to apply to in-place rotations, if minimum control set contains them
+      retrospective_penalty: 0.015
+      # lattice_filepath: "" # The filepath to the state lattice graph
+      lookup_table_size: 20.0 # Size of the dubin/reeds-sheep distance window to cache, in meters.
+      cache_obstacle_heuristic: False # Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
+      allow_reverse_expansion: True # If true, allows the robot to use the primitives to expand in the mirrored opposite direction of the current robot's orientation (to reverse).
+      smooth_path: True # If true, does a simple and quick smoothing post-processing to the path
       smoother:
         max_iterations: 1000
         w_smooth: 0.3
         w_data: 0.2
         tolerance: 1.0e-10
-        do_refinement: True # Whether to recursively run the smoother 3 times on the results from prior runs to refine the results further
+        do_refinement: True
+        refinement_num: 2
 
 smoother_server:
   ros__parameters:
