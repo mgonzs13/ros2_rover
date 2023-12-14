@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
-    <model name="moon">
+    <model name="low_moon">
       <static>true</static>
       <link name="link">
         <collision name="collision">
           <geometry>
             <heightmap>
               <uri>model://moon/materials/heightmap/moon.png</uri>
-              <size>100 100 6</size>
+              <size>100 100 2</size>
               <pos>0 0 0</pos>
             </heightmap>
           </geometry>
@@ -22,7 +22,7 @@
                 <size>1</size>
               </texture>
               <uri>model://moon/materials/heightmap/moon.png</uri>
-              <size>100 100 6</size>
+              <size>100 100 2</size>
               <pos>0 0 0</pos>
             </heightmap>
           </geometry>

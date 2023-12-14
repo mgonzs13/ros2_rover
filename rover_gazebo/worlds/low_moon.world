@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+   
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <update_rate>1.0</update_rate>
+    </plugin>
+
+    <light name="sun_directional" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>200 0 14 0 0 0</pose>
+      <diffuse>0.7 0.7 0.7 1</diffuse>
+      <specular>0.001 0.001 0.001 1</specular>
+      <direction>-1 -0.1 -0.15</direction>
+      <attenuation>
+        <range>1000</range>
+        <constant>1</constant>
+        <linear>0</linear>
+      </attenuation>
+    </light>
+   
+    <scene>
+      <ambient>0.30 0.30 0.30 1.0</ambient>
+      <background>0.0 0.0 0.0 1</background>
+      <origin_visual>0</origin_visual>
+      <grid>false</grid>
+      <shadows>true</shadows>
+    </scene>
+
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <gravity>0 0 -1.62</gravity>     <!-- Moon Gravity -->
+      <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+      <atmosphere type="adiabatic"/>  
+    </physics>
+    
+    <include>
+      <uri>model://low_moon</uri>
+    </include>
+
+  </world>
+</sdf>
