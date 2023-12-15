@@ -37,6 +37,7 @@ def generate_launch_description():
 
     parameters = [{
         "frame_id": "base_link",
+        "tf_tolerance": 1.0,
         "subscribe_depth": True,
         "subscribe_rgb": True,
         "subscribe_scan": False,
