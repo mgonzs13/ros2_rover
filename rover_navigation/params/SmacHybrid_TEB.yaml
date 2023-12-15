@@ -88,8 +88,9 @@ controller_server:
       feasibility_check_no_poses: 2
       publish_feedback: False
 
-      min_turning_radius: 0.5
+      min_turning_radius: 0.4
       cmd_angle_instead_rotvel: True
+      wheelbase: 0.55
 
       # Robot
       max_vel_x_backwards: 0.2
@@ -169,7 +170,7 @@ controller_server:
       # Recovery
       shrink_horizon_backup: True
       shrink_horizon_min_duration: 10.0
-      oscillation_recovery: True
+      oscillation_recovery: False
       oscillation_v_eps: 0.1
       oscillation_omega_eps: 0.1
       oscillation_recovery_min_duration: 10.0
