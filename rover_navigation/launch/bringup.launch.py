@@ -122,8 +122,7 @@ def generate_launch_description():
     declare_bt_xml_cmd = DeclareLaunchArgument(
         "default_bt_xml_filename",
         default_value=os.path.join(
-            pkg_dir, "behavior_trees",
-            "navigate_to_pose_w_replanning_and_recovery.xml"),
+            pkg_dir, "behavior_trees", "rover_bt.xml"),
         description="Full path to the behavior tree xml file to use")
 
     planner = LaunchConfiguration("planner")
