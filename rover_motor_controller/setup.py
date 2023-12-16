@@ -19,7 +19,7 @@ setup(
     maintainer='Miguel Ángel González Santamarta',
     maintainer_email='mgons@unileon.es',
     description='Rover motor controller package (Python)',
-    license='GPL-3',
+    license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
