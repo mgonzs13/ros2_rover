@@ -123,11 +123,12 @@ def generate_launch_description():
         Node(
             package="rtabmap_slam",
             executable="rtabmap",
-            output="screen",
+            output="log",
             parameters=parameters,
             remappings=remappings,
             arguments=["-d",
-                       "--ros-args", "--log-level", "Warn"]),
+                       "--ros-args", "--log-level", "Error"]
+        ),
 
         Node(
             condition=IfCondition(launch_rtabmapviz),

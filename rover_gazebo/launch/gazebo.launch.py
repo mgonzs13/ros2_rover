@@ -111,7 +111,8 @@ def generate_launch_description():
         name="rviz",
         package="rviz2",
         executable="rviz2",
-        arguments=["-d", rviz_config],
+        arguments=["-d", rviz_config,
+                   "--ros-args", "--log-level", "Error"],
         parameters=[{"use_sim_time": True}],
         condition=IfCondition(PythonExpression([launch_rviz])),
     )
