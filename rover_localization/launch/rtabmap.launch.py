@@ -90,7 +90,7 @@ def generate_launch_description():
         "Grid/Sensor": "1",
         "Grid/DepthDecimation": "4",
         "Grid/RangeMin": "0.0",
-        "Grid/RangeMax": "3.0",
+        "Grid/RangeMax": "5.0",
         "Grid/MinClusterSize": "10",
         "Grid/MaxGroundAngle": "45",
         "Grid/NormalK": "20",
