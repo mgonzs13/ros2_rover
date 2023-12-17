@@ -53,7 +53,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             "world": os.path.join(pkg_path, "worlds", "low_moon.world"),
-            "initial_pose_z": "0.85",
+            "initial_pose_z": "1.16",
             "nav2_planner": nav2_planner,
             "nav2_controller": nav2_controller
         }.items()
