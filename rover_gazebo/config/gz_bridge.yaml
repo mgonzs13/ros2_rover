@@ -2,7 +2,7 @@
   ros__parameters:
     qos_overrides./scan.publisher.reliability: best_effort
     qos_overrides./imu.publisher.reliability: best_effort
-    qos_overrides./camera/image.publisher.reliability: best_effort
-    qos_overrides./camera/depth_image.publisher.reliability: best_effort
+    qos_overrides./camera/image_raw.publisher.reliability: best_effort
+    qos_overrides./camera/depth/image_raw.publisher.reliability: best_effort
     qos_overrides./camera/camera_info.publisher.reliability: best_effort
     qos_overrides./camera/points.publisher.reliability: best_effort

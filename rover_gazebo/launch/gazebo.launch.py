@@ -121,7 +121,7 @@ def generate_launch_description():
         parameters=[os.path.join(get_package_share_directory(
             "rover_gazebo"), "config", "gz_bridge.yaml")],
         remappings=[
-            ("/camera/image", "/camera/rgb/image_raw"),
+            ("/camera/image", "/camera/image_raw"),
             ("/camera/depth_image", "/camera/depth/image_raw"),
             ("/camera/camera_info", "/camera/camera_info"),
             ("/camera/points", "/camera/points")
@@ -195,9 +195,9 @@ def generate_launch_description():
     ld.add_action(gazebo_cmd)
     ld.add_action(gz_bridge_cmd)
     ld.add_action(spawn_cmd)
-    # ld.add_action(localization_cmd)
-    # ld.add_action(navigation_cmd)
-    # ld.add_action(cmd_vel_cmd)
-    # ld.add_action(rviz_cmd)
+    ld.add_action(localization_cmd)
+    ld.add_action(navigation_cmd)
+    ld.add_action(cmd_vel_cmd)
+    ld.add_action(rviz_cmd)
 
     return ld

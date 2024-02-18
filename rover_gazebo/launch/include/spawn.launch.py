@@ -95,7 +95,10 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory(
                 "rover_description"), "launch", "robot_state_publisher.launch.py")
-        )
+        ),
+        launch_arguments={
+            "use_sim_time": "true",
+        }.items()
     )
 
     ld = LaunchDescription()

@@ -2,10 +2,6 @@
 <sdf version="1.4">
   <world name="default">
    
-    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
-      <update_rate>1.0</update_rate>
-    </plugin>
-
     <light name="sun_directional" type="directional">
       <cast_shadows>true</cast_shadows>
       <pose>200 0 14 0 0 0</pose>
@@ -27,13 +23,6 @@
       <shadows>true</shadows>
     </scene>
 
-    <physics type="ode">
-      <max_step_size>0.001</max_step_size>
-      <gravity>0 0 -1.62</gravity>     <!-- Moon Gravity -->
-      <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-      <atmosphere type="adiabatic"/>  
-    </physics>
-    
     <include>
       <uri>model://moon</uri>
     </include>
