@@ -9,20 +9,14 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>gazebo</depend>
-  <depend>gazebo_ros2_control</depend>
-  <depend>gazebo_ros_pkgs</depend>
-  <depend>gazebo_plugins</depend>
-  <depend>joint_state_broadcaster</depend>
+  <depend>ign_ros2_control</depend>
   <depend>robot_state_publisher</depend>
+  <depend>joint_state_broadcaster</depend>
   <depend>position_controllers</depend>
   <depend>velocity_controllers</depend>
   <depend>xacro</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros                                                                 
-        gazebo_plugin_path="${prefix}/lib"
-        gazebo_model_path="${prefix}/.." /> 
   </export>
 </package>

@@ -18,15 +18,9 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
-find_package(gazebo REQUIRED)
-find_package(gazebo_ros REQUIRED)
-find_package(controller_manager REQUIRED)
-find_package(rviz2 REQUIRED)
-
 find_package(rover_description REQUIRED)
 find_package(rover_msgs REQUIRED)
 find_package(rover_motor_controller_cpp REQUIRED)
-
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
@@ -44,7 +38,7 @@ install(TARGETS
 )
 
 install(
-  DIRECTORY launch worlds models rviz config
+  DIRECTORY launch worlds models rviz config gui
   DESTINATION share/${PROJECT_NAME}
 )
 

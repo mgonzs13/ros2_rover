@@ -22,64 +22,53 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="turnbuckle" xmlns:xacro="http://www.ros.org/wiki/xacro">
- 
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
     <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
 
     <xacro:macro name="turnbuckle" params="lat_label reflect">
-        <gazebo>
             <link name="${lat_label}_turnbuckle_link">
-                <pose>0.035 ${reflect * 0.17} 0.07 0 0 0</pose>
-                <visual name="${lat_label}_turnbuckle_visual">
-                    <pose>0 0 0 0 0 0</pose>
+                <origin xyz="0.035 ${reflect * 0.17} 0.07" rpy="0 0 0"/>
+                <visual>
+                    <origin rpy="0 0 0" xyz="0 0 0" />
                     <geometry>
-                        <mesh>
-                            <uri>package://rover_description/meshes/bases/turnbuckle.stl</uri>
-                        </mesh>
-                        <!-- <cylinder>
-                            <length>0.07</length>
-                            <radius>0.0025</radius>
-                        </cylinder> -->
+                        <mesh filename="package://rover_description/meshes/bases/turnbuckle.stl" />
                     </geometry>
-                    <material>
-                        <script>
-                            <name>Gazebo/Blue</name>
-                        </script>
-                    </material>
+                    <material name="blue" />
                 </visual>
-                <collision name="${lat_label}_turnbuckle_collision">
-                    <pose>0 0 0 0 ${math_pi_over_2} 0</pose>
+                <collision>
+                    <origin xyz="0 0 0" rpy="0 ${math_pi_over_2} 0"/>
                     <geometry>
-                        <cylinder>
-                            <length>0.07</length>
-                            <radius>0.0025</radius>
-                        </cylinder>
+                        <cylinder length="0.07" radius="0.0025"/>
                     </geometry>
                 </collision>
-                <inertial>
-                    <mass>0.01</mass>
-                    <inertia>
-                        <ixx>0.0001</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.0001</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.0001</izz>
-                    </inertia>
-                </inertial>
+                <xacro:solid_cylinder_inertial 
+                    rpy="0 0 0" xyz="0 0 0"
+                    mass="0.25"
+                    radius="0.0025" 
+                    length="0.07" />
             </link>
 
-            <joint name="back_${lat_label}_turnbuckle_joint" type="ball">
-                <pose>-0.035 0 0 0 0 0</pose>
-                <parent>diff_brace_link</parent>
-                <child>${lat_label}_turnbuckle_link</child>
+            <joint name="back_${lat_label}_turnbuckle_joint" type="revolute">
+                <origin xyz="-0.035 0 0" rpy="0 0 0"/>
+                <limit 
+                    lower="${-math_pi}"
+                    upper="${math_pi}"
+                    effort="100.0"
+                    velocity="30.0" />
+                <parent link="diff_brace_link" />
+                <child link="${lat_label}_turnbuckle_link" />
             </joint>
 
-            <joint name="front_${lat_label}_turnbuckle_joint" type="ball">
-                <pose>0.035 0 0 0 0 0</pose>
-                <parent>${lat_label}_rocker_link</parent>
-                <child>${lat_label}_turnbuckle_link</child>
-            </joint>
-        </gazebo>
+            <!-- <joint name="front_${lat_label}_turnbuckle_joint" type="revolute">
+                <origin xyz="0.035 0 0" rpy="0 0 0"/>
+                <limit 
+                    lower="${-math_pi}"
+                    upper="${math_pi}"
+                    effort="100.0"
+                    velocity="30.0" />
+                <parent link="${lat_label}_rocker_link" />
+                <child link="${lat_label}_turnbuckle_link" />
+            </joint> -->
     </xacro:macro>
 </robot>

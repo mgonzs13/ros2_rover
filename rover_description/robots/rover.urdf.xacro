@@ -39,37 +39,26 @@
 
     <!-- Gazebo ROS2 Control -->
     <gazebo>
-        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-            <parameters>$(find rover_description)/config/control.yaml</parameters>
+        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find rover_description)/config/control.yaml</parameters>
+        <ros>
+            <remapping>/tf:=tf</remapping>
+            <remapping>/tf_static:=tf_static</remapping>
+        </ros>
+        </plugin>
+
+        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+        </plugin>
+
+        <plugin filename="libignition-gazebo-imu-system.so"
+                name="ignition::gazebo::systems::Imu">
         </plugin>
     </gazebo>
     
-    <gazebo>
-        <plugin name="rover_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
-            <update_rate>30</update_rate>
-            
-            <joint_name>left_rocker_joint</joint_name>
-            <joint_name>right_rocker_joint</joint_name>
-            <joint_name>left_bogie_joint</joint_name>
-            <joint_name>right_bogie_joint</joint_name>
-
-            <joint_name>diff_brace_joint</joint_name>
-            
-            <joint_name>back_left_turnbuckle_joint</joint_name>
-            <joint_name>back_right_turnbuckle_joint</joint_name>
-            <joint_name>front_left_turnbuckle_joint</joint_name>
-            <joint_name>front_right_turnbuckle_joint</joint_name>
-
-            <joint_name>front_left_corner_joint</joint_name>
-            <joint_name>front_right_corner_joint</joint_name>
-            <joint_name>back_left_corner_joint</joint_name>
-            <joint_name>back_right_corner_joint</joint_name>
-        </plugin>
-    </gazebo>
-
-    <ros2_control name="GazeboSystem" type="system">
+    <ros2_control name="IgnitionSystem" type="system">
         <hardware>
-            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
         </hardware>
 
         <joint name="front_right_corner_joint">
@@ -201,8 +190,8 @@
     <xacro:body parent="base_link" />
     <xacro:differential parent="base_link" />
 
-    <xacro:turnbuckle lat_label="left" reflect="1"/>
-    <xacro:turnbuckle lat_label="right" reflect="-1"/>
+    <!-- <xacro:turnbuckle lat_label="left" reflect="1"/>
+    <xacro:turnbuckle lat_label="right" reflect="-1"/> -->
     
     <xacro:rocker parent="base_link" lat_label="left" reflect="1"/>
     <xacro:rocker parent="base_link" lat_label="right" reflect="-1"/>
@@ -250,6 +239,5 @@
     <xacro:wheel_link lon_label="back" lat_label="right" reflect="-1"/>
     <xacro:corner_wheel_joint lon_label="back" lat_label="left" reflect="1"/>
     <xacro:corner_wheel_joint lon_label="back" lat_label="right" reflect="-1"/>
-
 
 </robot>

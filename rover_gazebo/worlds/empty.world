@@ -1,25 +1,22 @@
-<?xml version="1.0"?>
-<sdf version="1.6">
-  <world name="default">
+<?xml version="1.0" encoding="ASCII"?>
+<sdf version="1.7">
 
-    <include>
-      <uri>model://ground_plane</uri>
-    </include>
+  <world name="empty">
 
-    <include>
-      <uri>model://sun</uri>
-    </include>
-
-    <scene>
-      <shadows>false</shadows>
-    </scene>
-
-    <physics type="ode">
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
-      <gravity>0 0 -9.8</gravity>
-    </physics>
-     
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0.0 0.0 1</normal>
+              <size>1 1</size>
+            </plane>
+          </geometry>
+        </collision>
+      </link>
+      <pose>0 0 0 0 0 0</pose>
+    </model>
+    
   </world>
 </sdf>

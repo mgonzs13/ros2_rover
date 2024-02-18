@@ -34,7 +34,7 @@ from launch.conditions import IfCondition
 def generate_launch_description():
 
     pkg_path = get_package_share_directory("rover_gazebo")
-    pkg_gazebo_ros = get_package_share_directory("gazebo_ros")
+    pkg_gazebo_ros = get_package_share_directory("ros_gz_sim")
     pkg_rover_localization = get_package_share_directory("rover_localization")
     pkg_rover_navigation = get_package_share_directory("rover_navigation")
 
@@ -49,18 +49,6 @@ def generate_launch_description():
         "world",
         default_value=os.path.join(pkg_path, "worlds", "empty.world"),
         description="Gazebo world")
-
-    launch_gui = LaunchConfiguration("launch_gui")
-    launch_gui_cmd = DeclareLaunchArgument(
-        "launch_gui",
-        default_value="True",
-        description="Whether launch gzclient")
-
-    pause_gz = LaunchConfiguration("pause_gz")
-    pause_gz_cmd = DeclareLaunchArgument(
-        "pause_gz",
-        default_value="False",
-        description="Whether to pause gazebo")
 
     launch_rviz = LaunchConfiguration("launch_rviz")
     launch_rviz_cmd = DeclareLaunchArgument(
@@ -117,23 +105,41 @@ def generate_launch_description():
         condition=IfCondition(PythonExpression([launch_rviz])),
     )
 
-    ### LAUNCHS ###
-    gazebo_client_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_gazebo_ros, "launch", "gzclient.launch.py")
-        ),
-        condition=IfCondition(PythonExpression([launch_gui]))
+    gz_bridge_cmd = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
+            "/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
+            "/camera/image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            "/camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
+            "/imu@sensor_msgs/msg/Imu[gz.msgs.IMU",
+            "/cmd_vel@geometry_msgs/msg/Twist[gz.msgs.Twist"
+        ],
+        parameters=[os.path.join(get_package_share_directory(
+            "rover_gazebo"), "config", "gz_bridge.yaml")],
+        remappings=[
+            ("/camera/image", "/camera/rgb/image_raw"),
+            ("/camera/depth_image", "/camera/depth/image_raw"),
+            ("/camera/camera_info", "/camera/camera_info"),
+            ("/camera/points", "/camera/points")
+        ],
+        output="screen"
     )
 
-    gazebo_server_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_gazebo_ros, "launch", "gzserver.launch.py")
-        ),
-        launch_arguments={
-            "world": world,
-            "pause": pause_gz,
-            "params_file": os.path.join(pkg_path, "config", "gazebo.yaml"),
-        }.items()
+    ### LAUNCHS ###
+    gazebo_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            os.path.join(pkg_gazebo_ros, "launch", "gz_sim.launch.py")
+        ]),
+        launch_arguments=[("gz_args", [
+            world,
+            " -v 4",
+            " -r",
+            " --gui-config ", os.path.join(pkg_path, "gui", "gui.config")
+        ])]
     )
 
     localization_cmd = IncludeLaunchDescription(
@@ -150,7 +156,7 @@ def generate_launch_description():
                          "bringup.launch.py")
         ),
         launch_arguments={
-            "use_sim_time": "True",
+            "use_sim_time": "true",
             "planner": nav2_planner,
             "controller": nav2_controller
         }.items()
@@ -177,8 +183,6 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    ld.add_action(launch_gui_cmd)
-    ld.add_action(pause_gz_cmd)
     ld.add_action(launch_rviz_cmd)
     ld.add_action(world_cmd)
     ld.add_action(initial_pose_x_cmd)
@@ -188,12 +192,12 @@ def generate_launch_description():
     ld.add_action(nav2_planner_cmd)
     ld.add_action(nav2_controller_cmd)
 
-    ld.add_action(gazebo_client_cmd)
-    ld.add_action(gazebo_server_cmd)
-    ld.add_action(localization_cmd)
-    ld.add_action(navigation_cmd)
-    ld.add_action(cmd_vel_cmd)
+    ld.add_action(gazebo_cmd)
+    ld.add_action(gz_bridge_cmd)
     ld.add_action(spawn_cmd)
-    ld.add_action(rviz_cmd)
+    # ld.add_action(localization_cmd)
+    # ld.add_action(navigation_cmd)
+    # ld.add_action(cmd_vel_cmd)
+    # ld.add_action(rviz_cmd)
 
     return ld

@@ -1,0 +1,4 @@
+prepend-non-duplicate;IGN_GAZEBO_RESOURCE_PATH;share
+prepend-non-duplicate;IGN_GAZEBO_RESOURCE_PATH;share/simulation/urdf
+prepend-non-duplicate;IGN_GAZEBO_RESOURCE_PATH;share/simulation/robots
+prepend-non-duplicate;IGN_GAZEBO_RESOURCE_PATH;share/simulation/meshes

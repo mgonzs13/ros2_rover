@@ -23,11 +23,13 @@
 
 import os
 from ament_index_python import get_package_share_directory
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch import LaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
@@ -58,44 +60,34 @@ def generate_launch_description():
 
     ### NODES ###
     spawn_entity_cmd = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
-        arguments=["-entity", "rover",
-                   "-topic", "robot_description",
-                   "-timeout", "120",
+        package="ros_gz_sim",
+        executable="create",
+        arguments=["-name", "rover",
                    "-x", initial_pose_x,
                    "-y", initial_pose_y,
                    "-z", initial_pose_z,
-                   "-Y", initial_pose_yaw],
+                   "-Y", initial_pose_yaw,
+                   "-topic", "robot_description"],
         output="screen",
         parameters=[{"use_sim_time": True}]
     )
 
-    joint_state_broadcaster_spawner = Node(
-        name="joint_state_broadcaster_spawner",
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster",
-                   "--controller-manager", "/controller_manager",
-                   "--controller-manager-timeout", "120"],
+    load_joint_state_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "joint_state_broadcaster"],
+        output="screen"
     )
 
-    position_controller_spawner = Node(
-        name="position_controller_spawner",
-        package="controller_manager",
-        executable="spawner",
-        arguments=["position_controller",
-                   "--controller-manager", "/controller_manager",
-                   "--controller-manager-timeout", "120"],
+    load_position_controller_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "position_controller"],
+        output="screen"
     )
 
-    velocity_controller_spawner = Node(
-        name="velocity_controller_spawner",
-        package="controller_manager",
-        executable="spawner",
-        arguments=["velocity_controller",
-                   "--controller-manager", "/controller_manager",
-                   "--controller-manager-timeout", "120"],
+    load_velocity_controller_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "velocity_controller"],
+        output="screen"
     )
 
     ### LAUNCH ###
@@ -114,9 +106,20 @@ def generate_launch_description():
     ld.add_action(initial_pose_yaw_cmd)
 
     ld.add_action(spawn_entity_cmd)
-    ld.add_action(joint_state_broadcaster_spawner)
-    ld.add_action(position_controller_spawner)
-    ld.add_action(velocity_controller_spawner)
     ld.add_action(robot_state_publisher_cmd)
+
+    ld.add_action(RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=spawn_entity_cmd,
+            on_exit=[load_joint_state_controller],
+        )
+    ))
+    ld.add_action(RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=load_joint_state_controller,
+            on_exit=[load_position_controller_controller,
+                     load_velocity_controller_controller],
+        )
+    ))
 
     return ld

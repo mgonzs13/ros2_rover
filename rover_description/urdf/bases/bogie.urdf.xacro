@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="rocker" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="bogie_box_length" value="0.43" />
     <xacro:property name="bogie_box_width" value="0.29" />
     <xacro:property name="bogie_box_depth" value="0.10" />
@@ -59,7 +59,6 @@
             <material>Gazebo/White</material>
         </gazebo>
 
-
         <!-- joint -->
         <joint name="${lat_label}_bogie_joint" type="revolute">
             <origin rpy="0 0 0" xyz="-0.181 ${reflect * 0.025} -0.062"/>
@@ -72,10 +71,5 @@
             <parent link="${lat_label}_rocker_link" />
             <child link="${lat_label}_bogie_link" />
         </joint>
-
-        <gazebo reference="${lat_label}_bogie_joint">
-            <provideFeedback>true</provideFeedback>
-            <implicitSpringDamper>true</implicitSpringDamper>
-        </gazebo>
     </xacro:macro>
 </robot>

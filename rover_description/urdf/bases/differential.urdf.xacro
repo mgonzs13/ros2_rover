@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="differential" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="differential_box_length" value="0.300" />
     <xacro:property name="differential_box_width" value="0.055" />
     <xacro:property name="differential_box_depth" value="0.055" />
@@ -69,11 +69,5 @@
             <parent link="${parent}" />
             <child link="diff_brace_link" />
         </joint>
-
-        <gazebo reference="diff_brace_joint">
-            <provideFeedback>true</provideFeedback>
-            <implicitSpringDamper>true</implicitSpringDamper>
-        </gazebo>
-
     </xacro:macro>
 </robot>

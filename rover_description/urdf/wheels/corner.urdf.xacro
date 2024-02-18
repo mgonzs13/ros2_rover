@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="corner" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="corner_box_length" value="0.43" />
     <xacro:property name="corner_box_width" value="0.29" />
     <xacro:property name="corner_box_depth" value="0.10" />
