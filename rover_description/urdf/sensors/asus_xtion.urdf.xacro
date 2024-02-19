@@ -61,7 +61,7 @@
 
 
     <joint name="camera_frame_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="-${math_pi_over_2} 0 -${math_pi_over_2}" />
       <parent link="${prefix}_link" />
       <child link="camera_frame" />
     </joint>
@@ -79,8 +79,8 @@
     <gazebo reference="${prefix}_link">
       <sensor name="rgbd_camera" type="rgbd_camera">
 
-        <ignition_frame_id>camera_frame</ignition_frame_id>
-        <pose relative_to="camera_frame">0 0 0 0 0 0</pose>
+        <ignition_frame_id>${prefix}_link</ignition_frame_id>
+        <pose relative_to="${prefix}_link">0 0 0 0 0 0</pose>
 
         <camera>
           <horizontal_fov>1.3439</horizontal_fov>
