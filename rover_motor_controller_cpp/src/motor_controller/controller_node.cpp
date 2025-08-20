@@ -24,6 +24,9 @@
 
 #include <memory>
 #include <string>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdexcept>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -47,6 +50,34 @@ ControllerNode::ControllerNode() : rclcpp::Node("controller_node") {
 
   int baud_rate;
   this->get_parameter("baud_rate", baud_rate);
+
+  // Check if the device exists and is accessible
+  struct stat device_stat;
+  if (stat(motor_controller_device.c_str(), &device_stat) != 0) {
+    std::string error_msg = "Motor controller device '" + motor_controller_device + 
+                           "' does not exist. Please check if the device is connected and the path is correct.";
+    RCLCPP_ERROR(this->get_logger(), "%s", error_msg.c_str());
+    throw std::runtime_error(error_msg);
+  }
+
+  // Check if we have read/write permissions
+  if (access(motor_controller_device.c_str(), R_OK | W_OK) != 0) {
+    std::string error_msg = "No read/write permission for motor controller device '" + 
+                           motor_controller_device + "'. Please check device permissions or add user to dialout group.";
+    RCLCPP_ERROR(this->get_logger(), "%s", error_msg.c_str());
+    throw std::runtime_error(error_msg);
+  }
+
+  // Check if it's a character device (serial devices are character devices)
+  if (!S_ISCHR(device_stat.st_mode)) {
+    std::string error_msg = "Motor controller device '" + motor_controller_device + 
+                           "' is not a character device. Expected a serial device.";
+    RCLCPP_ERROR(this->get_logger(), "%s", error_msg.c_str());
+    throw std::runtime_error(error_msg);
+  }
+
+  RCLCPP_INFO(this->get_logger(), "Motor controller device '%s' found and accessible", 
+              motor_controller_device.c_str());
 
   this->motor_controller = std::make_unique<lx16a::MotorController>(
       lx16a::MotorController(motor_controller_device, baud_rate));

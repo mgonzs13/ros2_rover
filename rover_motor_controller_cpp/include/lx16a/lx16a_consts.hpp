@@ -65,18 +65,18 @@ constexpr uint8_t SERVO_ERROR_OVER_TEMPERATURE = 1;
 constexpr uint8_t SERVO_ERROR_OVER_VOLTAGE = 2;
 constexpr uint8_t SERVO_ERROR_LOCKED_ROTOR = 4;
 
-// SERVOS
-constexpr uint8_t MOTOR_LEFT_FRONT = 1;
-constexpr uint8_t MOTOR_LEFT_MIDDLE = 2;
-constexpr uint8_t MOTOR_LEFT_BACK = 3;
-constexpr uint8_t MOTOR_RIGHT_FRONT = 4;
-constexpr uint8_t MOTOR_RIGHT_MIDDLE = 5;
-constexpr uint8_t MOTOR_RIGHT_BACK = 6;
+// SERVO IDs
+constexpr uint8_t MOTOR_LEFT_FRONT = 25; // drive motors
+constexpr uint8_t MOTOR_LEFT_MIDDLE = 21;
+constexpr uint8_t MOTOR_LEFT_BACK = 28;
+constexpr uint8_t MOTOR_RIGHT_FRONT = 27;
+constexpr uint8_t MOTOR_RIGHT_MIDDLE = 22;
+constexpr uint8_t MOTOR_RIGHT_BACK = 20;
 
-constexpr uint8_t SERVO_LEFT_FRONT = 7;
-constexpr uint8_t SERVO_RIGHT_FRONT = 8;
-constexpr uint8_t SERVO_LEFT_BACK = 9;
-constexpr uint8_t SERVO_RIGHT_BACK = 10;
+constexpr uint8_t SERVO_LEFT_FRONT = 23; // steering motors
+constexpr uint8_t SERVO_RIGHT_FRONT = 29;
+constexpr uint8_t SERVO_LEFT_BACK = 24;
+constexpr uint8_t SERVO_RIGHT_BACK = 26;
 
 } // namespace lx16a
 #endif

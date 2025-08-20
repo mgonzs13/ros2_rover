@@ -31,7 +31,10 @@ def generate_launch_description():
 
     pkg_name = "rover_motor_controller_cpp"
     stdout_linebuf_envvar = SetEnvironmentVariable(
-        "RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED", "1"
+        "RCUTILS_LOGGING_USE_STDOUT", "1"
+    )
+    stdout_linebuf2_envvar = SetEnvironmentVariable(
+        "RCUTILS_LOGGING_BUFFERED_STREAM", "1"
     )
 
     #
@@ -109,6 +112,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     ld.add_action(stdout_linebuf_envvar)
+    ld.add_action(stdout_linebuf2_envvar)
 
     ld.add_action(declare_hardware_distances_cmd)
     ld.add_action(declare_enc_min_cmd)

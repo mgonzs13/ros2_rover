@@ -2,8 +2,8 @@
 After=network.service
 
 [Service]
-User=ubuntu
-Group=ubuntu
+User=trippy
+Group=trippy
 ExecStart=/bin/bash /usr/local/bin/rover.sh
 
 [Install]
