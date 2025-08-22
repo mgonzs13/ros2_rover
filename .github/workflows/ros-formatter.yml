@@ -1,5 +1,4 @@
-
-name: Code Formatter
+name: ROS Code Formatter
 on:
   push:
     branches: [ feature/checktty]  # Adjust branch names as needed
@@ -10,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: AutoModality/action-ros-clang-format@v1
+    - uses: AutoModality/action-ros-clang-format@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
