@@ -99,6 +99,13 @@ def generate_launch_description():
         description="Nav2 controller (RPP or TEB)",
     )
 
+    launch_odometry = LaunchConfiguration("launch_odometry")
+    launch_odometry_cmd = DeclareLaunchArgument(
+        "launch_odometry",
+        default_value="True",
+        description="Whether to launch wheel odometry node",
+    )
+
     ### NODES ###
     rviz_cmd = Node(
         name="rviz",
@@ -164,6 +171,13 @@ def generate_launch_description():
         }.items(),
     )
 
+    odometry_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_path, "launch", "odometry.launch.py")
+        ),
+        condition=IfCondition(PythonExpression([launch_odometry])),
+    )
+
     ld = LaunchDescription()
 
     ld.add_action(launch_gui_cmd)
@@ -176,6 +190,7 @@ def generate_launch_description():
     ld.add_action(initial_pose_yaw_cmd)
     ld.add_action(nav2_planner_cmd)
     ld.add_action(nav2_controller_cmd)
+    ld.add_action(launch_odometry_cmd)
 
     ld.add_action(gazebo_client_cmd)
     ld.add_action(gazebo_server_cmd)
@@ -183,6 +198,7 @@ def generate_launch_description():
     ld.add_action(navigation_cmd)
     ld.add_action(cmd_vel_cmd)
     ld.add_action(spawn_cmd)
+    ld.add_action(odometry_cmd)
     ld.add_action(rviz_cmd)
 
     return ld

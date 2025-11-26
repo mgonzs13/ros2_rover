@@ -17,6 +17,10 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(rover_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
@@ -33,8 +37,27 @@ ament_target_dependencies(motors_command_parser_node
   std_msgs
   trajectory_msgs
 )
+
+add_executable(odometry_node src/odometry_node.cpp)
+ament_target_dependencies(odometry_node
+  rclcpp
+  nav_msgs
+  sensor_msgs
+  geometry_msgs
+  tf2_ros
+)
+
+add_executable(ground_truth_remapper_node src/ground_truth_remapper_node.cpp)
+ament_target_dependencies(ground_truth_remapper_node
+  rclcpp
+  nav_msgs
+  geometry_msgs
+)
+
 install(TARGETS
   motors_command_parser_node
+  odometry_node
+  ground_truth_remapper_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

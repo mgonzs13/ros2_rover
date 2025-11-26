@@ -1,0 +1,10 @@
+odometry_node:
+  ros__parameters:
+    # Wheel parameters
+    wheel_radius: 0.06 # meters (6 cm wheels)
+    wheel_separation: 0.5458 # meters (distance between left and right wheels)
+
+    # Publishing options
+    publish_tf: false
+    odom_frame: "odom"
+    base_frame: "base_link"

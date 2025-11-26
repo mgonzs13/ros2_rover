@@ -20,6 +20,10 @@
   <depend>rover_description</depend>
   <depend>rover_msgs</depend>
   <depend>rover_motor_controller_cpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2_ros</depend>
   <depend>std_msgs</depend>
   <depend>trajectory_msgs</depend>
   <export>
