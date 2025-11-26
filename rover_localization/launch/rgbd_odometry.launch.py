@@ -23,9 +23,18 @@
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration("use_sim_time")
+    use_sim_time_cmd = DeclareLaunchArgument(
+        "use_sim_time",
+        default_value="False",
+        description="Use simulation (Gazebo) clock if True",
+    )
+
     parameters = [
         {
             "frame_id": "base_link",
@@ -38,6 +47,7 @@ def generate_launch_description():
             "publish_null_when_lost": False,
             "qos": 2,
             "qos_camera_info": 2,
+            "use_sim_time": use_sim_time,
             # 0=TORO, 1=g2o, 2=GTSAM and 3=Ceres
             "Optimizer/Strategy": "2",
             "Optimizer/GravitySigma": "0.0",
@@ -105,6 +115,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            use_sim_time_cmd,
             Node(
                 package="rtabmap_odom",
                 executable="rgbd_odometry",

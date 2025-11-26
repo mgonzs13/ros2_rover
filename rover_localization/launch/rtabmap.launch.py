@@ -40,7 +40,7 @@ def generate_launch_description():
     launch_rtabmapviz = LaunchConfiguration("launch_rtabmapviz")
     launch_rtabmapviz_cmd = DeclareLaunchArgument(
         "launch_rtabmapviz",
-        default_value="True",
+        default_value="False",
         description="Wheather to launch rtabmapviz",
     )
 
@@ -56,6 +56,7 @@ def generate_launch_description():
             "qos_image": 2,
             "qos_camera_info": 2,
             "qos_imu": 2,
+            "qos_odom": 1,
             # 0=TORO, 1=g2o, 2=GTSAM and 3=Ceres
             "Optimizer/Strategy": "2",
             "Optimizer/GravitySigma": "0.0",

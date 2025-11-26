@@ -44,7 +44,8 @@ def generate_launch_description():
     rgbd_odometry_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_rover_localization, "launch", "rgbd_odometry.launch.py")
-        )
+        ),
+        launch_arguments={"use_sim_time": use_sim_time}.items(),
     )
 
     rtabmap_cmd = IncludeLaunchDescription(

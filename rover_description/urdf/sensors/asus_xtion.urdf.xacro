@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
+
 <!-- # MIT License
 
-# Copyright (c) 2023 Miguel Ángel González Santamarta
+# Copyright (c) 2023  Miguel Ángel González Santamarta
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +21,20 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
-<robot name="sensor_asus_xtion" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+
   <xacro:macro name="sensor_asus_xtion" params="prefix parent *origin ">
     <xacro:property name="math_pi_over_2" value="1.5707963267948966" />
+
     <joint name="${prefix}_joint" type="fixed">
-      <axis xyz="1 0 0"/>
-      <xacro:insert_block name="origin"/>
-      <parent link="${parent}"/>
-      <child link="${prefix}_link"/>
+        <axis xyz="1 0 0"/>
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${prefix}_link"/>
     </joint>
+
     <link name="${prefix}_link">
       <visual>
         <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
@@ -36,12 +42,14 @@
           <mesh filename="package://rover_description/meshes/sensors/asus_xtion/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </visual>
+
       <collision>
         <origin rpy="${math_pi_over_2} 0 ${math_pi_over_2}" xyz="0 0 0"/>
         <geometry>
           <mesh filename="package://rover_description/meshes/sensors/asus_xtion/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
+
       <inertial>
         <mass value="0.01" />
         <origin xyz="0 0 0" />
@@ -50,11 +58,14 @@
           izz="0.001" />
       </inertial>
     </link>
+
+
     <joint name="camera_frame_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${math_pi_over_2} 0 -${math_pi_over_2}" />
       <parent link="${prefix}_link" />
       <child link="camera_frame" />
     </joint>
+
     <link name="camera_frame">
       <inertial>
         <mass value="0.001" />
@@ -64,94 +75,32 @@
           izz="0.001" />
       </inertial>
     </link>
+
     <gazebo reference="${prefix}_link">
-      <sensor name="camera" type="depth">
-        <visualize>true</visualize>
-        <update_rate>30</update_rate>
+      <sensor name="rgbd_camera" type="rgbd_camera">
+
+        <ignition_frame_id>${prefix}_link</ignition_frame_id>
+        <pose relative_to="${prefix}_link">0 0 0 0 0 0</pose>
+
         <camera>
-          <horizontal_fov>${63.0*2*math_pi_over_2/180.0}</horizontal_fov>
+          <horizontal_fov>1.3439</horizontal_fov>
           <image>
-            <format>B8G8R8</format>
-            <width>640</width>
+            <width>720</width>
             <height>480</height>
+            <format>R8G8B8</format>
           </image>
           <clip>
-            <near>0.3</near>
-            <far>8.0</far>
+            <near>0.05</near>
+            <far>100</far>
           </clip>
-          <distortion>
-            <k1>0.00000001</k1>
-            <k2>0.00000001</k2>
-            <k3>0.00000001</k3>
-            <p1>0.00000001</p1>
-            <p2>0.00000001</p2>
-          </distortion>
+          <optical_frame_id>camera_frame</optical_frame_id>
         </camera>
-        <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
-          <ros>
-            <qos>
-              <topic name="/camera/camera_info">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/image_raw">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/image_raw/compressed">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/image_raw/compressedDepth">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/image_raw/theora">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/points">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/depth/camera_info">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/depth/image_raw">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/depth/image_raw/compressed">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/depth/image_raw/compressedDepth">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-              <topic name="/camera/depth/image_raw/theora">
-                <publisher>
-                  <reliability>best_effort</reliability>
-                </publisher>
-              </topic>
-            </qos>
-          </ros>
-          <frame_name>camera_frame</frame_name>
-          <min_depth>0.3</min_depth>
-          <max_depth>8.0</max_depth>
-        </plugin>
+        <always_on>1</always_on>
+        <topic>camera</topic>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
       </sensor>
     </gazebo>
   </xacro:macro>
+
 </robot>

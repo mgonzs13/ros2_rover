@@ -2,16 +2,21 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rover_description</name>
-  <version>1.1.0</version>
+  <version>0.0.0</version>
   <description>Rover description package</description>
   <maintainer email="mgons@unileon.es">Miguel Ángel González Santamarta</maintainer>
   <license>MIT</license>
+
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>ign_ros2_control</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>joint_state_broadcaster</depend>
+  <depend>position_controllers</depend>
+  <depend>velocity_controllers</depend>
   <depend>xacro</depend>
+
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros                                                                 
-        gazebo_plugin_path="${prefix}/lib"
-        gazebo_model_path="${prefix}/.." />
   </export>
 </package>

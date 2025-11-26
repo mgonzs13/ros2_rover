@@ -55,11 +55,15 @@
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
             <friction>
-              <ode>
-                <mu>100</mu>
-                <mu2>50</mu2>
-              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
             </friction>
           </surface>
         </collision>

@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
+
 <!-- # MIT License
 
-# Copyright (c) 2023 Miguel Ángel González Santamarta
+# Copyright (c) 2023  Miguel Ángel González Santamarta
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +21,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
-<robot name="body" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="body_box_length" value="0.43" />
     <xacro:property name="body_box_width" value="0.29" />
     <xacro:property name="body_box_depth" value="0.10" />
     <xacro:property name="body_box_mass" value="1.0" />
+
     <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
+
     <xacro:macro name="body" params="parent">
+
         <link name="body_box_link">
             <visual>
                 <origin rpy="0 0 0" xyz="0 0 0" />
@@ -48,13 +53,16 @@
                 mass="${body_box_mass}"
                 x="${body_box_length}" y="${body_box_width}" z="${body_box_depth}" />
         </link>
+
         <gazebo reference="body_box_link">
             <material>Gazebo/White</material>
         </gazebo>
+
         <joint name="body_box_joint" type="fixed">
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <parent link="${parent}" />
             <child link="body_box_link" />
         </joint>
+
     </xacro:macro>
 </robot>
