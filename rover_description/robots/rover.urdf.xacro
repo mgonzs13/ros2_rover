@@ -37,9 +37,8 @@
     <xacro:include filename="$(find rover_description)/urdf/sensors/all_sensors.urdf.xacro" />
 
 
-    <!-- Gazebo ROS2 Control -->
     <gazebo>
-        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
         <parameters>$(find rover_description)/config/control.yaml</parameters>
         <ros>
             <remapping>/tf:=tf</remapping>
@@ -58,7 +57,7 @@
     
     <ros2_control name="IgnitionSystem" type="system">
         <hardware>
-            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         </hardware>
 
         <joint name="front_right_corner_joint">

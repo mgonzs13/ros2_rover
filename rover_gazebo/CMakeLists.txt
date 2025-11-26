@@ -63,7 +63,7 @@ install(TARGETS
 )
 
 install(
-  DIRECTORY launch worlds models rviz config
+  DIRECTORY launch worlds models rviz config gui
   DESTINATION share/${PROJECT_NAME}
 )
 

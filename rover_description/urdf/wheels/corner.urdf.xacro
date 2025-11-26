@@ -66,7 +66,11 @@
             <dynamics damping="0.0" friction="0.0"/>
         </joint>
         <gazebo reference="front_${lat_label}_corner_joint">
-            <provideFeedback>true</provideFeedback>
+            <physics>
+                <ode>
+                    <provide_feedback>true</provide_feedback>
+                </ode>
+            </physics>
         </gazebo>
     </xacro:macro>
     <!-- back joint -->
@@ -80,7 +84,11 @@
             <dynamics damping="0.0" friction="0.0"/>
         </joint>
         <gazebo reference="back_${lat_label}_corner_joint">
-            <provideFeedback>true</provideFeedback>
+            <physics>
+                <ode>
+                    <provide_feedback>true</provide_feedback>
+                </ode>
+            </physics>
         </gazebo>
     </xacro:macro>
 </robot>

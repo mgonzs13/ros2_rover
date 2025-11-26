@@ -216,8 +216,8 @@ def generate_launch_description():
     ld.add_action(gazebo_cmd)
     ld.add_action(gz_bridge_cmd)
     ld.add_action(spawn_cmd)
-    # ld.add_action(localization_cmd)
-    # ld.add_action(navigation_cmd)
+    ld.add_action(localization_cmd)
+    ld.add_action(navigation_cmd)
     ld.add_action(cmd_vel_cmd)
     ld.add_action(rviz_cmd)
 
