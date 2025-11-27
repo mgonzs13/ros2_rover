@@ -1,40 +1,40 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
-    <model name="moon">
-      <static>true</static>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <heightmap>
-              <uri>model://moon/materials/heightmap/moon.png</uri>
-              <size>100 100 6</size>
-              <pos>0 0 0</pos>
-            </heightmap>
-          </geometry>
-        <!-- <surface>
+  <model name="moon">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <heightmap>
+            <uri>model://moon/materials/heightmap/moon.png</uri>
+            <size>100 100 6</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+        <surface>
           <friction>
             <ode>
               <mu>100</mu>
               <mu2>50</mu2>
             </ode>
           </friction>
-        </surface> -->
-        </collision>
-        <visual name="visual_abcedf">
-          <cast_shadows>true</cast_shadows>
-          <geometry>
-            <heightmap>
-              <texture>
-                <diffuse>model://moon/materials/textures/ground_1.jpg</diffuse>
-                <normal>model://moon/materials/textures/ground_normal.jpg</normal>
-                <size>1</size>
-              </texture>
-              <uri>model://moon/materials/heightmap/moon.png</uri>
-              <size>100 100 6</size>
-              <pos>0 0 0</pos>
-            </heightmap>
-          </geometry>
-        </visual>
-      </link>
-    </model>
+        </surface>
+      </collision>
+      <visual name="visual_abcedf">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <heightmap>
+            <texture>
+              <diffuse>model://moon/materials/textures/ground_1.jpg</diffuse>
+              <normal>model://moon/materials/textures/ground_normal.jpg</normal>
+              <size>1</size>
+            </texture>
+            <uri>model://moon/materials/heightmap/moon.png</uri>
+            <size>100 100 6</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+      </visual>
+    </link>
+  </model>
 </sdf>

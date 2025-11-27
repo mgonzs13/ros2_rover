@@ -27,46 +27,34 @@
     <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
 
     <xacro:macro name="turnbuckle" params="lat_label reflect">
-            <link name="${lat_label}_turnbuckle_link">
-                <origin xyz="0.035 ${reflect * 0.17} 0.07" rpy="0 0 0"/>
-                <visual>
-                    <origin rpy="0 0 0" xyz="0 0 0" />
-                    <geometry>
-                        <mesh filename="package://rover_description/meshes/bases/turnbuckle.stl" />
-                    </geometry>
-                    <material name="blue" />
-                </visual>
-                <collision>
-                    <origin xyz="0 0 0" rpy="0 ${math_pi_over_2} 0"/>
-                    <geometry>
-                        <cylinder length="0.07" radius="0.0025"/>
-                    </geometry>
-                </collision>
-                <xacro:solid_cylinder_inertial 
-                    rpy="0 0 0" xyz="0 0 0"
-                    mass="0.25"
-                    radius="0.0025" 
-                    length="0.07" />
-            </link>
+        <link name="${lat_label}_turnbuckle_link">
+            <origin xyz="0.035 ${reflect * 0.17} 0.07" rpy="0 0 0"/>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rover_description/meshes/bases/turnbuckle.stl" />
+                </geometry>
+                <material name="blue" />
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${math_pi_over_2} 0"/>
+                <geometry>
+                    <cylinder length="0.07" radius="0.0025"/>
+                </geometry>
+            </collision>
+            <xacro:solid_cylinder_inertial rpy="0 0 0" xyz="0 0 0" mass="0.25" radius="0.0025" length="0.07" />
+        </link>
 
-            <joint name="back_${lat_label}_turnbuckle_joint" type="revolute">
-                <origin xyz="-0.035 0 0" rpy="0 0 0"/>
-                <limit 
-                    lower="${-math_pi}"
-                    upper="${math_pi}"
-                    effort="100.0"
-                    velocity="30.0" />
-                <parent link="diff_brace_link" />
-                <child link="${lat_label}_turnbuckle_link" />
-            </joint>
+        <joint name="back_${lat_label}_turnbuckle_joint" type="revolute">
+            <origin xyz="-0.035 0 0" rpy="0 0 0"/>
+            <limit lower="${-math_pi}" upper="${math_pi}" effort="100.0" velocity="30.0" />
+            <parent link="diff_brace_link" />
+            <child link="${lat_label}_turnbuckle_link" />
+        </joint>
 
-            <!-- <joint name="front_${lat_label}_turnbuckle_joint" type="revolute">
+        <!-- <joint name="front_${lat_label}_turnbuckle_joint" type="revolute">
                 <origin xyz="0.035 0 0" rpy="0 0 0"/>
-                <limit 
-                    lower="${-math_pi}"
-                    upper="${math_pi}"
-                    effort="100.0"
-                    velocity="30.0" />
+                <limit lower="${-math_pi}" upper="${math_pi}" effort="100.0" velocity="30.0" />
                 <parent link="${lat_label}_rocker_link" />
                 <child link="${lat_label}_turnbuckle_link" />
             </joint> -->

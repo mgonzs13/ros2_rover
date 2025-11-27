@@ -22,8 +22,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    
+<robot name="rover"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
     <!-- Include macros -->
     <xacro:include filename="$(find rover_description)/urdf/materials.xacro"/>
     <xacro:include filename="$(find rover_description)/urdf/inertials.xacro"/>
@@ -36,25 +37,23 @@
     <xacro:include filename="$(find rover_description)/urdf/wheels/corner.urdf.xacro" />
     <xacro:include filename="$(find rover_description)/urdf/sensors/all_sensors.urdf.xacro" />
 
-
     <gazebo>
         <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-        <parameters>$(find rover_description)/config/control.yaml</parameters>
-        <ros>
-            <remapping>/tf:=tf</remapping>
-            <remapping>/tf_static:=tf_static</remapping>
-        </ros>
+            <parameters>$(find rover_description)/config/control.yaml</parameters>
+            <ros>
+                <remapping>/tf:=tf</remapping>
+                <remapping>/tf_static:=tf_static</remapping>
+            </ros>
         </plugin>
 
         <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
-        <render_engine>ogre2</render_engine>
+            <render_engine>ogre2</render_engine>
         </plugin>
 
-        <plugin filename="libignition-gazebo-imu-system.so"
-                name="ignition::gazebo::systems::Imu">
+        <plugin filename="libignition-gazebo-imu-system.so" name="ignition::gazebo::systems::Imu">
         </plugin>
     </gazebo>
-    
+
     <ros2_control name="IgnitionSystem" type="system">
         <hardware>
             <plugin>gz_ros2_control/GazeboSimSystem</plugin>
@@ -169,7 +168,6 @@
         </joint>
     </ros2_control>
 
-  
     <!-- The base link -->
     <link name="base_link">
         <visual>
@@ -191,7 +189,7 @@
 
     <!-- <xacro:turnbuckle lat_label="left" reflect="1"/>
     <xacro:turnbuckle lat_label="right" reflect="-1"/> -->
-    
+
     <xacro:rocker parent="base_link" lat_label="left" reflect="1"/>
     <xacro:rocker parent="base_link" lat_label="right" reflect="-1"/>
 
@@ -201,8 +199,8 @@
     <!-- sensors -->
     <xacro:sensor_hokuyo prefix="laser" parent="base_link" min_angle="-1.0" max_angle="1.0">
         <origin xyz="0.17 0 0.005" rpy="0 0 0"/>
-    </xacro:sensor_hokuyo>   
-    
+    </xacro:sensor_hokuyo>
+
     <xacro:sensor_imu prefix="imu" parent="base_link">
         <!-- <origin xyz="-0.32 0 0.05" rpy="0 0.5 0"/> -->
         <origin xyz="0 0 -0.04" rpy="0 0 0"/>

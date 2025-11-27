@@ -22,9 +22,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="inertials" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="inertials"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
     <!-- Math constants -->
-    <xacro:property name="math_pi"        value="3.141592653589793" />
+    <xacro:property name="math_pi" value="3.141592653589793" />
     <xacro:property name="math_pi_over_2" value="1.5707963267948966" />
     <xacro:property name="math_pi_over_4" value="0.785398163397448" />
     <!-- Inertial for solid cuboid with dimensions x y z  -->
@@ -32,10 +33,7 @@
         <inertial>
             <origin rpy="${rpy}" xyz="${xyz}"/>
             <mass value="${mass}" />
-            <inertia
-                ixx="${mass * (y * y + z * z) / 12.0}" ixy="0.0" ixz="0.0"
-                iyy="${mass * (x * x + z * z) / 12.0}" iyz="0.0"
-                izz="${mass * (x * x + y * y) / 12.0}" />
+            <inertia ixx="${mass * (y * y + z * z) / 12.0}" ixy="0.0" ixz="0.0" iyy="${mass * (x * x + z * z) / 12.0}" iyz="0.0" izz="${mass * (x * x + y * y) / 12.0}" />
         </inertial>
     </xacro:macro>
     <!-- Inertial for solid cylinder with radius and length aligned to z-axis  -->
@@ -43,10 +41,7 @@
         <inertial>
             <origin rpy="${rpy}" xyz="${xyz}"/>
             <mass value="${mass}" />
-            <inertia
-                ixx="${mass * (3.0 * radius * radius + length * length) / 12.0}" ixy="0.0" ixz="0.0"
-                iyy="${mass * (3.0 * radius * radius + length * length) / 12.0}" iyz="0.0"
-                izz="${mass * (radius * radius) / 2.0}" />
+            <inertia ixx="${mass * (3.0 * radius * radius + length * length) / 12.0}" ixy="0.0" ixz="0.0" iyy="${mass * (3.0 * radius * radius + length * length) / 12.0}" iyz="0.0" izz="${mass * (radius * radius) / 2.0}" />
         </inertial>
     </xacro:macro>
 </robot>

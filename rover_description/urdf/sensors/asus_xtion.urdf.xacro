@@ -23,16 +23,15 @@
 # SOFTWARE. -->
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  
 
   <xacro:macro name="sensor_asus_xtion" params="prefix parent *origin ">
     <xacro:property name="math_pi_over_2" value="1.5707963267948966" />
 
     <joint name="${prefix}_joint" type="fixed">
-        <axis xyz="1 0 0"/>
-        <xacro:insert_block name="origin"/>
-        <parent link="${parent}"/>
-        <child link="${prefix}_link"/>
+      <axis xyz="1 0 0"/>
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
     </joint>
 
     <link name="${prefix}_link">
@@ -53,12 +52,9 @@
       <inertial>
         <mass value="0.01" />
         <origin xyz="0 0 0" />
-        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
-          iyy="0.001" iyz="0.0"
-          izz="0.001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
       </inertial>
     </link>
-
 
     <joint name="camera_frame_joint" type="fixed">
       <origin xyz="0 0 0" rpy="-${math_pi_over_2} 0 -${math_pi_over_2}" />
@@ -70,9 +66,7 @@
       <inertial>
         <mass value="0.001" />
         <origin xyz="0 0 0" />
-        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
-          iyy="0.001" iyz="0.0"
-          izz="0.001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
       </inertial>
     </link>
 

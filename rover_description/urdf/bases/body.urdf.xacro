@@ -48,10 +48,7 @@
                     <box size="${body_box_length} ${body_box_width} ${body_box_depth}"/>
                 </geometry>
             </collision>
-            <xacro:solid_cuboid_inertial 
-                rpy="0 0 0" xyz="0 0 0"
-                mass="${body_box_mass}"
-                x="${body_box_length}" y="${body_box_width}" z="${body_box_depth}" />
+            <xacro:solid_cuboid_inertial rpy="0 0 0" xyz="0 0 0" mass="${body_box_mass}" x="${body_box_length}" y="${body_box_width}" z="${body_box_depth}" />
         </link>
 
         <gazebo reference="body_box_link">

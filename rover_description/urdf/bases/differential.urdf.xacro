@@ -48,10 +48,7 @@
                     <box size="${differential_box_length} ${differential_box_width} ${differential_box_depth}"/>
                 </geometry>
             </collision>
-            <xacro:solid_cuboid_inertial 
-                rpy="0 0 ${math_pi_over_2}" xyz="0 0 0"
-                mass="${differential_box_mass}"
-                x="${differential_box_length}" y="${differential_box_width}" z="${differential_box_depth}" />
+            <xacro:solid_cuboid_inertial rpy="0 0 ${math_pi_over_2}" xyz="0 0 0" mass="${differential_box_mass}" x="${differential_box_length}" y="${differential_box_width}" z="${differential_box_depth}" />
         </link>
 
         <gazebo reference="diff_brace_link">
@@ -61,11 +58,7 @@
         <joint name="diff_brace_joint" type="revolute">
             <origin rpy="0 0 0" xyz="0 0 0.0681"/>
             <axis xyz="0 0 1" />
-            <limit 
-                lower="${-math_pi_over_4}"
-                upper="${math_pi_over_4}"
-                effort="100.0"
-                velocity="30.0" />
+            <limit lower="${-math_pi_over_4}" upper="${math_pi_over_4}" effort="100.0" velocity="30.0" />
             <parent link="${parent}" />
             <child link="diff_brace_link" />
         </joint>

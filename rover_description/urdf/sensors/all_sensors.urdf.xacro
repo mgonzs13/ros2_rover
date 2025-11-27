@@ -22,11 +22,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE. -->
 
-<robot name="all_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="all_sensors"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Imu -->
-  <xacro:include filename="$(find rover_description)/urdf/sensors/imu.urdf.xacro" />  
+  <xacro:include filename="$(find rover_description)/urdf/sensors/imu.urdf.xacro" />
   <!-- Hokuyo -->
-  <xacro:include filename="$(find rover_description)/urdf/sensors/hokuyo.urdf.xacro" /> 
+  <xacro:include filename="$(find rover_description)/urdf/sensors/hokuyo.urdf.xacro" />
   <!-- Hokuyo -->
-  <xacro:include filename="$(find rover_description)/urdf/sensors/asus_xtion.urdf.xacro" /> 
+  <xacro:include filename="$(find rover_description)/urdf/sensors/asus_xtion.urdf.xacro" />
 </robot>

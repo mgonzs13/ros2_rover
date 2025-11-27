@@ -32,16 +32,12 @@ from launch.substitutions import Command, PathJoinSubstitution
 
 def generate_launch_description():
 
-    xacro_file = PathJoinSubstitution([
-        get_package_share_directory("rover_description"),
-        "robots",
-        "rover.urdf.xacro"]
+    xacro_file = PathJoinSubstitution(
+        [get_package_share_directory("rover_description"), "robots", "rover.urdf.xacro"]
     )
 
     use_sim_time_cmd = DeclareLaunchArgument(
-        "use_sim_time",
-        default_value="false",
-        choices=["true", "false"]
+        "use_sim_time", default_value="false", choices=["true", "false"]
     )
 
     robot_state_publisher_cmd = Node(
@@ -51,14 +47,13 @@ def generate_launch_description():
         output="screen",
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
-            {"robot_description": ParameterValue(
-                Command(["xacro", " ", xacro_file]),
-                value_type=str)},
+            {
+                "robot_description": ParameterValue(
+                    Command(["xacro", " ", xacro_file]), value_type=str
+                )
+            },
         ],
-        remappings=[
-            ("/tf", "tf"),
-            ("/tf_static", "tf_static")
-        ]
+        remappings=[("/tf", "tf"), ("/tf_static", "tf_static")],
     )
 
     joint_state_publisher_cmd = Node(
@@ -67,10 +62,7 @@ def generate_launch_description():
         name="joint_state_publisher",
         output="screen",
         parameters=[{"use_sim_time": LaunchConfiguration("use_sim_time")}],
-        remappings=[
-            ("/tf", "tf"),
-            ("/tf_static", "tf_static")
-        ]
+        remappings=[("/tf", "tf"), ("/tf_static", "tf_static")],
     )
 
     ld = LaunchDescription()
