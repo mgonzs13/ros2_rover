@@ -22,11 +22,12 @@
 
 
 import os
+import yaml
+import tempfile
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
-    GroupAction,
     IncludeLaunchDescription,
     SetEnvironmentVariable,
     OpaqueFunction,
@@ -37,6 +38,27 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.actions import PushRosNamespace
 from nav2_common.launch import RewrittenYaml
+
+
+def merge_yaml_files(files):
+    merged_data = {}
+
+    for file_path in files:
+        with open(file_path, "r") as f:
+            data = yaml.safe_load(f) or {}
+            if not isinstance(data, dict):
+                raise ValueError(
+                    f"YAML content in {file_path} must be a dictionary at the top level."
+                )
+            merged_data.update(data)  # keys from later files will overwrite earlier ones
+
+    # Create a temporary file with .yaml extension
+    temp = tempfile.NamedTemporaryFile(delete=False, suffix=".yaml", mode="w")
+    yaml.dump(merged_data, temp)
+    temp_path = temp.name
+    temp.close()
+
+    return temp_path
 
 
 def generate_launch_description():
@@ -50,7 +72,15 @@ def generate_launch_description():
         planner = str(context.perform_substitution(planner))
         controller = str(context.perform_substitution(controller))
 
-        params_file = os.path.join(pkg_dir, "params", f"{planner}_{controller}.yaml")
+        params_file = merge_yaml_files(
+            [
+                os.path.join(pkg_dir, "params", "common.yaml"),
+                os.path.join(pkg_dir, "params", "costmaps.yaml"),
+                os.path.join(pkg_dir, "params", f"{planner}.yaml"),
+                os.path.join(pkg_dir, "params", f"{controller}.yaml"),
+            ]
+        )
+
         param_substitutions = {"use_sim_time": LaunchConfiguration("use_sim_time")}
         configured_params = RewrittenYaml(
             source_file=params_file,
