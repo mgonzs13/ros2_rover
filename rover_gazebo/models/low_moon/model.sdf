@@ -11,14 +11,14 @@
             <pos>0 0 0</pos>
           </heightmap>
         </geometry>
-        <!-- <surface>
+        <surface>
           <friction>
             <ode>
               <mu>100</mu>
               <mu2>50</mu2>
             </ode>
           </friction>
-        </surface> -->
+        </surface>
       </collision>
       <visual name="visual_abcedf">
         <cast_shadows>true</cast_shadows>
