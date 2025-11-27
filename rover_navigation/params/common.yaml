@@ -17,13 +17,13 @@ bt_navigator:
 
 smoother_server:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: true
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
       tolerance: 1.0e-10
       max_its: 1000
-      do_refinement: True
+      do_refinement: true
 
 behavior_server:
   ros__parameters:
@@ -61,7 +61,7 @@ waypoint_follower:
     waypoint_task_executor_plugin: "wait_at_waypoint"
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
-      enabled: True
+      enabled: true
       waypoint_pause_duration: 200
 
 route_server:
@@ -110,7 +110,7 @@ collision_monitor:
     state_topic: "collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0
-    base_shift_correction: True
+    base_shift_correction: true
     stop_pub_timeout: 2.0
     # Polygons represent zone around the robot for "stop", "slowdown" and "limit" action types,
     # and robot footprint for "approach" action type.
@@ -123,14 +123,14 @@ collision_monitor:
       simulation_time_step: 0.1
       min_points: 6
       visualize: False
-      enabled: True
+      enabled: true
     observation_sources: ["scan"]
     scan:
       type: "scan"
       topic: "scan"
       min_height: 0.15
       max_height: 2.0
-      enabled: True
+      enabled: true
 
 docking_server:
   ros__parameters:
