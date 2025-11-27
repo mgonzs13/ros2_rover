@@ -72,10 +72,7 @@
 
     <gazebo reference="${prefix}_link">
       <sensor name="rgbd_camera" type="rgbd_camera">
-
-        <ignition_frame_id>${prefix}_link</ignition_frame_id>
         <pose relative_to="${prefix}_link">0 0 0 0 0 0</pose>
-
         <camera>
           <horizontal_fov>1.3439</horizontal_fov>
           <image>

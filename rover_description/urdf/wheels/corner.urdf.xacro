@@ -46,11 +46,8 @@
                     <box size="${corner_box_length} ${corner_box_width} ${corner_box_depth}"/>
                 </geometry>
             </collision>
-            <xacro:solid_cuboid_inertial 
-                rpy="0 0 0" xyz="0 0 0"
-                mass="${corner_box_mass}"
-                x="${corner_box_length}" y="${corner_box_width}" z="${corner_box_depth}" />
-        </link> 
+            <xacro:solid_cuboid_inertial rpy="0 0 0" xyz="0 0 0" mass="${corner_box_mass}" x="${corner_box_length}" y="${corner_box_width}" z="${corner_box_depth}" />
+        </link>
         <gazebo reference="${lon_label}_${lat_label}_corner_link">
             <material>Gazebo/White</material>
         </gazebo>
@@ -67,9 +64,7 @@
         </joint>
         <gazebo reference="front_${lat_label}_corner_joint">
             <physics>
-                <ode>
-                    <provide_feedback>true</provide_feedback>
-                </ode>
+                <provide_feedback>true</provide_feedback>
             </physics>
         </gazebo>
     </xacro:macro>
@@ -85,9 +80,7 @@
         </joint>
         <gazebo reference="back_${lat_label}_corner_joint">
             <physics>
-                <ode>
-                    <provide_feedback>true</provide_feedback>
-                </ode>
+                <provide_feedback>true</provide_feedback>
             </physics>
         </gazebo>
     </xacro:macro>

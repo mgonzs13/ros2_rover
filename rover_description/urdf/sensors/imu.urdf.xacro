@@ -64,10 +64,7 @@
         <always_on>1</always_on>
         <update_rate>200</update_rate>
         <visualize>true</visualize>
-
-        <ignition_frame_id>${prefix}_link</ignition_frame_id>
         <pose relative_to="${prefix}_link">0 0 0 0 0 0</pose>
-
         <imu>
           <angular_velocity>
             <x>

@@ -44,19 +44,16 @@
                     <!-- <mesh filename="package://rover_description/meshes/wheels/wheel_asm.stl" /> -->
                 </geometry>
             </collision>
-            <xacro:solid_cylinder_inertial
-                rpy="0 0 0" xyz="0 0 0"
-                mass="${wheel_mass}"
-                radius="${wheel_radius}" length="${wheel_width}" />
-        </link>    
+            <xacro:solid_cylinder_inertial rpy="0 0 0" xyz="0 0 0" mass="${wheel_mass}" radius="${wheel_radius}" length="${wheel_width}" />
+        </link>
 
         <gazebo reference="${lon_label}_${lat_label}_wheel_link">
             <material>Gazebo/DarkGray</material>
-			<mu1 value="100.0"/>
-			<mu2 value="100.0"/>
-			<kp value="10000000.0" />
-			<kd value="1.0" />
-			<fdir1 value="1 0 0"/>
+            <mu1 value="100.0"/>
+            <mu2 value="100.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <fdir1 value="1 0 0"/>
             <turnGravityOff>false</turnGravityOff>
         </gazebo>
     </xacro:macro>
@@ -72,9 +69,7 @@
         </joint>
         <gazebo reference="${lon_label}_${lat_label}_wheel_joint">
             <physics>
-                <ode>
-                    <provide_feedback>true</provide_feedback>
-                </ode>
+                <provide_feedback>true</provide_feedback>
             </physics>
         </gazebo>
     </xacro:macro>
@@ -86,13 +81,11 @@
             <parent link="${lat_label}_bogie_link" />
             <child link="mid_${lat_label}_wheel_link" />
             <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="30"/>
-            <dynamics damping="0.0" friction="0.0"/>    
+            <dynamics damping="0.0" friction="0.0"/>
         </joint>
         <gazebo reference="mid_${lat_label}_wheel_joint">
             <physics>
-                <ode>
-                    <provide_feedback>true</provide_feedback>
-                </ode>
+                <provide_feedback>true</provide_feedback>
             </physics>
         </gazebo>
     </xacro:macro>
