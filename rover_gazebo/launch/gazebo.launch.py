@@ -150,18 +150,7 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(
                     [os.path.join(pkg_gazebo_ros, "launch", "gz_sim.launch.py")]
                 ),
-                launch_arguments=[
-                    (
-                        "gz_args",
-                        [
-                            world,
-                            " -v 4",
-                            " -r",
-                            " --gui-config ",
-                            os.path.join(pkg_path, "gui", "gui.config"),
-                        ],
-                    )
-                ],
+                launch_arguments=[("gz_args", [world, " -r"])],
             ),
         ]
     )

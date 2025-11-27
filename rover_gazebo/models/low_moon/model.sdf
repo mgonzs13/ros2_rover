@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<sdf version="1.6">
+<sdf version="1.8">
   <model name="low_moon">
     <static>true</static>
     <link name="link">
@@ -12,6 +12,9 @@
           </heightmap>
         </geometry>
         <surface>
+          <contact>
+            <ode/>
+          </contact>
           <friction>
             <ode>
               <mu>100</mu>
