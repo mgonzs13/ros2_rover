@@ -1,0 +1,16 @@
+<map id="rover_gazebo/src/motors_command_parser_node.cpp" name="rover_gazebo/src/motors_command_parser_node.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="58,5,245,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,63,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,49,64,94,61,90,123,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="34,190,154,216"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,47,105,176,100,175,142,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="178,183,327,223"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="155,46,162,88,169,111,179,133,194,153,213,171,209,175,190,157,174,136,164,113,156,89,150,47"/>
+<area shape="rect" id="Node000005" href="$motors__command__parser__node_8hpp.html" title=" " alt="" coords="188,94,376,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="182,44,241,83,238,87,180,49"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="352,183,514,223"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="246,32,283,40,321,52,357,69,389,92,404,109,415,128,429,167,424,168,410,130,399,112,386,96,354,74,319,57,282,45,245,37"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="240,138,135,186,133,181,238,133"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="278,136,267,169,262,167,273,134"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="318,133,387,173,385,177,315,137"/>
+</map>

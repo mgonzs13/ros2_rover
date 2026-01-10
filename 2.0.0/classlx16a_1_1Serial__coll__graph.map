@@ -1,0 +1,13 @@
+<map id="lx16a::Serial" name="lx16a::Serial">
+<area shape="rect" id="Node000001" title=" " alt="" coords="458,104,549,129"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="216,13,293,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,34,370,51,435,74,484,101,481,105,433,79,369,56,307,39"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,129,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="145,23,215,23,215,28,145,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="180,63,328,103"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="344,92,458,108,457,113,344,98"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="180,128,328,169"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="344,136,434,125,457,121,458,126,435,130,344,141"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="178,193,330,234"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="344,188,433,156,482,127,485,132,435,160,346,193"/>
+</map>
