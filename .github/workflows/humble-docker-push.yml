@@ -6,6 +6,7 @@ on:
 
 jobs:
   humble_docker_push:
+    if: github.event.release.target_commitish == 'humble'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

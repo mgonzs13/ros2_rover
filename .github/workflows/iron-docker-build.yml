@@ -2,11 +2,9 @@ name: Iron Docker Build
 
 on:
   push:
-    branches:
-      - humble
+    branches: [humble]
   pull_request:
-    branches:
-      - humble
+    branches: [humble]
   schedule:
     - cron: "0 5 * * 1"
 
