@@ -1,13 +1,15 @@
-name: Humble Docker Build
+name: Jazzy Docker Build
 
 on:
   push:
+    branches: [jazzy]
   pull_request:
+    branches: [jazzy]
   schedule:
     - cron: "0 5 * * 1"
 
 jobs:
-  humble_docker_build:
+  jazzy_docker_build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,5 +21,5 @@ jobs:
       - name: Build docker
         uses: docker/build-push-action@v6
         with:
-          build-args: ROS_DISTRO=humble
+          build-args: ROS_DISTRO=jazzy
           push: false

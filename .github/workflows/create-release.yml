@@ -2,7 +2,7 @@ name: Create Release
 
 on:
   push:
-    branches: [main]
+    branches: [jazzy]
 
 jobs:
   create_release:
@@ -39,12 +39,13 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Create GitHub release
-        uses: actions/create-release@latest
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           tag_name: "${{ env.version }}"
-          release_name: "${{ env.version }}"
+          name: "${{ env.version }}"
           body: "${{ env.release_body }}"
           draft: false
           prerelease: false
+          target_commitish: jazzy
