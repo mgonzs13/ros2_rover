@@ -103,6 +103,12 @@ ros2 launch rover_gazebo forest.launch.py
     <img src="docs/forest.png" width="100%"/>
 </div>
 
+### Factory
+
+```shell
+ros2 launch rover_gazebo factory.launch.py
+```
+
 ## Citations
 
 The `v0.7` version has been used in the work `Comparison of Concentric Surface Planetary Explorations Using an Ackerman Rover in a Lunar Simulation` from the `2024 International Conference on Space Robotics (iSpaRo)`.
