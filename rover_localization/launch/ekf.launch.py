@@ -24,7 +24,7 @@
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.actions import DeclareLaunchArgument
 from nav2_common.launch import RewrittenYaml
 import os
@@ -39,8 +39,19 @@ def generate_launch_description():
         description="Use simulation (Gazebo) clock if True",
     )
 
-    params_file = os.path.join(
-        get_package_share_directory("rover_localization"), "config", "ekf.yaml"
+    # Gazebo needs a different odometry source than the hardware does: its depth
+    # camera is too slow for the visual odometry the real rover fuses. Rather
+    # than diverge one file between sim and hardware, keep two and pick here.
+    params_file = PythonExpression(
+        [
+            "'",
+            os.path.join(
+                get_package_share_directory("rover_localization"), "config", ""
+            ),
+            "' + ('ekf_sim.yaml' if '",
+            use_sim_time,
+            "'.lower() == 'true' else 'ekf.yaml')",
+        ]
     )
 
     param_substitutions = {"use_sim_time": use_sim_time}

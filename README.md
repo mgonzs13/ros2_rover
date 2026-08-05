@@ -16,13 +16,46 @@ This is a ROS 2 (Humble) version of the [Sawppy the Rover](https://github.com/Ro
 ## Table of Contents
 
 1. [Installation](#installation)
+   - [This fork (humble)](#this-fork-humble)
+   - [Upstream](#upstream)
 2. [Usage](#usage)
    - [Linux Service](#linux-service)
 3. [Docker](#docker)
 4. [Gazebo Simulation](#gazebo-simulation)
+   - [Factory v2](#factory-v2)
 5. [Citations](#citations)
 
 ## Installation
+
+### This fork (humble)
+
+The modified code lives on the `humble` branch. The fork's default branch is
+`jazzy`, so a plain `git clone` checks out the wrong branch and none of the
+changes below appear — pass `-b humble` explicitly:
+
+```shell
+cd ~/ros2_ws/src
+git clone -b humble https://github.com/hyoiizza/ros2_rover
+cd ~/ros2_ws
+rosdep install --from-paths src -r -y
+colcon build
+```
+
+If you already cloned without the branch, switch over in place:
+
+```shell
+cd ~/ros2_ws/src/ros2_rover
+git fetch origin
+git checkout humble
+```
+
+Confirm you are on the right branch before building:
+
+```shell
+git branch --show-current   # -> humble
+```
+
+### Upstream
 
 ```shell
 cd ~/ros2_ws/src
@@ -108,6 +141,51 @@ ros2 launch rover_gazebo forest.launch.py
 ```shell
 ros2 launch rover_gazebo factory.launch.py
 ```
+
+### Factory v2
+
+A larger factory floor (25 m x 17 m) with racking, machine cells and conveyors.
+Added on this fork.
+
+```shell
+ros2 launch rover_gazebo factory_v2.launch.py
+```
+
+Unlike the other worlds, this one fuses the 2D lidar into the occupancy grid on
+top of the depth camera. That is controlled by the `subscribe_scan` argument,
+which `factory_v2.launch.py` defaults to `True`:
+
+```shell
+# depth camera only, as the other worlds do
+ros2 launch rover_gazebo factory_v2.launch.py subscribe_scan:=False
+```
+
+The argument sets RTAB-Map's `subscribe_scan` and switches `Grid/Sensor` between
+`1` (depth camera) and `2` (lidar and depth camera).
+
+Gazebo's sensor plugins need a render engine, so the simulation cannot run fully
+headless — the depth camera and the lidar both publish nothing without a display.
+Under WSLg, export the display before launching:
+
+```shell
+export DISPLAY=:0
+```
+
+#### Changes this fork makes for factory_v2
+
+| File | Change |
+| --- | --- |
+| `rover_gazebo/worlds/factory_v2.world` | The world, converted from gz-sim to Gazebo Classic |
+| `rover_gazebo/launch/factory_v2.launch.py` | Spawns the rover at the origin with `subscribe_scan:=True` |
+| `rover_description/robots/rover.urdf.xacro` | RGB-D camera pitched up (`rpy="0 -0.2 0"`) to see shelving and walls |
+| `rover_localization/launch/rtabmap.launch.py` | `subscribe_scan` exposed as an argument; the lidar was previously published but never consumed |
+| `rover_localization/config/ekf_sim.yaml` | Simulation EKF config using `wheel_odom` |
+| `rover_localization/launch/ekf.launch.py` | Picks `ekf_sim.yaml` when `use_sim_time` is true, `ekf.yaml` otherwise |
+
+The simulated depth camera runs at only a few frames per second, so the visual
+odometry the real rover fuses (`odom_rgbd`) loses tracking as soon as the rover
+moves and stalls the filter. `ekf_sim.yaml` uses the wheel odometry instead.
+Hardware behaviour is unchanged: `ekf.yaml` still fuses `odom_rgbd`.
 
 ## Citations
 

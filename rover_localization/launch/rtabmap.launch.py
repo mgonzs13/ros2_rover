@@ -23,9 +23,10 @@
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -44,12 +45,21 @@ def generate_launch_description():
         description="Wheather to launch rtabmapviz",
     )
 
+    subscribe_scan = LaunchConfiguration("subscribe_scan")
+    subscribe_scan_cmd = DeclareLaunchArgument(
+        "subscribe_scan",
+        default_value="False",
+        description="Whether to fuse the 2D lidar scan into the occupancy grid",
+    )
+
     parameters = [
         {
             "frame_id": "base_link",
             "subscribe_depth": True,
             "subscribe_rgb": True,
-            "subscribe_scan": False,
+            # rtabmap declares this as a bool, so the substitution needs an
+            # explicit type rather than arriving as the string "True"
+            "subscribe_scan": ParameterValue(subscribe_scan, value_type=bool),
             "approx_sync": True,
             "publish_tf": True,
             "use_sim_time": use_sim_time,
@@ -87,7 +97,14 @@ def generate_launch_description():
             "Vis/CorType": "0",
             # kNNFlannNaive=0, kNNFlannKdTree=1, kNNFlannLSH=2, kNNBruteForce=3, kNNBruteForceGPU=4, BruteForceCrossCheck=5, SuperGlue=6, GMS=7
             "Vis/CorNNType": "1",
-            "Grid/Sensor": "1",
+            # 0=lidar, 1=depth camera, 2=both. rtabmap takes its own settings as
+            # strings, so the substitution has to stay a string too.
+            "Grid/Sensor": ParameterValue(
+                PythonExpression(
+                    ["'2' if '", subscribe_scan, "'.lower() == 'true' else '1'"]
+                ),
+                value_type=str,
+            ),
             "Grid/DepthDecimation": "4",
             "Grid/RangeMin": "0.0",
             "Grid/RangeMax": "5.0",
@@ -111,6 +128,7 @@ def generate_launch_description():
         ("rgb/image", "camera/image_raw"),
         ("rgb/camera_info", "camera/camera_info"),
         ("depth/image", "camera/depth/image_raw"),
+        ("scan", "scan"),
         ("imu", "imu"),
         ("odom", "odom"),
         ("goal", "goal_pose"),
@@ -120,6 +138,7 @@ def generate_launch_description():
         [
             use_sim_time_cmd,
             launch_rtabmapviz_cmd,
+            subscribe_scan_cmd,
             Node(
                 package="rtabmap_slam",
                 executable="rtabmap",

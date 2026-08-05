@@ -24,60 +24,58 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
 
 
 def generate_launch_description():
 
-    pkg_rover_localization = get_package_share_directory("rover_localization")
+    pkg_path = get_package_share_directory("rover_gazebo")
 
-    use_sim_time = LaunchConfiguration("use_sim_time")
-    use_sim_time_cmd = DeclareLaunchArgument(
-        "use_sim_time",
-        default_value="False",
-        description="Use simulation (Gazebo) clock if True",
+    nav2_planner = LaunchConfiguration("nav2_planner")
+    nav2_planner_cmd = DeclareLaunchArgument(
+        "nav2_planner",
+        default_value="SmacHybrid",
+        choices=["SmacHybrid", "SmacLattice"],
+        description="Nav2 planner (SmacHybrid or SmacLattice)",
+    )
+
+    nav2_controller = LaunchConfiguration("nav2_controller")
+    nav2_controller_cmd = DeclareLaunchArgument(
+        "nav2_controller",
+        default_value="RPP",
+        choices=["RPP", "TEB"],
+        description="Nav2 controller (RPP or TEB)",
     )
 
     subscribe_scan = LaunchConfiguration("subscribe_scan")
     subscribe_scan_cmd = DeclareLaunchArgument(
         "subscribe_scan",
-        default_value="False",
+        default_value="True",
         description="Whether rtabmap fuses the 2D lidar scan into the grid map",
     )
 
-    rgbd_odometry_cmd = IncludeLaunchDescription(
+    gazebo_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_rover_localization, "launch", "rgbd_odometry.launch.py")
-        )
-    )
-
-    rtabmap_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_rover_localization, "launch", "rtabmap.launch.py")
+            os.path.join(pkg_path, "launch", "gazebo.launch.py")
         ),
         launch_arguments={
-            "use_sim_time": use_sim_time,
+            "world": os.path.join(pkg_path, "worlds", "factory_v2.world"),
+            "initial_pose_x": "0.0",
+            "initial_pose_y": "0.0",
+            "initial_pose_z": "0.22",
+            "initial_pose_yaw": "0.0",
+            "nav2_planner": nav2_planner,
+            "nav2_controller": nav2_controller,
             "subscribe_scan": subscribe_scan,
         }.items(),
     )
 
-    ekf_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_rover_localization, "launch", "ekf.launch.py")
-        ),
-        launch_arguments={"use_sim_time": use_sim_time}.items(),
-    )
-
     ld = LaunchDescription()
-
-    ld.add_action(use_sim_time_cmd)
+    ld.add_action(nav2_planner_cmd)
+    ld.add_action(nav2_controller_cmd)
     ld.add_action(subscribe_scan_cmd)
-
-    ld.add_action(rgbd_odometry_cmd)
-    ld.add_action(rtabmap_cmd)
-    ld.add_action(ekf_cmd)
+    ld.add_action(gazebo_cmd)
 
     return ld

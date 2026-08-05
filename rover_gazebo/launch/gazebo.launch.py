@@ -106,6 +106,13 @@ def generate_launch_description():
         description="Whether to launch wheel odometry node",
     )
 
+    subscribe_scan = LaunchConfiguration("subscribe_scan")
+    subscribe_scan_cmd = DeclareLaunchArgument(
+        "subscribe_scan",
+        default_value="False",
+        description="Whether rtabmap fuses the 2D lidar scan into the grid map",
+    )
+
     ### NODES ###
     rviz_cmd = Node(
         name="rviz",
@@ -139,7 +146,10 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(pkg_rover_localization, "launch", "localization.launch.py")
         ),
-        launch_arguments={"use_sim_time": "True"}.items(),
+        launch_arguments={
+            "use_sim_time": "True",
+            "subscribe_scan": subscribe_scan,
+        }.items(),
     )
 
     navigation_cmd = IncludeLaunchDescription(
@@ -191,6 +201,7 @@ def generate_launch_description():
     ld.add_action(nav2_planner_cmd)
     ld.add_action(nav2_controller_cmd)
     ld.add_action(launch_odometry_cmd)
+    ld.add_action(subscribe_scan_cmd)
 
     ld.add_action(gazebo_client_cmd)
     ld.add_action(gazebo_server_cmd)
