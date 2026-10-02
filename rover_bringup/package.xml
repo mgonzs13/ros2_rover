@@ -7,10 +7,13 @@
   <maintainer email="mgons@unileon.es">Miguel Ángel González Santamarta</maintainer>
   <license>MIT</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>rover_description</exec_depend>
+  <exec_depend>rover_teleop</exec_depend>
   <depend>rover_motor_controller_cpp</depend>
   <depend>joy_linux</depend>
   <depend>teleop_twist_joy</depend>
   <depend>urg_node</depend>
+  <exec_depend>ublox_gps</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

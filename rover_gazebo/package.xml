@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rover_gazebo</name>
-  <version>0.0.0</version>
+  <version>2.0.0</version>
   <description>Rover Gazebo package</description>
   <maintainer email="mgons@unileon.es">Miguel Ángel González Santamarta</maintainer>
   <license>MIT</license>
@@ -15,12 +15,24 @@
   <depend>controller_manager</depend>
   <depend>rviz2</depend>
 
+  <depend>rclcpp</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf2_ros</depend>
+
   <depend>rover_description</depend>
   <depend>rover_msgs</depend>
   <depend>rover_motor_controller_cpp</depend>
+  <exec_depend>rover_localization</exec_depend>
+  <exec_depend>rover_navigation</exec_depend>
 
   <depend>std_msgs</depend>
   <depend>trajectory_msgs</depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

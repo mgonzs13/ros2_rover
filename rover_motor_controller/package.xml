@@ -12,6 +12,8 @@
   <test_depend>python3-pytest</test_depend>
   <depend>rover_msgs</depend>
   <depend>geometry_msgs</depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>python3-serial</exec_depend>
   <export>
     <build_type>ament_python</build_type>
   </export>

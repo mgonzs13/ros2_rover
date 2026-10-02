@@ -17,6 +17,16 @@
   <depend>navigation2</depend>
   <depend>nav2_smac_planner</depend>
   <depend>nav2_regulated_pure_pursuit_controller</depend>
+  <depend>nav2_velocity_smoother</depend>
+  <depend>nav2_collision_monitor</depend>
+  <exec_depend>teb_local_planner</exec_depend>
+  <exec_depend>costmap_converter</exec_depend>
+  <exec_depend>costmap_converter_msgs</exec_depend>
+  <exec_depend>nav2_common</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

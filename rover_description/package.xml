@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rover_description</name>
-  <version>0.0.0</version>
+  <version>2.0.0</version>
   <description>Rover description package</description>
   <maintainer email="mgons@unileon.es">Miguel Ángel González Santamarta</maintainer>
   <license>MIT</license>
@@ -11,10 +11,14 @@
 
   <depend>gz_ros2_control</depend>
   <depend>robot_state_publisher</depend>
+  <depend>joint_state_publisher</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>position_controllers</depend>
   <depend>velocity_controllers</depend>
   <depend>xacro</depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

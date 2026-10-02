@@ -12,6 +12,8 @@
   <test_depend>ament_cmake_clang_format</test_depend>
   <depend>rover_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>libboost-system-dev</depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

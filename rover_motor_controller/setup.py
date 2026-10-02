@@ -13,7 +13,7 @@ setup(
         ("share/" + package_name, ["package.xml"]),
         (os.path.join("share/", package_name, "launch/"), glob("launch/*.launch.py")),
     ],
-    install_requires=["setuptools"],
+    install_requires=["setuptools", "pyserial"],
     zip_safe=True,
     maintainer="Miguel Ángel González Santamarta",
     maintainer_email="mgons@unileon.es",
