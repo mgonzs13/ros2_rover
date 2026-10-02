@@ -27,7 +27,6 @@ import rclpy
 import termios
 import tty
 
-
 msg = """
 This node takes keypresses from the keyboard and publishes them
 as Twist messages.
